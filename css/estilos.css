@@ -37,3 +37,42 @@ label span{
     background: #f16234;
     transition: 0.25s ease-in-out;
 }
+
+@media screen and (max-width: 768px) {
+    .navigation {
+        padding: 10px; /* Reduza o preenchimento do menu de navegação */
+    }
+
+    .nav-menu {
+        display: none; /* Oculte o menu de navegação para telas menores */
+    }
+
+    .menu {
+        display: block; /* Mostrar o ícone do menu para abrir o menu em dispositivos móveis */
+    }
+
+    .nav-item {
+        width: 100%; /* Garanta que os itens do menu ocupem toda a largura disponível */
+        text-align: center; /* Centralize o texto nos itens do menu */
+    }
+
+    .home {
+        flex-direction: column; /* Alinhe os elementos verticalmente */
+        margin-top: 60px; /* Reduza a margem superior para dar mais espaço ao conteúdo */
+    }
+
+    .home-text,
+    .home-img {
+        flex: 1 1 100%; /* Faça com que ambos ocupem toda a largura disponível */
+    }
+
+    .text-h4 {
+        font-size: 1.5rem; /* Reduza o tamanho do título */
+        margin-bottom: 20px; /* Aumente o espaçamento inferior */
+    }
+
+    .text-box,
+    .image-box {
+        margin: 10px; /* Reduza a margem entre as caixas de texto e imagem */
+    }
+}
