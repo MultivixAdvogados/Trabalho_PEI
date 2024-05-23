@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
 
-/* Seu CSS existente */
-
+/* CSS Global */
 * {
     margin: 0;
     padding: 0;
@@ -19,7 +18,7 @@
     --h4: #2b1313;
     --blue: #020202;
     --grey: #000000b7;
-    --newpink: #810000;
+    --newpink: #c4bebe;
     --formal-font: 'Merriweather', serif;
 }
 
@@ -27,7 +26,6 @@ body {
     color: var(--violet);
     background-color: #000000ea;
     font-family: var(--formal-font);
-    
 }
 
 .navigation {
@@ -42,7 +40,8 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-} 
+    z-index: 9999; /* Definindo um valor alto para garantir que o menu fique sobre as caixas de texto */
+}
 
 .navigation .logo {
     color: var(--black);
@@ -66,34 +65,51 @@ body {
 
 .navigation ul li a:hover {
     color: #030303;
-} 
+}
 
 .navigation i {
     cursor: pointer;
     font-size: 1.5rem;
-} 
+}
 
 .menu {
     cursor: pointer;
     display: none;
 }
 
-.menu .bar:nth-child(1),
-.menu .bar:nth-child(3) {
-    background: var(--newpink);
+.menu .bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    background-color: var(--newpink);
+}
+
+.menu.open .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.menu.open .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.menu.open .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
 }
 
 .home {
     width: 100%;
     height: auto;
     display: flex;
-    flex-direction: column; /* Alinha os elementos verticalmente */
-    align-items: center; /* Centraliza no eixo transversal */
-    justify-content: flex-start; /* Centraliza no eixo principal */
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     padding: 20px 10%;
-    margin-top: 80px; /* Ajuste para considerar a altura do header fixo */
-    text-align: center; /* Centraliza o texto */
-    gap: 20px; /* Espaço entre os elementos */
+    margin-top: 80px;
+    text-align: center;
+    gap: 20px;
 }
 
 .home-text {
@@ -114,250 +130,197 @@ body {
 }
 
 .home-img img {
-    max-width: 100%;
-    height: auto;
-}
-
-.text-h4 {
-    font-family: var(--formal-font);
-    font-size: 2rem;
-    color: var(--h4);
-    margin-bottom: 10px;
-    font-weight: 700;
-}
-
-.text-box {
     width: 100%;
+    height: auto;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
+
+/* Estilo dos botões */
+.button-86 {
+    all: unset;
+    width: 100px;
+    height: 30px;
+    font-size: 16px;
+    background: transparent;
+    border: none;
+    position: relative;
+    color: #f0f0f0;
+    cursor: pointer;
+    z-index: 1;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-86::after,
+.button-86::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: -99999;
+    transition: all .4s;
+}
+
+.button-86::before {
+    transform: translate(0%, 0%);
+    width: 100%;
+    height: 100%;
+    background: #28282d;
+    border-radius: 10px;
+}
+
+.button-86::after {
+    transform: translate(10px, 10px);
+    width: 35px;
+    height: 35px;
+    background: #ffffff15;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 50px;
+}
+
+.button-86:hover::before {
+    transform: translate(5%, 20%);
+    width: 110%;
+    height: 110%;
+}
+
+.button-86:hover::after {
+    border-radius: 10px;
+    transform: translate(0, 0);
+    width: 100%;
+    height: 100%;
+}
+
+.button-86:active::after {
+    transition: 0s;
+    transform: translate(0, 5%);
+}
+
+/* Estilo das caixas de texto */
+.text-box {
+    position: relative;
     padding: 20px;
-    margin: 10px 0;
-    border: none; /* Remova a borda para evitar conflito visual com os estilos dos botões */
-    background-color: transparent; /* Remova a cor de fundo para permitir a visualização dos estilos de fundo dos botões */
-    position: relative; /* Adicione posição relativa para poder aplicar estilos de sobreposição */
+    margin: 20px 0;
+    background: var(--white);
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    z-index: 1; /* Definindo um valor menor do que o do menu para garantir que as caixas de texto fiquem abaixo do menu */
 }
 
 .text-box::before,
 .text-box::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Envie para trás dos conteúdos da caixa */
-    transition: all 0.4s ease; /* Adicione uma transição suave */
-    border-radius: 8px; /* Ajuste a borda conforme necessário */
+    inset: 0;
+    z-index: -1;
+    transition: transform 0.3s ease;
+    border-radius: 10px;
 }
 
 .text-box::before {
-    background-color: rgba(0, 0, 0, 0); /* Cor de fundo transparente */
-    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px; /* Sombra da caixa de texto */
+    background: linear-gradient(135deg, rgb(250, 250, 250),rgba(0, 0, 0, 0.7));
+    transform: rotate(3deg);
 }
 
 .text-box::after {
-    background: #e7e6e6da; /* Cor de fundo semelhante ao botão */
-    backdrop-filter: blur(5px); /* Efeito de desfoque semelhante ao botão */
+    background: linear-gradient(135deg, rgba(158, 156, 156, 0.39), rgb(255, 254, 254));
+    transform: rotate(-3deg);
 }
 
-.text-box:hover::before {
-    background-color: rgba(0, 0, 0, 0.05); /* Altera a cor de fundo ao passar o mouse */
-}
-
+.text-box:hover::before,
 .text-box:hover::after {
-    background: #e4e0e0bb; /* Altera a cor de fundo ao passar o mouse */
+    transform: rotate(0);
 }
 
-.text-box p {
-    margin-bottom: 10px;
-}
-
-.text-box a {
-    display: inline-block;
-    margin-top: 10px;
-}
-
-.image-box img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-}
-
-.text-content {
-    font-family: "Poppins", sans-serif;
-    font-size: large;
-}
-
+/* Imagens menores */
 .small-image {
-    width:80%;
+    width: 100%;
+    max-width: 600px;
     height: auto;
+    margin: 20px 0;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
 
-.small-image-2 {
-    width: 20%;
-    height: auto;
-    
-}
-
+/* Layout Desktop */
 .container {
     display: flex;
-    justify-content: space-between;
-    padding: 20px;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 .left-section {
-    width: 70%;
-    padding: 20px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 20px; /* Ajuste a borda conforme necessário */
+    width: 70%; /* Aumentando a largura da divisória da esquerda */
+    padding: 10px;
+    border: 2px solid var(--newpink);
 }
 
 .right-section {
-    width: 30%; /* Ajuste a largura conforme necessário */
-    padding: 20px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 20px; /* Ajuste a borda conforme necessário */
+    width: 40%; /* Diminuindo a largura da divisória da direita */
+    padding: 10px;
+    border: 2px solid var(--newpink);
 }
 
-/* CSS */
-.button-86 {
-  all: unset;
-  width: 100px;
-  height: 30px;
-  font-size: 16px;
-  background: transparent;
-  border: none;
-  position: relative;
-  color: #f0f0f0;
-  cursor: pointer;
-  z-index: 1;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
+/* Linhas divisórias mais sutis */
+.left-section,
+.right-section {
+    border: 1px solid rgba(180, 146, 146, 0.4);
+    box-shadow: 0 0 10px rgba(61, 17, 17, 0.2);
 }
 
-.button-86::after,
-.button-86::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  z-index: -99999;
-  transition: all .4s;
-}
-
-.button-86::before {
-  transform: translate(0%, 0%);
-  width: 100%;
-  height: 100%;
-  background: #28282d;
-  border-radius: 10px;
-}
-
-.button-86::after {
-  transform: translate(10px, 10px);
-  width: 35px;
-  height: 35px;
-  background: #bebcbc75;
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border-radius: 50px;
-}
-
-.button-86:hover::before {
-  transform: translate(5%, 20%);
-  width: 110%;
-  height: 110%;
-}
-
-.button-86:hover::after {
-  border-radius: 10px;
-  transform: translate(0, 0);
-  width: 100%;
-  height: 100%;
-}
-
-.button-86:active::after {
-  transition: 0s;
-  transform: translate(0, 5%);
-}
-
-/* CSS */
-
+/* Layout Mobile */
 @media screen and (max-width: 768px) {
-    .navigation {
-        padding: 10px 20px;
-        z-index: 1000;
+    .navigation ul {
+        display: none;
     }
-    
-    .nav-menu {
-        position: fixed;
+
+    .navigation .menu {
+        display: block;
+    }
+
+    .navigation .nav-menu {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
         top: 60px;
         left: 0;
         width: 100%;
-        background-color: var(--grey);
-        display: none;
-        z-index: 999;
-    }
-    
-    .nav-menu.active {
-        display: block;
-        z-index: 999;
-    }
-    
-    .nav-item {
-        width: 100%;
-        text-align: center;
-        padding: 10px 0;
-        z-index: 999;
-    }
-    
-    .menu {
-        display: block;
-        z-index: 1000;
-    }
-    
-    .home-text,
-    .home-img {
-        width: 100%;
+        background: var(--grey);
         z-index: 1000;
     }
 
-    .text-h4 {
-        font-size: 1.5rem;
-        margin-bottom: 20px;
-        z-index: 1000;
+    .navigation .nav-menu.open {
+        display: flex;
     }
 
-    .text-box,
-    .image-box {
-        margin: 10px;
+    .container {
+        flex-direction: column;
+        padding: 0;
     }
 
-    .left-section,
-    .right-section {
+    .left-section, .right-section {
         width: 100%;
-        padding: 20px;
-        margin: 10px 0;
-        box-shadow: none;
-        border-radius: 0;
+        border: none;
+        padding: 10px;
     }
 
-    .button-86 {
-        width: 100%;
-        margin-bottom: 10px;
+    .text-box {
+        padding: 10px;
     }
 
-    /* Redimensionamento das imagens */
-    .small-image,
-    .small-image-2 {
-        width: 100%; /* Define a largura máxima das imagens como 100% */
-        height: auto; /* Mantém a proporção da altura */
-        max-width: 100%; /* Define a largura máxima das imagens como 100% */
-        max-height: 400px; /* Define a altura máxima das imagens */
+    .small-image {
+        max-width: 100%;
     }
 }
