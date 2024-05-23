@@ -154,7 +154,7 @@ body {
 }
 
 .text-box::after {
-    background: #fcfcfc80; /* Cor de fundo semelhante ao botão */
+    background: #e7e6e6da; /* Cor de fundo semelhante ao botão */
     backdrop-filter: blur(5px); /* Efeito de desfoque semelhante ao botão */
 }
 
@@ -163,7 +163,7 @@ body {
 }
 
 .text-box:hover::after {
-    background: #bebcbc75; /* Altera a cor de fundo ao passar o mouse */
+    background: #e4e0e0bb; /* Altera a cor de fundo ao passar o mouse */
 }
 
 .text-box p {
