@@ -25,8 +25,9 @@
 
 body {
     color: var(--violet);
-    background-color: #fffcfc;
+    background-color: #000000ea;
     font-family: var(--formal-font);
+    
 }
 
 .navigation {
@@ -41,7 +42,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-}
+} 
 
 .navigation .logo {
     color: var(--black);
@@ -65,26 +66,16 @@ body {
 
 .navigation ul li a:hover {
     color: #030303;
-}
+} 
 
 .navigation i {
     cursor: pointer;
     font-size: 1.5rem;
-}
+} 
 
 .menu {
     cursor: pointer;
     display: none;
-}
-
-.menu .bar {
-    display: block;
-    width: 28px;
-    height: 3px;
-    border-radius: 3px;
-    background: var(--violet);
-    margin: 5px auto;
-    transition: all 0.3s;
 }
 
 .menu .bar:nth-child(1),
@@ -139,9 +130,40 @@ body {
     width: 100%;
     padding: 20px;
     margin: 10px 0;
-    border: 1px solid var(--black);
-    border-radius: 8px;
-    background-color: #c2c2c2;
+    border: none; /* Remova a borda para evitar conflito visual com os estilos dos botões */
+    background-color: transparent; /* Remova a cor de fundo para permitir a visualização dos estilos de fundo dos botões */
+    position: relative; /* Adicione posição relativa para poder aplicar estilos de sobreposição */
+}
+
+.text-box::before,
+.text-box::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Envie para trás dos conteúdos da caixa */
+    transition: all 0.4s ease; /* Adicione uma transição suave */
+    border-radius: 8px; /* Ajuste a borda conforme necessário */
+}
+
+.text-box::before {
+    background-color: rgba(0, 0, 0, 0); /* Cor de fundo transparente */
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px; /* Sombra da caixa de texto */
+}
+
+.text-box::after {
+    background: #fcfcfc80; /* Cor de fundo semelhante ao botão */
+    backdrop-filter: blur(5px); /* Efeito de desfoque semelhante ao botão */
+}
+
+.text-box:hover::before {
+    background-color: rgba(0, 0, 0, 0.05); /* Altera a cor de fundo ao passar o mouse */
+}
+
+.text-box:hover::after {
+    background: #bebcbc75; /* Altera a cor de fundo ao passar o mouse */
 }
 
 .text-box p {
@@ -157,6 +179,7 @@ body {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 .text-content {
@@ -165,51 +188,176 @@ body {
 }
 
 .small-image {
-    width: 40%;
+    width:80%;
     height: auto;
 }
 
+.small-image-2 {
+    width: 20%;
+    height: auto;
+    
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.left-section {
+    width: 70%;
+    padding: 20px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px; /* Ajuste a borda conforme necessário */
+}
+
+.right-section {
+    width: 30%; /* Ajuste a largura conforme necessário */
+    padding: 20px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px; /* Ajuste a borda conforme necessário */
+}
+
+/* CSS */
+.button-86 {
+  all: unset;
+  width: 100px;
+  height: 30px;
+  font-size: 16px;
+  background: transparent;
+  border: none;
+  position: relative;
+  color: #f0f0f0;
+  cursor: pointer;
+  z-index: 1;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-86::after,
+.button-86::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: -99999;
+  transition: all .4s;
+}
+
+.button-86::before {
+  transform: translate(0%, 0%);
+  width: 100%;
+  height: 100%;
+  background: #28282d;
+  border-radius: 10px;
+}
+
+.button-86::after {
+  transform: translate(10px, 10px);
+  width: 35px;
+  height: 35px;
+  background: #bebcbc75;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 50px;
+}
+
+.button-86:hover::before {
+  transform: translate(5%, 20%);
+  width: 110%;
+  height: 110%;
+}
+
+.button-86:hover::after {
+  border-radius: 10px;
+  transform: translate(0, 0);
+  width: 100%;
+  height: 100%;
+}
+
+.button-86:active::after {
+  transition: 0s;
+  transform: translate(0, 5%);
+}
+
+/* CSS */
+
 @media screen and (max-width: 768px) {
     .navigation {
-        padding: 10px 20px; /* Reduza o preenchimento do menu de navegação */
-        z-index: 100; /* Garanta que o menu de navegação fique sobreposto */
+        padding: 10px 20px;
+        z-index: 1000;
     }
     
     .nav-menu {
         position: fixed;
-        top: 60px; /* Ajuste a posição vertical do menu */
+        top: 60px;
         left: 0;
         width: 100%;
         background-color: var(--grey);
-        display: none; /* Oculte o menu de navegação para telas menores */
+        display: none;
+        z-index: 999;
     }
     
     .nav-menu.active {
-        display: block; /* Exiba o menu quando estiver ativo */
+        display: block;
+        z-index: 999;
     }
     
     .nav-item {
-        width: 100%; /* Garanta que os itens do menu ocupem toda a largura disponível */
-        text-align: center; /* Centralize o texto nos itens do menu */
-        padding: 10px 0; /* Adicione espaçamento interno aos itens do menu */
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+        z-index: 999;
     }
     
     .menu {
-        display: block; /* Mostrar o ícone do menu para abrir o menu em dispositivos móveis */
+        display: block;
+        z-index: 1000;
     }
     
     .home-text,
     .home-img {
-        width: 100%; /* Garanta que os elementos ocupem toda a largura disponível */
+        width: 100%;
+        z-index: 1000;
     }
 
     .text-h4 {
-        font-size: 1.5rem; /* Reduza o tamanho do título */
-        margin-bottom: 20px; /* Aumente o espaçamento inferior */
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        z-index: 1000;
     }
 
     .text-box,
     .image-box {
-        margin: 10px; /* Reduza a margem entre as caixas de texto e imagem */
+        margin: 10px;
+    }
+
+    .left-section,
+    .right-section {
+        width: 100%;
+        padding: 20px;
+        margin: 10px 0;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .button-86 {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    /* Redimensionamento das imagens */
+    .small-image,
+    .small-image-2 {
+        width: 100%; /* Define a largura máxima das imagens como 100% */
+        height: auto; /* Mantém a proporção da altura */
+        max-width: 100%; /* Define a largura máxima das imagens como 100% */
+        max-height: 400px; /* Define a altura máxima das imagens */
     }
 }
