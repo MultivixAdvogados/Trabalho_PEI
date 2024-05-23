@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="M7M Marias, roupa infantil">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Trabalho PEI</title>
+
+    <link rel="stylesheet" href="Style.css">
+    <style>
+        /* Adicione o CSS necessário para a grade informativa */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-gap: 20px;
+            padding: 20px;
+        }
+
+        .grid-item {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .grid-item label {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .grid-item p {
+            margin-bottom: 10px;
+        }
+
+        /* Divisões e linhas retas */
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .divider {
+            border-top: 1px solid #ccc;
+            margin: 10px 0;
+        }
+
+        /* Estilo para o título */
+        .full-width-title {
+            grid-column: 1 / -1;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        /* Estilo para o dropdown */
+        .dropdown-button-container {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-button {
+    appearance: none;
+    background-color: #fff;
+    border: none;
+    border-radius: 24px; /* Arredonda a caixa de seleção */
+    box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px, rgba(0, 0, 0, .14) 0 6px 10px 0, rgba(0, 0, 0, .12) 0 1px 18px 0;
+    color: #3c4043;
+    cursor: pointer;
+    font-family: "Google Sans", Roboto, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 48px;
+    line-height: 48px;
+    padding: 0 48px 0 24px; /* Adiciona espaço para a seta */
+    position: relative;
+    text-align: left;
+    text-transform: none;
+    width: auto;
+    z-index: 0;
+}
+
+.dropdown-arrow {
+    position: absolute;
+    right: 16px; /* Posiciona a seta à direita */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Estilização das opções do dropdown */
+.dropdown-options {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    display: none; /* Oculta as opções por padrão */
+    max-height: 200px; /* Altura máxima das opções */
+    overflow-y: auto; /* Adiciona barra de rolagem vertical se necessário */
+    position: absolute;
+    top: calc(100% + 10px); /* Posiciona as opções abaixo do botão */
+    left: 0;
+    right: 0;
+    z-index: 999; /* Garante que as opções estejam acima de outros elementos */
+}
+
+.dropdown-option {
+    padding: 12px 24px;
+    cursor: pointer;
+}
+
+.dropdown-option:hover {
+    background-color: #f6f9fe; /* Altera a cor de fundo ao passar o mouse */
+}
+
+.dropdown-options.show {
+    display: block; /* Mostra as opções quando o dropdown estiver aberto */
+}
+
+.dropdown-button:focus + .dropdown-options {
+    display: block; /* Mostrar as opções quando o dropdown estiver focado */
+}
+
+.dropdown-button select {
+    -webkit-appearance: none; /* Para navegadores WebKit como Chrome e Safari */
+    -moz-appearance: none; /* Para navegadores Mozilla como Firefox */
+    appearance: none;
+    padding-right: 24px; /* Adiciona espaço para a seta */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z" fill="#111"/></svg>'); /* Adicione uma seta personalizada */
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 16px;
+}
+
+.hidden {
+    display: none;
+}
+.grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+}
+.grid-item p + p {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navigation">
+            <a href="Index.html" class="logo">Trabalho PEI - Racismo e Injúrias Raciais</a>
+            <ul class="nav-menu">
+                <li class="nav-item" id="f"><button class="button-86"><i class='bx bxs-layout' style="color: #c4bebe; font-size:x-large;"></i> Banner</button></li>
+                <li class="nav-item" id="m"><button class="button-86" onclick="window.location.href='Leis.html'"><i class='bx bxs-layer' style="color: #c4bebe; font-size:x-large;"></i> Leis Existentes</button></li>
+                <li class="nav-item" id="m"><button class="button-86" onclick="window.location.href='Index.html'"><i class='bx bxs-landmark' style="color: #c4bebe; font-size:x-large;"></i> Inicio</button></li>
+            </ul>
+            <div class="menu" onclick="toggleMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="home">
+            <!-- Título de largura total -->
+            <h1 class="full-width-title">Boletim Informativo sobre Crimes de Racismo no Estado do Espírito Santo - Quantitativo Anual</h1>
+            <!-- Dropdown -->
+            <div style="text-align: center;">
+                <div class="dropdown-button-container">
+                    <select class="dropdown-button" id="dropdown" onchange="showInfo()">
+                        <option value="select">Selecione uma Região</option>
+                        <option value="RISP01">RISP 01 - METROPOLITANA</option>
+                        <option value="RISP02">RISP 02 - NORTE</option>
+                        <option value="RISP03">RISP 03 - SUL</option>
+                        <option value="RISP04">RISP 04 - NOROESTE</option>
+                        <option value="RISP05">RISP 05 - SERRANA</option>
+                    </select>
+                    <span class="dropdown-arrow">&#9660;</span> <!-- Setinha dentro do botão -->
+                </div>
+                <div class="dropdown-options">
+                    <!-- Opções do dropdown -->
+                    <div class="dropdown-option" value="RISP01">RISP 01 - METROPOLITANA</div>
+                    <div class="dropdown-option" value="RISP02">RISP 02 - NORTE</div>
+                    <div class="dropdown-option" value="RISP03">RISP 03 - SUL</div>
+                    <div class="dropdown-option" value="RISP04">RISP 04 - NOROESTE</div>
+                    <div class="dropdown-option" value="RISP05">RISP 05 - SERRANA</div>
+                </div>
+            </div>
+            <!-- Grid container para exibir as informações -->
+            <div class="grid-container">
+                <!-- RISP 01 - METROPOLITANA -->
+                <div class="grid-item hidden" id="RISP01">
+                    <label for="RISP01" class='bx bx-buildings'> CARIACICA</label>
+                    <p>2018: 8</p>
+                    <p>2019: 7</p>
+                    <p>2020: 4</p>
+                    <p>2021: 5</p>
+                    <p>2022: 8</p>
+                    <p>2023: 11</p>
+                    <p>2024: 4 (Ainda em Contagem)</p>
+                </div>
+                <div class="grid-item hidden" id="RISP01">
+                    <label for="RISP01" class='bx bx-buildings'> GUARAPARI</label>
+                    <p>2018: 10</p>
+                    <p>2019: 4</p>
+                    <p>2020: 2</p>
+                    <p>2021: 5</p>
+                    <p>2022: 5</p>
+                    <p>2023: 5</p>
+                    <p>2024: 4 (Ainda em Contagem)</p>
+                </div>
+                <div class="grid-item hidden" id="RISP01">
+                    <label for="RISP01" class='bx bx-buildings'> SERRA</label>
+                    <p>2018: 12</p>
+                    <p>2019: 11</p>
+                    <p>2020: 14</p>
+                    <p>2021: 10</p>
+                    <p>2022: 13</p>
+                    <p>2023: 25</p>
+                    <p>2024: 6 (Ainda em Contagem)</p>
+                </div>
+                <div class="grid-item hidden" id="RISP01">
+                    <label for="RISP01" class='bx bx-buildings'> VIANA</label>
+                    <p>2018: 1</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 3</p>
+                    <p>2022: 2</p>
+                    <p>2023: 5</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div>
+                <div class="grid-item hidden" id="RISP01">
+                    <label for="RISP01" class='bx bx-buildings'> VILA VELHA</label>
+                    <p>2018: 7</p>
+                    <p>2019: 12</p>
+                    <p>2020: 5</p>
+                    <p>2021: 10</p>
+                    <p>2022: 14</p>
+                    <p>2023: 27</p>
+                    <p>2024: 4 (Ainda em Contagem)</p>
+                </div>
+                <div class="grid-item hidden" id="RISP01">
+                    <label for="RISP01" class='bx bx-buildings'> VITÓRIA</label>
+                    <p>2018: 21</p>
+                    <p>2019: 9</p>
+                    <p>2020: 8</p>
+                    <p>2021: 16</p>
+                    <p>2022: 36</p>
+                    <p>2023: 28</p>
+                    <p>2024: 15 (Ainda em Contagem)</p>
+                </div>   
+
+                <!-- RISP 02 - NORTE -->
+                <div class="grid-item hidden" id="RISP02">
+                    <label for="RISP02" class='bx bx-buildings'> ARACRUZ</label>
+                    <p>2018: 4</p>
+                    <p>2019: 4</p>
+                    <p>2020: 3</p>
+                    <p>2021: 2</p>
+                    <p>2022: 4</p>
+                    <p>2023: 3</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP02">
+                    <label for="RISP02" class='bx bx-buildings'> CONCEIÇÃO DA BARRA</label>
+                    <p>2018: 2</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 1</p>
+                    <p>2022: 3</p>
+                    <p>2023: 1</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP02">
+                    <label for="RISP02" class='bx bx-buildings'> FUNDÃO</label>
+                    <p>2018: 2</p>
+                    <p>2019: 1</p>
+                    <p>2020: 1</p>
+                    <p>2021: 2</p>
+                    <p>2022: 2</p>
+                    <p>2023: 0</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP02">
+                    <label for="RISP02" class='bx bx-buildings'> IBIRAÇU</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 1</p>
+                    <p>2021: 1</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP02">
+                    <label for="RISP02" class='bx bx-buildings'> JAGUARÉ</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 1</p>
+                    <p>2022: 3</p>
+                    <p>2023: 1</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP02">
+                    <label for="RISP02" class='bx bx-buildings'> JOÃO NEIVA</label>
+                    <p>2018: 3</p>
+                    <p>2019: 1</p>
+                    <p>2020: 1</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 3</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP02">
+                    <label for="RISP02" class='bx bx-buildings'> LINHARES</label>
+                    <p>2018: 6</p>
+                    <p>2019: 8</p>
+                    <p>2020: 8</p>
+                    <p>2021: 2</p>
+                    <p>2022: 5</p>
+                    <p>2023: 10</p>
+                    <p>2024: 5 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP02">
+                    <label for="RISP02" class='bx bx-buildings'> PEDRO CANÁRIO</label>
+                    <p>2018: 1</p>
+                    <p>2019: 0</p>
+                    <p>2020: 1</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP02">
+                    <label for="RISP02" class='bx bx-buildings'> SÃO MATEUS</label>
+                    <p>2018: 5</p>
+                    <p>2019: 10</p>
+                    <p>2020: 9</p>
+                    <p>2021: 6</p>
+                    <p>2022: 8</p>
+                    <p>2023: 4</p>
+                    <p>2024: 2 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP02">
+                    <label for="RISP02" class='bx bx-buildings'> VILA VALERIO</label>
+                    <p>2018: 1</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 1</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+
+                <!-- RISP 03 - SUL -->
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> ALEGRE</label>
+                    <p>2018: 2</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 1</p>
+                    <p>2023: 1</p>
+                    <p>2024: 2 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> ALFREDO CHAVES</label>
+                    <p>2018: 1</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 2</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> ANCHIETA</label>
+                    <p>2018: 1</p>
+                    <p>2019: 3</p>
+                    <p>2020: 0</p>
+                    <p>2021: 2</p>
+                    <p>2022: 2</p>
+                    <p>2023: 2</p>
+                    <p>2024: 2 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> APIACÁ</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> ATÍLIO VIVACQUA</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 1</p>
+                    <p>2022: 1</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> BOM JESUS DO NORTE</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 1</p>
+                    <p>2022: 1</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> CACHOEIRO DE ITAPEMIRIM</label>
+                    <p>2018: 2</p>
+                    <p>2019: 5</p>
+                    <p>2020: 2</p>
+                    <p>2021: 3</p>
+                    <p>2022: 5</p>
+                    <p>2023: 4</p>
+                    <p>2024: 2 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> CASTELO</label>
+                    <p>2018: 1</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> DORES DO RIO PRETO</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 3</p>
+                    <p>2022: 0</p>
+                    <p>2023: 1</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> GUAÇUÍ</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 1</p>
+                    <p>2023: 1</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> ICONHA</label>
+                    <p>2018: 0</p>
+                    <p>2019: 1</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 1</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> ITAPEMIRIM</label>
+                    <p>2018: 1</p>
+                    <p>2019: 1</p>
+                    <p>2020: 2</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> JERONIMO MONTEIRO</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 1</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> MARATAÍZES</label>
+                    <p>2018: 1</p>
+                    <p>2019: 2</p>
+                    <p>2020: 0</p>
+                    <p>2021: 1</p>
+                    <p>2022: 1</p>
+                    <p>2023: 1</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> MIMOSO DO SUL</label>
+                    <p>2018: 0</p>
+                    <p>2019: 1</p>
+                    <p>2020: 1</p>
+                    <p>2021: 1</p>
+                    <p>2022: 0</p>
+                    <p>2023: 1</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> MUQUI</label>
+                    <p>2018: 0</p>
+                    <p>2019: 2</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> PIÚMA</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 1</p>
+                    <p>2021: 1</p>
+                    <p>2022: 4</p>
+                    <p>2023: 1</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> PRESIDENTE KENNEDY</label>
+                    <p>2018: 1</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> RIO NOVO DO SUL</label>
+                    <p>2018: 0</p>
+                    <p>2019: 1</p>
+                    <p>2020: 1</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP03">
+                    <label for="RISP03" class='bx bx-buildings'> VARGEM ALTA</label>
+                    <p>2018: 0</p>
+                    <p>2019: 1</p>
+                    <p>2020: 1</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 5</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+
+                <!-- RISP 04 - NOROESTE -->
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> AGUIA BRANCA</label>
+                    <p>2018: 1</p>
+                    <p>2019: 1</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> ALTO RIO NOVO</label>
+                    <p>2018: 1</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> BAIXO GUANDU</label>
+                    <p>2018: 6</p>
+                    <p>2019: 1</p>
+                    <p>2020: 0</p>
+                    <p>2021: 2</p>
+                    <p>2022: 0</p>
+                    <p>2023: 2</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> BARRA DE SÃO FRANCISCO</label>
+                    <p>2018: 0</p>
+                    <p>2019: 1</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 2</p>
+                    <p>2023: 0</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> BOA ESPERANÇA</label>
+                    <p>2018: 1</p>
+                    <p>2019: 0</p>
+                    <p>2020: 1</p>
+                    <p>2021: 1</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> COLATINA</label>
+                    <p>2018: 2</p>
+                    <p>2019: 2</p>
+                    <p>2020: 1</p>
+                    <p>2021: 1</p>
+                    <p>2022: 2</p>
+                    <p>2023: 1</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> ECOPORANGA</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 1</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> MANTENÓPOLIS</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 1</p>
+                    <p>2022: 0</p>
+                    <p>2023: 1</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> MARILÂNDIA</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 1</p>
+                    <p>2024: 2 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> MONTANHA</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 1</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 1</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> MUCURICI</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 1</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> NOVA VENÉCIA</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 1</p>
+                    <p>2021: 1</p>
+                    <p>2022: 3</p>
+                    <p>2023: 2</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> PANCAS</label>
+                    <p>2018: 1</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 1</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> PINHEIROS</label>
+                    <p>2018: 1</p>
+                    <p>2019: 0</p>
+                    <p>2020: 1</p>
+                    <p>2021: 0</p>
+                    <p>2022: 1</p>
+                    <p>2023: 0</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> PONTO BELO</label>
+                    <p>2018: 2</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div>
+                <div class="grid-item hidden" id="RISP04">
+                    <label for="RISP04" class='bx bx-buildings'> SÃO GABRIEL DA PALHA</label>
+                    <p>2018: 4</p>
+                    <p>2019: 2</p>
+                    <p>2020: 1</p>
+                    <p>2021: 1</p>
+                    <p>2022: 1</p>
+                    <p>2023: 2</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+
+                <!-- RISP 05 - SERRANA -->
+                <div class="grid-item hidden" id="RISP05">
+                    <label for="RISP05" class='bx bx-buildings'> AFONSO CLÁUDIO</label>
+                    <p>2018: 1</p>
+                    <p>2019: 0</p>
+                    <p>2020: 2</p>
+                    <p>2021: 1</p>
+                    <p>2022: 4</p>
+                    <p>2023: 1</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP05">
+                    <label for="RISP05" class='bx bx-buildings'> BREJETUBA</label>
+                    <p>2018: 0</p>
+                    <p>2019: 1</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP05">
+                    <label for="RISP05" class='bx bx-buildings'> CONCEIÇÃO DO CASTELO</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 1</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP05">
+                    <label for="RISP05" class='bx bx-buildings'> DOMINGOS MARTINS</label>
+                    <p>2018: 1</p>
+                    <p>2019: 2</p>
+                    <p>2020: 1</p>
+                    <p>2021: 3</p>
+                    <p>2022: 2</p>
+                    <p>2023: 1</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP05">
+                    <label for="RISP05" class='bx bx-buildings'> IBATIBA</label>
+                    <p>2018: 0</p>
+                    <p>2019: 2</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 2</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP05">
+                    <label for="RISP05" class='bx bx-buildings'> IBITIRAMA</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP05">
+                    <label for="RISP05" class='bx bx-buildings'> ITAGUAÇU</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 1</p>
+                    <p>2021: 1</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP05">
+                    <label for="RISP05" class='bx bx-buildings'> IÚNA</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 1</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP05">
+                    <label for="RISP05" class='bx bx-buildings'> MUNIZ FREIRE</label>
+                    <p>2018: 0</p>
+                    <p>2019: 2</p>
+                    <p>2020: 1</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 1</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP05">
+                    <label for="RISP05" class='bx bx-buildings'> SANTA LEOPOLDINA</label>
+                    <p>2018: 0</p>
+                    <p>2019: 1</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 1</p>
+                    <p>2023: 0</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP05">
+                    <label for="RISP05" class='bx bx-buildings'> SANTA MARIA DE JETIBÁ</label>
+                    <p>2018: 5</p>
+                    <p>2019: 2</p>
+                    <p>2020: 1</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 2</p>
+                    <p>2024: 0 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP05">
+                    <label for="RISP05" class='bx bx-buildings'> SANTA TERESA</label>
+                    <p>2018: 0</p>
+                    <p>2019: 0</p>
+                    <p>2020: 0</p>
+                    <p>2021: 0</p>
+                    <p>2022: 0</p>
+                    <p>2023: 0</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+                <div class="grid-item hidden" id="RISP05">
+                    <label for="RISP05" class='bx bx-buildings'> VENDA NOVA DO IMIGRANTE</label>
+                    <p>2018: 2</p>
+                    <p>2019: 2</p>
+                    <p>2020: 2</p>
+                    <p>2021: 0</p>
+                    <p>2022: 1</p>
+                    <p>2023: 1</p>
+                    <p>2024: 1 (Ainda em Contagem)</p>
+                </div> 
+            </div>
+        </section>
+    </main>
+    <script src="Script.js"></script>
+    <script>
+        function showInfo() 
+        {
+            // Obtém o valor selecionado no dropdown
+            var selectedOption = document.getElementById("dropdown").value;
+
+            // Oculta todas as grid-items
+            var gridItems = document.getElementsByClassName("grid-item");
+            for (var i = 0; i < gridItems.length; i++) {
+                gridItems[i].classList.add("hidden");
+            }
+
+            // Mostra apenas os elementos correspondentes à opção selecionada
+            var selectedElements = document.querySelectorAll("#" + selectedOption);
+            for (var j = 0; j < selectedElements.length; j++) {
+                selectedElements[j].classList.remove("hidden");
+            }
+        }
+    </script>
+</body>
+</html>
+
+
