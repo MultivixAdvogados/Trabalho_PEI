@@ -28,6 +28,10 @@
     </header>
     
     <main class="container">
+        <div>
+            <label for="zoomPercentage">Porcentagem de Zoom:</label>
+            <input type="number" id="zoomPercentage" value="100" min="10" max="200" step="10" onchange="updateZoom()">
+        </div>
         <div id="pdf-viewer"></div>
     </main>
 
