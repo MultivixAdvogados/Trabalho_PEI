@@ -360,16 +360,11 @@ body {
     transform: scale(1.05); /* Aumentando ligeiramente o tamanho da imagem ao passar o mouse sobre ela */
 }
 
-.banner {
-    position: relative;
-}
-
-.banner p {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+#pdf-viewer {
+    width: 100%; /* Defina a largura que você deseja */
+    max-width: 800px; /* Defina a largura máxima que você deseja */
+    height: 600px; /* Defina a altura que você deseja */
+    margin: 0 auto; /* Isso centralizará o visualizador na página */
 }
 
 /* Layout Mobile */
