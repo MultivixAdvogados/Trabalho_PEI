@@ -360,11 +360,11 @@ body {
     transform: scale(1.05); /* Aumentando ligeiramente o tamanho da imagem ao passar o mouse sobre ela */
 }
 
-footer {
+.banner {
     position: relative;
 }
 
-footer p {
+.banner p {
     position: absolute;
     top: 50%;
     left: 50%;
