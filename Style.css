@@ -258,16 +258,17 @@ body {
     height: 100%;
     padding: 0;
     margin: 0;
+    margin-top: 80px; /* Para evitar sobreposição do cabeçalho fixo */
 }
 
 .left-section {
-    width: 70%; /* Aumentando a largura da divisória da esquerda */
+    width: 60%; /* Largura da seção esquerda */
     padding: 10px;
     border: 2px solid var(--newpink);
 }
 
 .right-section {
-    width: 40%; /* Diminuindo a largura da divisória da direita */
+    width: 40%; /* Largura da seção direita */
     padding: 10px;
     border: 2px solid var(--newpink);
 }
@@ -277,6 +278,86 @@ body {
 .right-section {
     border: 1px solid rgba(180, 146, 146, 0.4);
     box-shadow: 0 0 10px rgba(61, 17, 17, 0.2);
+}
+
+/* Adicionando as novas classes para a seção de imagens e áudios */
+.content {
+    display: flex;
+    flex-direction: column; /* Ajuste para dispositivos móveis */
+    justify-content: space-between;
+    margin: 20px;
+}
+
+@media(min-width: 768px) {
+    .content {
+        flex-direction: row; /* Ajuste para dispositivos maiores */
+    }
+}
+
+.audio-section {
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+@media(min-width: 768px) {
+    .audio-section{
+        width: 48%;
+        margin-bottom: 0;
+    }
+}
+
+.audio-section h2, .images-section h2 {
+    margin-top: 0;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.audio-section audio {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.images-section {
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+@media(min-width: 768px) {
+    .images-section {
+        width: 48%; /* Reduzindo a largura para 48% para que fique ao lado da seção de áudio */
+        margin-bottom: 0;
+    }
+}
+
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap; /* Permitindo que as imagens sejam exibidas em várias linhas */
+    justify-content: center; /* Centralizando as imagens horizontalmente */
+    gap: 10px; /* Adicionando um espaçamento entre as imagens */
+}
+
+.image-gallery img {
+    width: calc(50% - 5px); /* Definindo a largura máxima para 50% menos o espaçamento entre as imagens */
+    max-width: 300px; /* Definindo uma largura máxima para as imagens */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    transition: transform 0.3s ease; /* Adicionando uma transição suave ao passar o mouse sobre as imagens */
+}
+
+.image-gallery img:hover {
+    transform: scale(1.05); /* Aumentando ligeiramente o tamanho da imagem ao passar o mouse sobre ela */
 }
 
 /* Layout Mobile */
