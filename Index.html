@@ -3,82 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="M7M Marias, roupa infantil">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <title>Trabalho PEI</title>
-    <link rel="stylesheet" href="Style.css">
+    <title>Fones de Alta Qualidade</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+        body {
+            background-image: url('img/1.avif');
+            color: #333;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: rgba(218, 218, 218, 0.925);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        header h1 {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: bold;
+        }
+        section {
+            height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            position: relative;
+            padding: 50px 20px;
+            transition: opacity 1s ease, transform 1s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .hero {
+            background: #e7e9eb;
+        }
+        .hero h2 {
+            font-size: 4rem;
+            font-weight: 600;
+            color: #1d0000;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            color: #666;
+        }
+        .hero .btn {
+            padding: 15px 30px;
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .hero .btn:hover {
+            background-color: #3b7dd8;
+            transform: scale(1.05);
+        }
+        .parallax-img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: auto;
+            min-height: 100%;
+            transform: translate(-50%, -50%) scale(1);
+            transition: transform 0.3s ease;
+            z-index: 0;
+            opacity: 1;
+        }
+        .feature-section {
+            display: flex;
+            align-items: flex-start; /* Mantém a imagem à direita */
+            padding: 20px;
+            transition: opacity 1s ease, transform 1s ease;
+            opacity: 0;
+            transform: scale(0.9);
+            width: 100%;
+        }
+        .feature-section.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        h2 {
+            font-size: 2.5rem;
+            transition: opacity 1s ease, transform 1s ease, font-size 1s ease;
+            opacity: 0.5;
+            transform: translateY(20px);
+            text-align: center; /* Centraliza o título */
+            margin: 0; /* Remove a margem */
+            width: 33.33%; /* Para manter o título no meio da tela, sem contar a imagem */
+            position: relative; /* Para centralizar corretamente */
+            left: 33.33%; /* Move o título para o centro, compensando o espaço da imagem */
+        }
+        h2.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #design {
+            background: #e6f7f9;
+            color: #333;
+        }
+        #som {
+            background: #f0e6e6;
+            color: #333;
+        }
+        #bateria {
+            background: #d9d9d9;
+            color: #333;
+        }
+        footer {
+            background-color: #ffffff;
+            padding: 40px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+        footer p {
+            margin: 0;
+        }
+        .feature-image {
+            width: 33.33%; /* Ajuste para ocupar 1/3 da largura */
+            height: 100%; /* Faz com que a imagem preencha totalmente o espaço */
+            object-fit: cover; /* Faz com que a imagem preencha o espaço */
+            margin-left: auto; /* Move a imagem para a direita */
+        }
+        .feature-text {
+            text-align: left; /* Alinhamento à esquerda */
+            margin-top: 20px; /* Espaçamento entre o título e o parágrafo */
+            width: 100%; /* Para garantir que o parágrafo ocupe a largura disponível */
+            padding-right: 20px; /* Espaçamento entre o texto e a imagem */
+        }
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.3rem;
+            }
+            .feature-image {
+                width: 100%; /* Reduz o tamanho da imagem em telas menores */
+                margin: 20px 0; /* Espaçamento em vez de margem lateral */
+            }
+        }
+    </style>
 </head>
-<!-- window.open('https://multivix.edu.br/') -->
 <body>
-    <header>
-        <nav class="navigation">
-            <a href="Index.html" class="logo">Trabalho PEI - Racismo e Injúrias Raciais</a>
-            <ul class="nav-menu">
-                <li class="nav-item"><button class="button-86" onclick="window.location.href='Banner.html'"><i class='bx bxs-layout' style="color: #c4bebe; font-size:x-large;"></i> Banner</button></li>
-                <li class="nav-item"><button class="button-86" onclick="window.location.href='Imagens_Audio.html'"><i class='bx bx-images' style="color: #c4bebe; font-size:x-large;"></i> Galeria</button></li>
-                <li class="nav-item"><button class="button-86" onclick="window.location.href='Leis.html'"><i class='bx bxs-layer' style="color: #c4bebe; font-size:x-large;"></i> Leis Existentes</button></li>
-                <li class="nav-item"><button class="button-86" onclick="window.location.href='Boletim_Informativo.html'"><i class='bx bx-cabinet' style="color: #c4bebe; font-size:x-large;"></i> Boletim</button></li>
-            </ul>
-            <div class="menu" onclick="toggleMenu()">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </nav>
-    </header>
-    
-    <main class="container">
-        <section class="left-section">
-            <section class="home">
-                <div class="home-text">
-                    <img src="img/PEI3.png" alt="Imagem Principal" class="small-image" style="box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;">            
-                </div>
-                <div class="text-box">
-                    <h4 class="text-h4"> Soberania entre raças: Racismo e Injúria Racial</h4>
-                    <p>
-                        O racismo é uma realidade que está interligada à história da sociedade há milênios, manifestando-se de formas diferentes de acordo com o período e o local. 
-                        Devido a essa ligação direta e forte, observamos uma grande resistência de parte da população, não apenas no Brasil, mas no mundo, em aceitar pessoas negras 
-                        como detentoras dos mesmos direitos que os brancos.
-                    </p>
-                    <p>
-                        Após diversos anos de sofrimento, o governo vem tentando implementar políticas para diminuir a ocorrência desses casos. No entanto, devido ao investimento 
-                        insuficiente e limitado, essas políticas acabam sendo tratadas como prioridade secundária, beneficiando apenas uma minoria que já possui um conhecimento 
-                        prévio do assunto. Isso se torna ainda mais visível quando saímos e perguntamos às pessoas se elas conhecem o termo racismo e o que entendem por isso, 
-                        sendo que, em sua grande parte desconhecem seu real significado e, mesmo que conheçam, não sabem quais são as medidas podem ser tomadas para resguardar 
-                        seu direito e dignidade.
-                    </p>
-                    <p>
-                        Dentro desse tema, existem diversas <a href="Leis.html">leis</a> e dispositivos legais que visam a proteção da dignidade e os direitos de uma pessoa negra 
-                        diante de um ato racista ou por injúria racial. No grafico abaixo podemos verificar que os números de casos não diminuíram, mas sim tiveram um aumento significativo:
-                    </p>
-                    <img src="img/Grafico.png" alt="Imagem Principal" class="small-image">
-                    <p>
-                        Neste trabalho, nosso objetivo é entender como reduzir a ocorrência de certas ações e conscientizar a população de forma mais ampla. Identificamos que a falta 
-                        de treinamento especializado, uma abordagem mais seletiva e locais apropriados para o tratamento desses casos contribuem para soluções paliativas ou falta de 
-                        tratamento adequado por parte das autoridades competentes.
-                    </p>
-                </div>
-            </section>
-        </section>
-        <section class="right-section">
-            <section class="home">
-                <div class="text-box"> Unidos na diversidade, lutamos contra o racismo e erguemos a voz da igualdade.
-                    <div class="home-text">
-                        <img src="img/campanha_racismo.jpeg" alt="Imagem Principal" class="small-image" style="box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;"> 
-                    </div>
-                </div>
-                <div class="text-box"> Uma batalha vencida, mas uma guerra ainda sendo travada
-                    <div class="home-text">
-                        <img src="img/mãos.jpg" alt="Imagem Principal" class="small-image" style="box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;"> 
-                    </div>
-                </div>
-        </section>
-        </section>
-    </main>
-    <footer>
-        <p style="color: aliceblue;">Integrantes: Charles Junior Alves Matos, Gabriel Rodrigues Barcellos, Ludimila Pereira da Silva e Suellen Karoline Araújo Santos Ujiie</p>
-        <p style="color: aliceblue;"><a href="https://multivix.edu.br/" style="color: rgb(151, 48, 48); font-weight: 600;">Faculdade Multivix</a> - Curso de Direito 1º Período</p>
-    </footer>
-    <script src="Script.js"></script>
+<header>
+    <h1>Cidades sem Teto: Realidade e Esperança</h1>
+</header>
+<section class="hero" id="hero">
+    <div style="position: relative; z-index: 1; background-color: rgba(10, 10, 10, 0.7); padding: 20px; border-radius: 10px;">
+        <h2>Experiência de Som Incrível</h2>
+        <p>Desenvolvido para oferecer o melhor em qualidade de som, conforto e design.</p>
+        <button class="btn">Saiba Mais</button>
+    </div>
+    <img src="img/1.avif" alt="Fone" class="parallax-img" id="parallaxImg">
+</section>
+<section class="feature-section" id="design">
+    <div class="feature-text">
+        <h2>Vozes das Ruas</h2>
+        <br/>
+        <br/>
+        <br/>
+        <p><b>As dores, o choro e o ser humano que se torna cada vez mais <i>desumano</i>.</b></p>
+        <p>A cada dia que se passa, nós vivenciamos cada vez mais as instabilidades na sociedade, podemos presenciar isso a cada esquina que passamos, a cada transporte
+            público que pegamos e principalmente em comunidades mais vulneráveis.
+        </p>
+    </div>
+    <img src="img/4.avif" alt="Design Sofisticado" class="feature-image">
+</section>
+<section class="feature-section" id="som">
+    <div class="feature-text">
+        <h2>Som Imersivo</h2>
+        <p>Aproveite uma experiência sonora rica em detalhes, com graves profundos e agudos nítidos.</p>
+    </div>
+    <img src="img/2.avif" alt="Som Imersivo" class="feature-image">
+</section>
+<section class="feature-section" id="bateria">
+    <div class="feature-text">
+        <h2>Talentos Esquecidos</h2>
+        <br/>
+        <br/>
+        <br/>
+        <p>Não é incomum encontrarmos pessoas extremamente talentosas no mundo, alguns possuem vozes angelicais, outros tem uma facilidade absurda em aprender outros idiomas,
+            alguns outros possuem criatividade digna de escritores de Best-Seller, mas quantos desses talentos não se tornam 'obsoletos' e deixados de lado pela falta de oportunidade
+            ou icentivo? Muitas pessoas em situação de rua possuem diversos desses talentos e muitos outros.</p>
+    </div>
+    <img src="img/5.avif" alt="Bateria de Longa Duração" class="feature-image">
+</section>
+<footer id="footer">
+    <p><b>&#9885;</b> Grupo PEI 2024 - Multivix Vila Velha. <b>Todos os direitos reservados.</b></p>
+    <br/>
+    <p><b>&#9771; Criadores:</b></p>
+    <p>&#9687; Charles Junior Alves Matos</p>
+    <p>&#9687; Gabriel Rodrigues Barcellos</p>
+    <p>&#9687; Ludimila Pereira da Silva</p>
+    <p>&#9687; Suellen Karoline Araújo Santos Ujiie</p>
+    <br/>
+    <p>&#9687; <a href="Banner.html" style="text-decoration: underline; color: inherit;">Clique Aqui</a> para acessar o Banner</p>
+</footer>
+<script>
+    function revealOnScroll() {
+        const reveals = document.querySelectorAll('.feature-section');
+        reveals.forEach((section) => {
+            const windowHeight = window.innerHeight;
+            const elementTop = section.getBoundingClientRect().top;
+            const revealPoint = 150;
+            if (elementTop < windowHeight - revealPoint) {
+                section.classList.add('show');
+                const title = section.querySelector('h2');
+                title.classList.add('show');
+            } else {
+                section.classList.remove('show');
+                const title = section.querySelector('h2');
+                title.classList.remove('show');
+            }
+        });
+    }
+    function parallaxEffect() {
+        const parallaxImg = document.getElementById('parallaxImg');
+        let scrollPosition = window.scrollY;
+        parallaxImg.style.transform = `translateY(${scrollPosition * 0.5}px)`;
+    }
+    window.addEventListener('scroll', () => {
+        revealOnScroll();
+        parallaxEffect();
+    });
+    document.addEventListener('DOMContentLoaded', revealOnScroll);
+</script>
 </body>
 </html>
