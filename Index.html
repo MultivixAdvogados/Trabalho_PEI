@@ -12,11 +12,15 @@
             font-family: 'Helvetica Neue', sans-serif;
         }
         body {
-            background-image: url('img/1.avif');
-            color: #333;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
+    background-image: url('img/1.avif');
+    background-size: cover; /* Mantém a imagem de fundo sem distorção */
+    background-position: center; /* Centraliza a imagem */
+    background-repeat: no-repeat; /* Impede a repetição da imagem */
+    height: 100vh; /* Garante que o corpo ocupe toda a altura da tela */
+    color: #333;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
         header {
             display: flex;
             justify-content: space-between;
@@ -36,17 +40,18 @@
             font-weight: bold;
         }
         section {
-            height: 100vh;
-            display: flex;
-            align-items: flex-start;
-            position: relative;
-            padding: 50px 20px;
-            transition: opacity 1s ease, transform 1s ease;
-            opacity: 0;
-            transform: translateY(20px);
-        }
+    min-height: 100vh; /* Usa min-height em vez de height */
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 20px; /* Reduz o padding para dispositivos menores */
+    flex-direction: column; /* Para garantir que o conteúdo fique em coluna em vez de lado a lado em dispositivos menores */
+    transition: opacity 1s ease, transform 1s ease;
+    opacity: 0;
+    transform: translateY(20px);
+}
         .hero {
-            background: #e7e9eb;
+            background: rgba(231, 233, 235, 0); 
         }
         .hero h2 {
             font-size: 4rem;
@@ -81,13 +86,12 @@
             height: auto;
             min-height: 100%;
             transform: translate(-50%, -50%) scale(1);
-            transition: transform 0.3s ease;
             z-index: 0;
-            opacity: 1;
+            opacity: 1; /* Mantém a opacidade original */
         }
         .feature-section {
             display: flex;
-            align-items: flex-start; /* Mantém a imagem à direita */
+            align-items: flex-start;
             padding: 20px;
             transition: opacity 1s ease, transform 1s ease;
             opacity: 0;
@@ -100,14 +104,12 @@
         }
         h2 {
             font-size: 2.5rem;
-            transition: opacity 1s ease, transform 1s ease, font-size 1s ease;
+            transition: opacity 1s ease, transform 1s ease;
             opacity: 0.5;
             transform: translateY(20px);
-            text-align: center; /* Centraliza o título */
-            margin: 0; /* Remove a margem */
-            width: 33.33%; /* Para manter o título no meio da tela, sem contar a imagem */
-            position: relative; /* Para centralizar corretamente */
-            left: 33.33%; /* Move o título para o centro, compensando o espaço da imagem */
+            text-align: center;
+            margin: 0;
+            flex: 1; /* Para tornar os títulos responsivos */
         }
         h2.show {
             opacity: 1;
@@ -136,27 +138,57 @@
             margin: 0;
         }
         .feature-image {
-            width: 33.33%; /* Ajuste para ocupar 1/3 da largura */
-            height: 100%; /* Faz com que a imagem preencha totalmente o espaço */
-            object-fit: cover; /* Faz com que a imagem preencha o espaço */
-            margin-left: auto; /* Move a imagem para a direita */
+            width: 33.33%;
+            height: 100%;
+            object-fit: cover;
+            margin-left: auto;
         }
         .feature-text {
-            text-align: left; /* Alinhamento à esquerda */
-            margin-top: 20px; /* Espaçamento entre o título e o parágrafo */
-            width: 100%; /* Para garantir que o parágrafo ocupe a largura disponível */
-            padding-right: 20px; /* Espaçamento entre o texto e a imagem */
+            text-align: left;
+            margin-top: 20px;
+            width: 100%;
+            padding-right: 20px;
         }
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .hero h2 {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
             .hero p {
-                font-size: 1.3rem;
+                font-size: 1.4rem;
             }
             .feature-image {
-                width: 100%; /* Reduz o tamanho da imagem em telas menores */
-                margin: 20px 0; /* Espaçamento em vez de margem lateral */
+                text-align: left;
+                margin-top: 20px;
+                width: 100%;
+                padding-right: 20px;
+            }
+        }
+        @media (max-width: 1024px) {
+            .hero h2 {
+                font-size: 3rem;
+            }
+            .hero p {
+                font-size: 1.4rem;
+            }
+            .feature-image {
+                text-align: left;
+                margin-top: 20px;
+                width: 100%;
+                padding-right: 20px;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero h2 {
+                font-size: 3rem;
+            }
+            .hero p {
+                font-size: 1.4rem;
+            }
+            .feature-image {
+                text-align: left;
+                margin-top: 20px;
+                width: 100%;
+                padding-right: 20px;
             }
         }
     </style>
@@ -166,19 +198,17 @@
     <h1>Cidades sem Teto: Realidade e Esperança</h1>
 </header>
 <section class="hero" id="hero">
-    <div style="position: relative; z-index: 1; background-color: rgba(10, 10, 10, 0.7); padding: 20px; border-radius: 10px;">
+    <!-- <div style="position: relative; z-index: 1; background-color: rgba(10, 10, 10, 0.7); padding: 20px; border-radius: 10px;">
         <h2>Experiência de Som Incrível</h2>
         <p>Desenvolvido para oferecer o melhor em qualidade de som, conforto e design.</p>
         <button class="btn">Saiba Mais</button>
     </div>
-    <img src="img/1.avif" alt="Fone" class="parallax-img" id="parallaxImg">
+    <img src="img/1.avif" alt="Fone" class="parallax-img" id="parallaxImg"> -->
 </section>
 <section class="feature-section" id="design">
     <div class="feature-text">
         <h2>Vozes das Ruas</h2>
-        <br/>
-        <br/>
-        <br/>
+        <br/><br/><br/>
         <p><b>As dores, o choro e o ser humano que se torna cada vez mais <i>desumano</i>.</b></p>
         <p>A cada dia que se passa, nós vivenciamos cada vez mais as instabilidades na sociedade, podemos presenciar isso a cada esquina que passamos, a cada transporte
             público que pegamos e principalmente em comunidades mais vulneráveis.
@@ -189,9 +219,7 @@
 <section class="feature-section" id="som">
     <div class="feature-text">
         <h2>A Face Oculta das Cidades</h2>
-        <br/>
-        <br/>
-        <br/>
+        <br/><br/><br/>
         <p>A dor da perda</p>
     </div>
     <img src="img/2.avif" alt="Som Imersivo" class="feature-image">
@@ -199,12 +227,10 @@
 <section class="feature-section" id="bateria">
     <div class="feature-text">
         <h2>Talentos Esquecidos</h2>
-        <br/>
-        <br/>
-        <br/>
-        <p>Não é incomum encontrarmos pessoas extremamente talentosas no mundo, alguns possuem vozes angelicais, outros tem uma facilidade absurda em aprender outros idiomas,
+        <br/><br/><br/>
+        <p>Não é incomum encontrarmos pessoas extremamente talentosas no mundo, alguns possuem vozes angelicais, outros têm uma facilidade absurda em aprender outros idiomas,
             alguns outros possuem criatividade digna de escritores de Best-Seller, mas quantos desses talentos não se tornam 'obsoletos' e deixados de lado pela falta de oportunidade
-            ou icentivo? Muitas pessoas em situação de rua possuem diversos desses talentos e muitos outros.</p>
+            ou incentivo? Muitas pessoas em situação de rua possuem diversos desses talentos e muitos outros.</p>
     </div>
     <img src="img/5.avif" alt="Bateria de Longa Duração" class="feature-image">
 </section>
@@ -215,38 +241,36 @@
     <p>&#9687; Charles Junior Alves Matos</p>
     <p>&#9687; Gabriel Rodrigues Barcellos</p>
     <p>&#9687; Ludimila Pereira da Silva</p>
-    <p>&#9687; Suellen Karoline Araújo Santos Ujiie</p>
-    <br/>
-    <p>&#9687; <a href="Banner.html" style="text-decoration: underline; color: inherit;">Clique Aqui</a> para acessar o Banner</p>
+    <p>&#9687; Suellen Karoline Araújo Santos Uchoa</p>
+    <p><a href="banner.html">Clique aqui para acessar o banner.</a></p>
 </footer>
 <script>
     function revealOnScroll() {
-        const reveals = document.querySelectorAll('.feature-section');
-        reveals.forEach((section) => {
-            const windowHeight = window.innerHeight;
-            const elementTop = section.getBoundingClientRect().top;
-            const revealPoint = 150;
-            if (elementTop < windowHeight - revealPoint) {
+        const sections = document.querySelectorAll('.feature-section');
+        const hero = document.getElementById('hero');
+        const heroPosition = hero.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.2;
+
+        if (heroPosition < screenPosition) {
+            hero.style.opacity = '1';
+            hero.style.transform = 'translateY(0)';
+        }
+
+        sections.forEach(section => {
+            const sectionPosition = section.getBoundingClientRect().top;
+            const title = section.querySelector('h2');
+            if (sectionPosition < screenPosition) {
                 section.classList.add('show');
-                const title = section.querySelector('h2');
-                title.classList.add('show');
+                title.classList.add('show'); // Adiciona a classe 'show' ao título
             } else {
                 section.classList.remove('show');
-                const title = section.querySelector('h2');
-                title.classList.remove('show');
+                title.classList.remove('show'); // Remove a classe 'show' ao título
             }
         });
     }
-    function parallaxEffect() {
-        const parallaxImg = document.getElementById('parallaxImg');
-        let scrollPosition = window.scrollY;
-        parallaxImg.style.transform = `translateY(${scrollPosition * 0.5}px)`;
-    }
-    window.addEventListener('scroll', () => {
-        revealOnScroll();
-        parallaxEffect();
-    });
-    document.addEventListener('DOMContentLoaded', revealOnScroll);
+
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
 </script>
 </body>
 </html>
