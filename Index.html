@@ -194,9 +194,24 @@
     </style>
 </head>
 <body>
-<header>
+<!-- Inclua o Font Awesome no seu projeto para os ícones -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<header style="display: flex; justify-content: space-between; align-items: center;">
     <h1>Cidades sem Teto: Realidade e Esperança</h1>
+    <!-- Ícones à direita -->
+    <div style="display: flex; gap: 20px;"> <!-- Adiciona um espaçamento entre os ícones -->
+        <!-- Ícone do Instagram -->
+        <a href="https://www.instagram.com/seuPerfilInstagram" target="_blank" style="text-decoration: none; color: inherit;">
+            <i class="fab fa-instagram" style="font-size: 40px;"></i>
+        </a>
+        <!-- Ícone de Cartilha (representado por um ícone de documento) -->
+        <a href="Banner.html" target="_blank" style="text-decoration: none; color: inherit;">
+            <i class="fas fa-file-alt" style="font-size: 36px;"></i> <!-- Ícone de documento -->
+        </a>
+    </div>
 </header>
+
 <section class="hero" id="hero">
     <!-- <div style="position: relative; z-index: 1; background-color: rgba(10, 10, 10, 0.7); padding: 20px; border-radius: 10px;">
         <h2>Experiência de Som Incrível</h2>
@@ -207,23 +222,33 @@
 </section>
 <section class="feature-section" id="design">
     <div class="feature-text">
-        <h2>Vozes das Ruas</h2>
+        <h2>Cartilha Informativa</h2>
         <br/><br/><br/>
-        <p><b>As dores, o choro e o ser humano que se torna cada vez mais <i>desumano</i>.</b></p>
-        <p>A cada dia que se passa, nós vivenciamos cada vez mais as instabilidades na sociedade, podemos presenciar isso a cada esquina que passamos, a cada transporte
-            público que pegamos e principalmente em comunidades mais vulneráveis.
-        </p>
+        <p><b>Informativo sobre a População em Situação de Rua:</b></p>
+        <p>O Governo do Estado do Espírito Santo oferece uma cartilha que vai além da informação: ela nos convida a enxergar com mais empatia e sensibilidade a realidade de quem vive em situação de rua. Este material é um chamado à conscientização, uma oportunidade de compreender as dificuldades enfrentadas por essas pessoas, e um lembrete de que todos merecem dignidade e respeito. Vamos juntos conhecer, refletir e agir, construindo uma sociedade mais acolhedora para todos.</p>
+        <br/>
+        <p>Para informações mais detalhadas, também é possível realizar o acesso ao Levantamento Sobre a População em Situação de Rua no Espírito Santo <a href="https://mpes.mp.br/gaesfo/wp-content/uploads/sites/50/2024/06/Levantamento-sobre-Populacao-em-Situacao-de-Rua-no-Espirito-Santo.pdf" target="_blank">clicando aqui.</a></p>
+        <br/>
+        <p><b>Visualize a cartilha abaixo:</b></p>
+        <!-- Exibindo a cartilha diretamente na página -->
+        <iframe src="https://setades.es.gov.br/Media/seadh/Anexos/Cartilha%20final%20popula%C3%A7%C3%A3o%20situacao%20de%20rua.pdf" width="100%" height="600px" style="border: none;"></iframe>
     </div>
-    <img src="img/4.avif" alt="Design Sofisticado" class="feature-image">
 </section>
 <section class="feature-section" id="som">
     <div class="feature-text">
-        <h2>A Face Oculta das Cidades</h2>
+        <h2>A Face Oculta das Cidades - Reportagem TV Capixaba</h2>
         <br/><br/><br/>
-        <p>A dor da perda</p>
+        <p>Reportagem realizada pela TV Capixaba no dia 05/06/2024, onde mostra brevemente a realidade de muitas pessoas que atualmente estão em situação de rua.</p>
+        <br/>
     </div>
-    <img src="img/2.avif" alt="Som Imersivo" class="feature-image">
+
+    <!-- Exibindo o vídeo -->
+    <video width="100%" height="auto" controls>
+        <source src="mp4/População em situação de rua registra aumento na Grande Vitória.mp4" type="video/mp4">
+        Seu navegador não suporta o elemento de vídeo.
+    </video>
 </section>
+
 <section class="feature-section" id="bateria">
     <div class="feature-text">
         <h2>Talentos Esquecidos</h2>
