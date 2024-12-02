@@ -1,29 +1,74 @@
-function toggleMenu() {
-    const menu = document.querySelector('.navigation .menu');
-    const navMenu = document.querySelector('.navigation .nav-menu');
-    menu.classList.toggle('open');
-    navMenu.classList.toggle('open');
-}
-document.addEventListener("DOMContentLoaded", function() {
-    var pdfElement = document.getElementById('pdf-viewer');
-    var pdfUrl = 'pdf/PEI_Franc.pdf';
+const url = 'pdf/PEI_Final.pdf';
 
-    // Carregar o PDF
-    pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
-        pdf.getPage(1).then(function(page) {
-            var canvas = document.createElement('canvas');
-            var context = canvas.getContext('2d');
-            var viewport = page.getViewport({ scale: 1.5 });
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
+let pdfDoc = null,
+    pageNum = 1,
+    pageIsRendering = false,
+    pageNumIsPending = null;
 
-            var renderContext = {
-                canvasContext: context,
-                viewport: viewport
-            };
+const scale = 1.5,
+      canvas = document.querySelector('#pdf-render'),
+      ctx = canvas.getContext('2d');
 
-            page.render(renderContext);
-            pdfElement.appendChild(canvas);
+// Render the page
+const renderPage = num => {
+    pageIsRendering = true;
+
+    // Get page
+    pdfDoc.getPage(num).then(page => {
+        const viewport = page.getViewport({ scale });
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderCtx = {
+            canvasContext: ctx,
+            viewport
+        };
+
+        page.render(renderCtx).promise.then(() => {
+            pageIsRendering = false;
+
+            if (pageNumIsPending !== null) {
+                renderPage(pageNumIsPending);
+                pageNumIsPending = null;
+            }
         });
+
+        // Output current page
+        document.querySelector('#page-num').textContent = num;
     });
+};
+
+// Check for pages rendering
+const queueRenderPage = num => {
+    if (pageIsRendering) {
+        pageNumIsPending = num;
+    } else {
+        renderPage(num);
+    }
+};
+
+// Show prev page
+document.querySelector('#prev-page').addEventListener('click', () => {
+    if (pageNum <= 1) {
+        return;
+    }
+    pageNum--;
+    queueRenderPage(pageNum);
+});
+
+// Show next page
+document.querySelector('#next-page').addEventListener('click', () => {
+    if (pageNum >= pdfDoc.numPages) {
+        return;
+    }
+    pageNum++;
+    queueRenderPage(pageNum);
+});
+
+// Get Document
+pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
+    pdfDoc = pdfDoc_;
+    document.querySelector('#page-count').textContent = pdfDoc.numPages;
+
+    renderPage(pageNum);
 });
