@@ -5,12 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PEI 2024 - 2º Período (Direito)</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Helvetica Neue', sans-serif;
-        }
+.floating-box {
+    position: fixed;
+    left: 20px; /* Distância da borda esquerda */
+    bottom: 20px; /* Distância da borda inferior */
+    width: 300px; /* Largura da caixa */
+    height: 200px; /* Altura da caixa */
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo semitransparente */
+    border-radius: 15px; /* Bordas arredondadas */
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5); /* Sombras */
+    animation: moveBox 5s ease-in-out infinite; /* Animação de movimento */
+    overflow: hidden; /* Para não mostrar nada fora da caixa */
+    z-index: 1000; /* Garante que a caixa flutuante fique acima de outros elementos */
+}
+
+.video-container {
+    width: 100%;
+    height: calc(100% - 30px); /* Reduz a altura para deixar espaço para o título */
+    z-index: 999; /* Garantir que o vídeo fique acima do fundo */
+    position: relative; /* Para o z-index funcionar corretamente */
+}
+
+/* Estilo do título */
+.video-title {
+    background-color: white; /* Fundo branco para o título */
+    color: black; /* Cor do texto */
+    text-align: center; /* Alinha o texto ao centro */
+    margin: 0; /* Remove a margem padrão */
+    padding: 5px 0; /* Adiciona um pouco de padding para espaçamento */
+    font-size: 16px; /* Ajuste do tamanho da fonte */
+    font-weight: bold; /* Torna o título mais forte */
+    border-top-left-radius: 15px; /* Arredonda o canto superior esquerdo */
+    border-top-right-radius: 15px; /* Arredonda o canto superior direito */
+    position: relative; /* Para garantir que o título fique no topo */
+    z-index: 1001; /* Garante que o título fique acima do vídeo */
+}
+
+/* Animação de movimento suave */
+@keyframes moveBox {
+    0% {
+        transform: translateY(0); /* Posição inicial */
+    }
+    50% {
+        transform: translateY(-10px); /* Move para cima */
+    }
+    100% {
+        transform: translateY(0); /* Retorna à posição inicial */
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
         body {
     background-image: url('img/1.avif');
     background-size: cover; /* Mantém a imagem de fundo sem distorção */
@@ -138,11 +195,11 @@
             margin: 0;
         }
         .feature-image {
-            width: 33.33%;
-            height: 100%;
-            object-fit: cover;
-            margin-left: auto;
-        }
+    display: block; /* Faz a imagem ser tratada como um bloco */
+    margin-left: auto; /* Alinha automaticamente à esquerda */
+    margin-right: auto; /* Alinha automaticamente à direita */
+    width: 50%; /* Ajuste o tamanho da imagem conforme necessário */
+}
         .feature-text {
             text-align: left;
             margin-top: 20px;
@@ -212,6 +269,22 @@
     </div>
 </header>
 
+<!-- Caixa flutuante à esquerda com título e vídeo -->
+<div class="floating-box">
+    <!-- Título acima do vídeo -->
+    <h3 class="video-title">Entrevista - Representante Movimento Sem Teto</h3>
+    
+    <!-- Container do vídeo -->
+    <div class="video-container">
+        <video width="100%" height="100%" controls>
+            <source src="mp4/Representente_Video.mp4" type="video/mp4">
+            <source src="seu-video.webm" type="video/webm">
+            Seu navegador não suporta o formato de vídeo.
+        </video>
+    </div>
+</div>
+
+
 <section class="hero" id="hero">
     <!-- <div style="position: relative; z-index: 1; background-color: rgba(10, 10, 10, 0.7); padding: 20px; border-radius: 10px;">
         <h2>Experiência de Som Incrível</h2>
@@ -251,13 +324,12 @@
 
 <section class="feature-section" id="bateria">
     <div class="feature-text">
-        <h2>Talentos Esquecidos</h2>
+        <h2>Talentos Esquecidos - Artigo A Gazeta</h2>
         <br/><br/><br/>
-        <p>Não é incomum encontrarmos pessoas extremamente talentosas no mundo, alguns possuem vozes angelicais, outros têm uma facilidade absurda em aprender outros idiomas,
-            alguns outros possuem criatividade digna de escritores de Best-Seller, mas quantos desses talentos não se tornam 'obsoletos' e deixados de lado pela falta de oportunidade
-            ou incentivo? Muitas pessoas em situação de rua possuem diversos desses talentos e muitos outros.</p>
+        <p>Apesar de sua situação, Ana Lilia de 56 anos, ainda segue seu sonho e mostra seu grande talento para a pintura nas pilastras da terceira ponte e vendendo sua arte nos sinais. Para mais detalhes é possível acompanhar sua história pelo seguinte link: <a href="https://www.agazeta.com.br/es/cotidiano/quem-e-a-mulher-que-mora-embaixo-da-terceira-ponte-e-vive-da-arte-no-es-1124?utm_medium=redacao&utm_source=facebook" target="_blank">Artigo A Gazeta.</a></p>
     </div>
-    <img src="img/5.avif" alt="Bateria de Longa Duração" class="feature-image">
+    <br/>
+    <img src="img/Ana.webp" alt="Bateria de Longa Duração" class="feature-image">
 </section>
 <footer id="footer">
     <p><b>&#9885;</b> Grupo PEI 2024 - Multivix Vila Velha. <b>Todos os direitos reservados.</b></p>
@@ -266,7 +338,7 @@
     <p>&#9687; Charles Junior Alves Matos</p>
     <p>&#9687; Gabriel Rodrigues Barcellos</p>
     <p>&#9687; Ludimila Pereira da Silva</p>
-    <p>&#9687; Suellen Karoline Araújo Santos Uchoa</p>
+    <p>&#9687; Suellen Karoline Araújo Santos Ujiie</p>
     <p><a href="banner.html">Clique aqui para acessar o banner.</a></p>
 </footer>
 <script>
