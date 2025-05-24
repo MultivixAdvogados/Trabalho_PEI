@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jogos Educativos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-blue-100 to-pink-100 min-h-screen flex flex-col">
+
+  <!-- Cabeçalho -->
+  <header class="bg-gradient-to-r from-pink-400 to-blue-400 p-6 text-white text-center shadow-lg">
+    <h1 class="text-4xl font-bold">Jogos Educativos</h1>
+    <p class="text-lg mt-2">Divirta-se enquanto aprende!</p>
+  </header>
+
+  <!-- Seção de Jogos -->
+  <main class="flex-1 p-8">
+    <h2 class="text-2xl font-semibold mb-6 text-center">Escolha um jogo:</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Card Jogo 1 -->
+      <div class="bg-white p-6 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+        <h3 class="text-xl font-bold mb-2">Quiz de Matemática</h3>
+        <p class="mb-4">Teste seus conhecimentos em operações básicas!</p>
+        <button onclick="alert('Em breve!')" class="bg-blue-400 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg">Jogar</button>      
+      </div>
+
+      <!-- Card Jogo 2 -->
+      <div class="bg-white p-6 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+        <h3 class="text-xl font-bold mb-2">Caça-palavras</h3>
+        <p class="mb-4">Encontre todas as palavras escondidas.</p>
+        <button onclick="alert('Em breve!')" class="bg-pink-400 hover:bg-pink-500 text-white font-semibold py-2 px-4 rounded-lg">Jogar</button>
+      </div>
+
+      <!-- Card Jogo 3 -->
+      <div class="bg-white p-6 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+        <h3 class="text-xl font-bold mb-2">Memória de Inglês</h3>
+        <p class="mb-4">Combine as palavras e melhore o vocabulário!</p>
+<!-- Substitua o botão do Memória de Inglês assim: -->
+<button onclick="location.href='Ingles/ingles.html'" class="bg-green-400 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-lg">Jogar</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="bg-gradient-to-r from-pink-400 to-blue-400 p-4 text-center text-white">
+    <p>Feito com ❤️ para meus sobrinhos!</p>
+  </footer>
+
+  <script>
+    function startQuiz() {
+      const pergunta = prompt("Quanto é 5 + 3?");
+      if(pergunta == "8") {
+        alert("Parabéns! Resposta correta!");
+      } else {
+        alert("Ops! Tente novamente.");
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jogo da Memória - Inglês</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Estilos para o caça-palavras */
+    #word-search {
+      display: grid;
+      grid-template-columns: repeat(10, 32px);
+      grid-template-rows: repeat(7, 32px);
+      gap: 2px;
+      user-select: none;
+    }
+    #word-search div {
+      background: #f3f4f6;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    #word-search div.selected {
+      background-color: #fbbf24; /* amarelo */
+      border-color: #b45309;
+      color: #7c2d12;
+    }
+    #word-search div.found {
+      background-color: #34d399; /* verde */
+      border-color: #064e3b;
+      color: #064e3b;
+      cursor: default;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-r from-green-100 to-blue-100 min-h-screen flex flex-col">
+
+  <!-- Cabeçalho -->
+  <header class="bg-gradient-to-r from-green-400 to-blue-400 p-6 text-white text-center shadow-lg">
+    <h1 class="text-4xl font-bold">Jogo da Memória</h1>
+    <p class="text-lg mt-2">Combine as palavras em inglês!</p>
+  </header>
+
+  <!-- Conteúdo -->
+  <main class="flex-1 p-8 flex flex-col items-center justify-center space-y-6">
+
+    <!-- Caixa de Desafio: Desafio dos Dias da Semana -->
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-6 hover:scale-105 transform transition duration-300">
+      <h2 class="text-2xl font-bold text-yellow-600 mb-6">🔍 Desafio dos Dias da Semana</h2>
+
+      <!-- Caça-palavras -->
+      <div>
+        <h3 class="text-xl font-semibold mb-3">🕵️‍♂️ Caça-Palavras Interativo</h3>
+        <p class="text-gray-700 mb-2">Selecione os dias da semana em inglês clicando e arrastando sobre as letras.</p>
+        <div id="word-search" aria-label="Caça palavras dos dias da semana"></div>
+        <p id="word-search-result" class="mt-2 font-semibold"></p>
+      </div>
+
+      <hr class="my-8 border-gray-300" />
+
+      <!-- Desafio de palavras embaralhadas -->
+      <div>
+        <h3 class="text-xl font-semibold mb-3">✍️ Reordene os Dias da Semana</h3>
+        <p class="text-gray-700 mb-4">
+          Veja a palavra embaralhada e digite a forma correta do dia da semana em inglês:
+        </p>
+
+        <div id="word-challenge" class="mb-4 text-center font-semibold text-xl text-gray-800"></div>
+
+        <input
+          id="answer-input"
+          type="text"
+          placeholder="Digite a palavra correta"
+          class="w-full p-2 border border-gray-300 rounded mb-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          autocomplete="off"
+        />
+        <button
+          id="check-button"
+          class="w-full bg-yellow-600 text-white font-bold py-2 rounded hover:bg-yellow-700 transition"
+        >
+          Verificar
+        </button>
+        <p id="result-message" class="mt-2 font-semibold"></p>
+      </div>
+    </div>
+
+    <!-- Caixa de Desafio do Tempo -->
+<div class="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-6 hover:scale-105 transform transition duration-300">
+  <h2 class="text-2xl font-bold text-yellow-500 mb-4">⏰ Desafio do Tempo</h2>
+
+  <!-- Desafio 1: Marque no relógio -->
+  <h3 class="text-xl font-semibold text-gray-800 mb-2">1️⃣ Marque no relógio a hora correta!</h3>
+  <p class="text-gray-700 mb-4">Leia a frase e desenhe/marque no relógio abaixo.</p>
+
+  <ul class="list-disc list-inside text-gray-700 mb-4 space-y-2">
+    <li>It's five o'clock. <br>🕒 <input type="time" class="border rounded p-1"></li>
+    <li>It's half past two. <br>🕒 <input type="time" class="border rounded p-1"></li>
+    <li>It's a quarter past six. <br>🕒 <input type="time" class="border rounded p-1"></li>
+    <li>It's a quarter to nine. <br>🕒 <input type="time" class="border rounded p-1"></li>
+    <li>It's ten past eleven. <br>🕒 <input type="time" class="border rounded p-1"></li>
+  </ul>
+
+  <!-- Desafio 2: Complete com "o'clock" -->
+  <h3 class="text-xl font-semibold text-gray-800 mb-2">2️⃣ Complete com "o'clock" quando for necessário!</h3>
+  <p class="text-gray-700 mb-4">Digite "o'clock" se for uma hora cheia.</p>
+
+  <ul class="list-decimal list-inside text-gray-700 mb-4 space-y-2">
+    <li>It's seven <input type="text" class="border rounded p-1"></li>
+    <li>It's three <input type="text" class="border rounded p-1"></li>
+    <li>It's half past four <input type="text" class="border rounded p-1"></li>
+    <li>It's a quarter to eight <input type="text" class="border rounded p-1"></li>
+    <li>It's twelve <input type="text" class="border rounded p-1"></li>
+  </ul>
+
+  <!-- Desafio 3: Escreva em inglês -->
+  <h3 class="text-xl font-semibold text-gray-800 mb-2">3️⃣ Escreva em inglês!</h3>
+  <p class="text-gray-700 mb-4">Leia em português e escreva a hora em inglês.</p>
+
+  <ul class="list-decimal list-inside text-gray-700 space-y-2">
+    <li>São três horas → <input type="text" class="border rounded p-1"></li>
+    <li>São quatro e meia → <input type="text" class="border rounded p-1"></li>
+    <li>São oito e quinze → <input type="text" class="border rounded p-1"></li>
+    <li>São dez para as duas → <input type="text" class="border rounded p-1"></li>
+    <li>São cinco e dez → <input type="text" class="border rounded p-1"></li>
+  </ul>
+</div>
+
+
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-6 hover:scale-105 transform transition duration-300">
+  <h2 class="text-2xl font-bold mb-4 text-center">Desafio do quase sempre</h2>
+  <p class="mb-6 text-center">Complete as frases com <strong>always</strong>, <strong>sometimes</strong> ou <strong>never</strong>.<br>
+  Use a dica do dedo para ajudar: <span class="text-green-600">👍 Always</span>, <span class="text-yellow-500">👉 Sometimes</span>, <span class="text-red-600">👎 Never</span>.</p>
+
+  <form id="almost-always-form" class="space-y-4">
+    <div class="flex items-center space-x-4">
+      <span class="text-green-600 text-xl">👍</span>
+      <label class="flex-1">
+        I <input type="text" name="q1" class="border-b-2 border-gray-400 focus:border-blue-500 outline-none w-32 text-center" autocomplete="off" /> eat meat.
+      </label>
+    </div>
+    <div class="flex items-center space-x-4">
+      <span class="text-yellow-500 text-xl">👉</span>
+      <label class="flex-1">
+        I <input type="text" name="q2" class="border-b-2 border-gray-400 focus:border-blue-500 outline-none w-32 text-center" autocomplete="off" /> drink milk.
+      </label>
+    </div>
+    <div class="flex items-center space-x-4">
+      <span class="text-red-600 text-xl">👎</span>
+      <label class="flex-1">
+        I <input type="text" name="q3" class="border-b-2 border-gray-400 focus:border-blue-500 outline-none w-32 text-center" autocomplete="off" /> eat eggs.
+      </label>
+    </div>
+
+    <div class="flex items-center space-x-4">
+      <span class="text-green-600 text-xl">👍</span>
+      <label class="flex-1">
+        She <input type="text" name="q4" class="border-b-2 border-gray-400 focus:border-blue-500 outline-none w-32 text-center" autocomplete="off" /> plays soccer.
+      </label>
+    </div>
+    <div class="flex items-center space-x-4">
+      <span class="text-yellow-500 text-xl">👉</span>
+      <label class="flex-1">
+        They <input type="text" name="q5" class="border-b-2 border-gray-400 focus:border-blue-500 outline-none w-32 text-center" autocomplete="off" /> watch TV.
+      </label>
+    </div>
+    <div class="flex items-center space-x-4">
+      <span class="text-red-600 text-xl">👎</span>
+      <label class="flex-1">
+        We <input type="text" name="q6" class="border-b-2 border-gray-400 focus:border-blue-500 outline-none w-32 text-center" autocomplete="off" /> eat fast food.
+      </label>
+    </div>
+
+    <div class="flex items-center space-x-4">
+      <span class="text-green-600 text-xl">👍</span>
+      <label class="flex-1">
+        He <input type="text" name="q7" class="border-b-2 border-gray-400 focus:border-blue-500 outline-none w-32 text-center" autocomplete="off" /> reads books.
+      </label>
+    </div>
+    <div class="flex items-center space-x-4">
+      <span class="text-yellow-500 text-xl">👉</span>
+      <label class="flex-1">
+        You <input type="text" name="q8" class="border-b-2 border-gray-400 focus:border-blue-500 outline-none w-32 text-center" autocomplete="off" /> go to the park.
+      </label>
+    </div>
+    <div class="flex items-center space-x-4">
+      <span class="text-red-600 text-xl">👎</span>
+      <label class="flex-1">
+        I <input type="text" name="q9" class="border-b-2 border-gray-400 focus:border-blue-500 outline-none w-32 text-center" autocomplete="off" /> watch horror movies.
+      </label>
+    </div>
+    <div class="flex items-center space-x-4">
+      <span class="text-yellow-500 text-xl">👉</span>
+      <label class="flex-1">
+        They <input type="text" name="q10" class="border-b-2 border-gray-400 focus:border-blue-500 outline-none w-32 text-center" autocomplete="off" /> eat vegetables.
+      </label>
+    </div>
+
+    <button type="button" id="check-almost-always" class="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Verificar respostas</button>
+  </form>
+
+  <p id="almost-always-result" class="mt-4 font-semibold text-center"></p>
+</div>
+  </main>
+
+  <a href="ingles.html" class="block text-center text-blue-700 underline mb-6">← Voltar</a>
+
+  <footer class="bg-gradient-to-r from-green-400 to-blue-400 p-4 text-center text-white">
+    <p>Feito com ❤️ para meus sobrinhos!</p>
+  </footer>
+
+<script>
+  // --- Dados do jogo ---
+  const days = [
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday"
+  ];
+
+  // Grade do caça palavras 7x10 letras (7 linhas, 10 colunas)
+  // Os dias estão escondidos, as letras restantes são aleatórias
+  // Vamos montar a grade com base nesse array, em maiúsculas para exibir
+  const wordGrid = [
+    ['M','O','N','D','A','Y','X','Y','Z','L'],
+    ['T','U','E','S','D','A','Y','A','B','K'],
+    ['W','E','D','N','E','S','D','A','Y','Q'],
+    ['T','H','U','R','S','D','A','Y','C','P'],
+    ['F','R','I','D','A','Y','T','U','V','O'],
+    ['S','A','T','U','R','D','A','Y','Q','N'],
+    ['S','U','N','D','A','Y','P','R','S','J'],
+  ];
+
+  // Estado seleção caça-palavras
+  let isMouseDown = false;
+  let startCell = null;
+  let selectedCells = [];
+
+  const gridElement = document.getElementById('word-search');
+  const resultElement = document.getElementById('word-search-result');
+
+  // Cria os elementos da grade
+  function createGrid() {
+    gridElement.innerHTML = '';
+    for(let row=0; row < wordGrid.length; row++) {
+      for(let col=0; col < wordGrid[0].length; col++) {
+        const cell = document.createElement('div');
+        cell.textContent = wordGrid[row][col];
+        cell.dataset.row = row;
+        cell.dataset.col = col;
+        cell.tabIndex = 0; // acessível para teclado
+        gridElement.appendChild(cell);
+      }
+    }
+  }
+
+  // Calcula direção entre duas células (se não for linha reta retorna null)
+  function getDirection(start, end) {
+    const dRow = end.row - start.row;
+    const dCol = end.col - start.col;
+
+    // Direção deve ser linha reta ou diagonal perfeita
+    if (dRow === 0 && dCol !== 0) return {row:0, col: Math.sign(dCol)};
+    if (dCol === 0 && dRow !== 0) return {row: Math.sign(dRow), col:0};
+    if (Math.abs(dRow) === Math.abs(dCol)) return {row: Math.sign(dRow), col: Math.sign(dCol)};
+    return null;
+  }
+
+  // Pega células entre start e end na direção (linha reta ou diagonal)
+  function getCellsInLine(start, end) {
+    const direction = getDirection(start, end);
+    if (!direction) return [];
+
+    let cells = [];
+    let current = {...start};
+    while(true) {
+      cells.push(current);
+      if(current.row === end.row && current.col === end.col) break;
+      current = {row: current.row + direction.row, col: current.col + direction.col};
+    }
+    return cells;
+  }
+
+  // Limpa seleção visual
+  function clearSelection() {
+    selectedCells.forEach(c => {
+      const el = getCellElement(c.row, c.col);
+      if(!el.classList.contains('found')) {
+        el.classList.remove('selected');
+      }
+    });
+    selectedCells = [];
+  }
+
+  // Marca células selecionadas na UI
+  function selectCells(cells) {
+    clearSelection();
+    selectedCells = cells;
+    cells.forEach(c => {
+      const el = getCellElement(c.row, c.col);
+      if(!el.classList.contains('found')) {
+        el.classList.add('selected');
+      }
+    });
+  }
+
+  // Pega elemento da célula pela posição
+  function getCellElement(row, col) {
+    return gridElement.querySelector(`div[data-row="${row}"][data-col="${col}"]`);
+  }
+
+  // Ao começar a selecionar
+  function onMouseDown(e) {
+    if(!e.target.dataset.row) return;
+    isMouseDown = true;
+    const row = +e.target.dataset.row;
+    const col = +e.target.dataset.col;
+    startCell = {row, col};
+    selectCells([startCell]);
+    e.preventDefault();
+  }
+
+  // Enquanto arrasta
+  function onMouseOver(e) {
+    if(!isMouseDown) return;
+    if(!e.target.dataset.row) return;
+
+    const row = +e.target.dataset.row;
+    const col = +e.target.dataset.col;
+    const endCell = {row, col};
+    const cells = getCellsInLine(startCell, endCell);
+    if(cells.length > 0) {
+      selectCells(cells);
+    }
+  }
+
+  // Ao soltar botão do mouse
+  function onMouseUp(e) {
+    if(!isMouseDown) return;
+    isMouseDown = false;
+    if(selectedCells.length === 0) return;
+
+    // Montar palavra selecionada
+    let selectedWord = '';
+    selectedCells.forEach(({row,col}) => {
+      selectedWord += wordGrid[row][col];
+    });
+    const lowerWord = selectedWord.toLowerCase();
+
+    // Verifica se a palavra ou a reversa é algum dia da semana
+    const reversedWord = lowerWord.split('').reverse().join('');
+    if(days.includes(lowerWord)) {
+      markFound(selectedCells);
+      resultElement.textContent = `Parabéns! Você encontrou "${lowerWord.toUpperCase()}"! 🎉`;
+    } else if(days.includes(reversedWord)) {
+      markFound(selectedCells);
+      resultElement.textContent = `Parabéns! Você encontrou "${reversedWord.toUpperCase()}" (inverso)! 🎉`;
+    } else {
+      resultElement.textContent = `Ops! "${selectedWord}" não é um dia da semana. Tente novamente.`;
+    }
+    clearSelection();
+  }
+
+  // Marca células como encontradas
+  function markFound(cells) {
+    cells.forEach(({row,col}) => {
+      const el = getCellElement(row,col);
+      el.classList.add('found');
+      el.classList.remove('selected');
+    });
+  }
+
+  // --- Código do desafio das palavras embaralhadas ---
+  const challengeElement = document.getElementById('word-challenge');
+  const inputElement = document.getElementById('answer-input');
+  const checkButton = document.getElementById('check-button');
+  const resultMessage = document.getElementById('result-message');
+
+  // Função para embaralhar letras
+  function shuffleWord(word) {
+    const array = word.split('');
+    for(let i=array.length -1; i>0; i--) {
+      const j = Math.floor(Math.random() * (i+1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array.join('');
+  }
+
+  let currentWord = '';
+
+  // Escolhe uma palavra aleatória e mostra embaralhada
+  function newChallenge() {
+    currentWord = days[Math.floor(Math.random() * days.length)];
+    challengeElement.textContent = shuffleWord(currentWord).toUpperCase();
+    inputElement.value = '';
+    resultMessage.textContent = '';
+    inputElement.focus();
+  }
+
+  checkButton.addEventListener('click', () => {
+    const answer = inputElement.value.trim().toLowerCase();
+    if(answer === currentWord) {
+      resultMessage.textContent = 'Resposta correta! 🎉';
+      resultMessage.style.color = 'green';
+      setTimeout(newChallenge, 1500);
+    } else {
+      resultMessage.textContent = 'Resposta errada. Tente novamente!';
+      resultMessage.style.color = 'red';
+    }
+  });
+
+  const correctAnswers = {
+    q1: 'always',
+    q2: 'sometimes',
+    q3: 'never',
+    q4: 'always',
+    q5: 'sometimes',
+    q6: 'never',
+    q7: 'always',
+    q8: 'sometimes',
+    q9: 'never',
+    q10: 'sometimes'
+  };
+
+  const form = document.getElementById('almost-always-form');
+  const resultEl = document.getElementById('almost-always-result');
+  const checkBtn = document.getElementById('check-almost-always');
+
+  checkBtn.addEventListener('click', () => {
+    let score = 0;
+    const total = Object.keys(correctAnswers).length;
+    let messages = [];
+
+    for (const key in correctAnswers) {
+      const userAnswer = form[key].value.trim().toLowerCase();
+      if(userAnswer === correctAnswers[key]) {
+        score++;
+        form[key].style.borderColor = 'green';
+      } else {
+        form[key].style.borderColor = 'red';
+      }
+    }
+
+    if(score === total) {
+      messages.push('Parabéns! Você acertou todas as respostas! 🎉');
+      resultEl.style.color = 'green';
+    } else {
+      messages.push(`Você acertou ${score} de ${total}. Tente novamente!`);
+      resultEl.style.color = 'red';
+    }
+
+    resultEl.textContent = messages.join(' ');
+  });
+  
+  // --- Inicializações ---
+  createGrid();
+  newChallenge();
+
+  // Eventos do caça-palavras
+  gridElement.addEventListener('mousedown', onMouseDown);
+  gridElement.addEventListener('mouseover', onMouseOver);
+  window.addEventListener('mouseup', onMouseUp);
+</script>
+
+</body>
+</html>
