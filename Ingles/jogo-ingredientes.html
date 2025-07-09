@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jogo dos Ingredientes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function checkIngredients() {
+      const expectedAnswers = {
+        tea: ["herb", "water", "milk"],
+        pasta: ["flour", "eggs", "water", "salt"],
+        burger: ["meat", "bread", "cheese", "onion", "water"],
+        sushi: ["fish", "rice", "vinegar"],
+        soup: ["vegetables", "chicken", "onion", "water"]
+      };
+
+      let correct = 0;
+
+      for (const key in expectedAnswers) {
+        const input = document.getElementById(`${key}-input`);
+        const userIngredients = input.value.toLowerCase().split(/,\s*/).sort();
+        const correctIngredients = expectedAnswers[key].slice().sort();
+
+        if (JSON.stringify(userIngredients) === JSON.stringify(correctIngredients)) {
+          correct++;
+          input.classList.remove("border-red-500");
+          input.classList.add("border-green-500");
+        } else {
+          input.classList.remove("border-green-500");
+          input.classList.add("border-red-500");
+        }
+      }
+
+      const message = document.getElementById("resultMessage");
+      if (correct === 5) {
+        message.textContent = "Excellent! All ingredients are correct! 🥳";
+        message.className = "text-green-700 font-semibold mt-4";
+      } else {
+        message.textContent = `You got ${correct} out of 5 correct. Try again!`;
+        message.className = "text-red-700 font-semibold mt-4";
+      }
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-r from-green-100 to-blue-100 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-green-400 to-blue-400 p-6 text-white text-center shadow-lg">
+    <h1 class="text-4xl font-bold">Jogo dos Ingredientes</h1>
+    <p class="text-lg mt-2">Look at the image and write the correct ingredients!</p>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8 space-y-8 max-w-4xl mx-auto">
+
+    <!-- Ingredientes disponíveis -->
+    <section class="bg-white p-4 rounded-xl shadow-lg">
+      <h2 class="text-xl font-semibold mb-2">Available Ingredients:</h2>
+      <p class="text-gray-700">
+        <strong>herb, water, milk</strong><br>
+        <strong>flour, eggs, water, salt</strong><br>
+        <strong>meat, bread, cheese, onion, water</strong><br>
+        <strong>fish, rice, vinegar</strong><br>
+        <strong>vegetables, chicken, onion, water</strong>
+      </p>
+    </section>
+
+    <!-- Card for Each Food Item -->
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">Tea</h2>
+      <img src="Imagens/Chá.png" alt="Tea image" class="mb-4 rounded">
+      <p class="mb-2">Write the ingredients:</p>
+      <input id="tea-input" type="text" placeholder="Example: water, milk, herb" class="w-full p-2 border rounded">
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">Pasta</h2>
+      <img src="Imagens/Macarrão.jpg" alt="Pasta image" class="mb-4 rounded">
+      <p class="mb-2">Write the ingredients:</p>
+      <input id="pasta-input" type="text" placeholder="Example: flour, eggs, water, salt" class="w-full p-2 border rounded">
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">Burger</h2>
+      <img src="Imagens/Burger.jpg" alt="Burger image" class="mb-4 rounded">
+      <p class="mb-2">Write the ingredients:</p>
+      <input id="burger-input" type="text" placeholder="Example: meat, bread, cheese, onion, water" class="w-full p-2 border rounded">
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">Sushi</h2>
+      <img src="Imagens/Sushi.jpg" alt="Sushi image" class="mb-4 rounded">
+      <p class="mb-2">Write the ingredients:</p>
+      <input id="sushi-input" type="text" placeholder="Example: fish, rice, vinegar" class="w-full p-2 border rounded">
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">Soup</h2>
+      <img src="Imagens/Sopa.png" alt="Soup image" class="mb-4 rounded">
+      <p class="mb-2">Write the ingredients:</p>
+      <input id="soup-input" type="text" placeholder="Example: vegetables, chicken, onion, water" class="w-full p-2 border rounded">
+    </div>
+
+    <!-- Verificação -->
+    <div class="text-center">
+      <button onclick="checkIngredients()" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-xl shadow">Check Answers</button>
+      <p id="resultMessage" class="mt-4"></p>
+      <a href="ingles.html" class="inline-block mt-6 text-blue-800 underline">&larr; Back to Home</a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-r from-green-400 to-blue-400 p-4 text-center text-white">
+    <p>Feito com ❤️ para meus sobrinhos!</p>
+  </footer>
+
+</body>
+</html>

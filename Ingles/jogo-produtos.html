@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jogo dos Produtos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function checkAnswers() {
+      let correct = 0;
+
+      const answers = {
+        q1: "They are dairy products",
+        q2: "They are beverages",
+        q3: "They are grains",
+        q4: "They are fruits"
+      };
+
+      for (const [key, value] of Object.entries(answers)) {
+        const selected = document.querySelector(`input[name="${key}"]:checked`);
+        if (selected && selected.nextSibling.textContent.trim() === value) {
+          correct++;
+        }
+      }
+
+      const message = document.getElementById("resultMessage");
+      if (correct === 4) {
+        message.textContent = "Great job! All answers are correct! 🎉";
+        message.className = "text-green-700 font-semibold mt-4";
+      } else {
+        message.textContent = `You got ${correct} out of 4 correct. Try again!`;
+        message.className = "text-red-700 font-semibold mt-4";
+      }
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-r from-green-100 to-blue-100 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-green-400 to-blue-400 p-6 text-white text-center shadow-lg">
+    <h1 class="text-4xl font-bold">Encontre os Produtos</h1>
+    <p class="text-lg mt-2">Look at the image and select the correct category!</p>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8 space-y-8 max-w-3xl mx-auto">
+
+    <!-- Questions -->
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">What type of product is this?</h2>
+      <img src="Imagens/laticinios-1.jpg" alt="Dairy product" class="mb-4 rounded w-full max-w-xs mx-auto">
+      <div class="space-y-2">
+        <label class="block"><input type="radio" name="q1" class="mr-2"> They are beverages</label>
+        <label class="block"><input type="radio" name="q1" class="mr-2"> They are grains</label>
+        <label class="block"><input type="radio" name="q1" class="mr-2"> They are fruits</label>
+        <label class="block"><input type="radio" name="q1" class="mr-2"> They are dairy products</label>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">What type of product is this?</h2>
+      <img src="Imagens/Água.jpg" alt="Water image" class="mb-4 rounded w-full max-w-xs mx-auto">
+      <div class="space-y-2">
+        <label class="block"><input type="radio" name="q2" class="mr-2"> They are fruits</label>
+        <label class="block"><input type="radio" name="q2" class="mr-2"> They are grains</label>
+        <label class="block"><input type="radio" name="q2" class="mr-2"> They are dairy products</label>
+        <label class="block"><input type="radio" name="q2" class="mr-2"> They are beverages</label>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">What type of product is this?</h2>
+      <img src="Imagens/graos.jpg" alt="Grain image" class="mb-4 rounded w-full max-w-xs mx-auto">
+      <div class="space-y-2">
+        <label class="block"><input type="radio" name="q3" class="mr-2"> They are fruits</label>
+        <label class="block"><input type="radio" name="q3" class="mr-2"> They are beverages</label>
+        <label class="block"><input type="radio" name="q3" class="mr-2"> They are dairy products</label>
+        <label class="block"><input type="radio" name="q3" class="mr-2"> They are grains</label>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">What type of product is this?</h2>
+      <img src="Imagens/frutas-afe.jpg" alt="Fruit image" class="mb-4 rounded w-full max-w-xs mx-auto">
+      <div class="space-y-2">
+        <label class="block"><input type="radio" name="q4" class="mr-2"> They are dairy products</label>
+        <label class="block"><input type="radio" name="q4" class="mr-2"> They are beverages</label>
+        <label class="block"><input type="radio" name="q4" class="mr-2"> They are grains</label>
+        <label class="block"><input type="radio" name="q4" class="mr-2"> They are fruits</label>
+      </div>
+    </div>
+
+    <!-- Check Button -->
+    <div class="text-center">
+      <button onclick="checkAnswers()" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-xl shadow">Check Answers</button>
+      <p id="resultMessage" class="mt-4"></p>
+      <a href="ingles.html" class="inline-block mt-6 text-blue-800 underline">&larr; Back to Home</a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-r from-green-400 to-blue-400 p-4 text-center text-white">
+    <p>Feito com ❤️ para meus sobrinhos!</p>
+  </footer>
+
+</body>
+</html>

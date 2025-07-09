@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jogo das Receitas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function checkRecipeAnswer() {
+      const selected = document.querySelector("input[name='recipe']:checked");
+      const result = document.getElementById("feedback");
+
+      if (!selected) {
+        result.textContent = "Please select an option!";
+        result.className = "text-yellow-600 font-semibold mt-4";
+        return;
+      }
+
+      if (selected.value === "correct") {
+        result.textContent = "That's right! 🏆 The first step is to write the name of the dish.";
+        result.className = "text-green-700 font-semibold mt-4";
+      } else {
+        result.textContent = "Oops! That's not the correct first step. Try again!";
+        result.className = "text-red-700 font-semibold mt-4";
+      }
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-r from-green-100 to-blue-100 min-h-screen flex flex-col">
+  <header class="bg-gradient-to-r from-green-400 to-blue-400 p-6 text-white text-center shadow-lg">
+    <h1 class="text-4xl font-bold">Jogo das Receitas</h1>
+    <p class="text-lg mt-2">What is the first thing we do when writing a recipe?</p>
+  </header>
+
+  <main class="flex-1 p-8 max-w-2xl mx-auto space-y-6">
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h2 class="text-xl font-semibold mb-4">Choose the correct first step:</h2>
+      <div class="space-y-3">
+        <label class="block">
+          <input type="radio" name="recipe" value="wrong1" class="mr-2"> List the ingredients before anything else.
+        </label>
+        <label class="block">
+          <input type="radio" name="recipe" value="wrong2" class="mr-2"> Describe how the food smells.
+        </label>
+        <label class="block">
+          <input type="radio" name="recipe" value="correct" class="mr-2"> Write the name of the dish.
+        </label>
+        <label class="block">
+          <input type="radio" name="recipe" value="wrong3" class="mr-2"> Add photos of the final dish.
+        </label>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button onclick="checkRecipeAnswer()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-xl shadow">Check Answer</button>
+      <p id="feedback" class="mt-4"></p>
+      <a href="ingles.html" class="inline-block mt-6 text-blue-800 underline">&larr; Back to Home</a>
+    </div>
+  </main>
+
+  <footer class="bg-gradient-to-r from-green-400 to-blue-400 p-4 text-center text-white">
+    <p>Feito com ❤️ para meus sobrinhos!</p>
+  </footer>
+</body>
+</html>

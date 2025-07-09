@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recipientes e Alimentos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function checkContainers() {
+      const expected = {
+        item1: "a glass of water",
+        item2: "a cup of tea",
+        item3: "a bowl of salad",
+        item4: "a bottle of milk",
+        item5: "a plate of pasta"
+      };
+
+      let correct = 0;
+
+      for (const key in expected) {
+        const input = document.getElementById(key);
+        const answer = input.value.trim().toLowerCase();
+        if (answer === expected[key]) {
+          input.classList.add("border-green-500");
+          input.classList.remove("border-red-500");
+          correct++;
+        } else {
+          input.classList.remove("border-green-500");
+          input.classList.add("border-red-500");
+        }
+      }
+
+      const msg = document.getElementById("feedback");
+      msg.textContent = correct === 5
+        ? "Great! All answers are correct! 🥳"
+        : `You got ${correct} out of 5 correct. Try again!`;
+      msg.className = correct === 5
+        ? "text-green-700 font-semibold mt-4"
+        : "text-red-700 font-semibold mt-4";
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-r from-green-100 to-blue-100 min-h-screen flex flex-col">
+  <header class="bg-gradient-to-r from-green-400 to-blue-400 p-6 text-white text-center shadow-lg">
+    <h1 class="text-4xl font-bold">Diga os Recipientes</h1>
+    <p class="text-lg mt-2">Match each food with its correct container.</p>
+  </header>
+
+  <main class="flex-1 p-8 max-w-3xl mx-auto space-y-6">
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <p class="mb-2 font-semibold">1. Write the correct container for: <strong>Water</strong></p>
+      <input id="item1" type="text" class="w-full border p-2 rounded" placeholder="Example: a glass of water">
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <p class="mb-2 font-semibold">2. Write the correct container for: <strong>Tea</strong></p>
+      <input id="item2" type="text" class="w-full border p-2 rounded" placeholder="Example: a cup of tea">
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <p class="mb-2 font-semibold">3. Write the correct container for: <strong>Salad</strong></p>
+      <input id="item3" type="text" class="w-full border p-2 rounded" placeholder="Example: a bowl of salad">
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <p class="mb-2 font-semibold">4. Write the correct container for: <strong>Milk</strong></p>
+      <input id="item4" type="text" class="w-full border p-2 rounded" placeholder="Example: a bottle of milk">
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <p class="mb-2 font-semibold">5. Write the correct container for: <strong>Pasta</strong></p>
+      <input id="item5" type="text" class="w-full border p-2 rounded" placeholder="Example: a plate of pasta">
+    </div>
+
+    <div class="text-center">
+      <button onclick="checkContainers()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-xl shadow">Check Answers</button>
+      <p id="feedback" class="mt-4"></p>
+      <a href="ingles.html" class="inline-block mt-6 text-blue-800 underline">&larr; Back to Home</a>
+    </div>
+  </main>
+
+  <footer class="bg-gradient-to-r from-green-400 to-blue-400 p-4 text-center text-white">
+    <p>Feito com ❤️ para meus sobrinhos!</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Locais das Comidas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function checkOriginAnswers() {
+      const results = {
+        q1: "juice",
+        q2: "fish"
+      };
+      let correct = 0;
+      for (const id in results) {
+        const selected = document.querySelector(`input[name='${id}']:checked`);
+        if (selected && selected.value === results[id]) {
+          correct++;
+        }
+      }
+      const feedback = document.getElementById("feedback");
+      if (correct === 2) {
+        feedback.textContent = "Well done! Both answers are correct! 🎉";
+        feedback.className = "text-green-700 font-semibold mt-4";
+      } else {
+        feedback.textContent = `You got ${correct} out of 2 correct.`;
+        feedback.className = "text-red-700 font-semibold mt-4";
+      }
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-r from-green-100 to-blue-100 min-h-screen flex flex-col">
+  <header class="bg-gradient-to-r from-green-400 to-blue-400 p-6 text-white text-center shadow-lg">
+    <h1 class="text-4xl font-bold">Locais das Comidas</h1>
+    <p class="text-lg mt-2">Where do the foods come from? Choose correctly!</p>
+  </header>
+
+  <main class="flex-1 p-8 max-w-3xl mx-auto space-y-6">
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h2 class="text-xl font-semibold mb-4">Which of these is a beverage made from fruit?</h2>
+      <div class="space-y-2">
+        <label><input type="radio" name="q1" value="juice" class="mr-2"> Juice</label>
+        <label><input type="radio" name="q1" value="cheese" class="mr-2"> Cheese</label>
+        <label><input type="radio" name="q1" value="rice" class="mr-2"> Rice</label>
+        <label><input type="radio" name="q1" value="carrot" class="mr-2"> Carrot</label>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6">
+      <h2 class="text-xl font-semibold mb-4">This food comes from an animal. Choose the correct one:</h2>
+      <div class="space-y-2">
+        <label><input type="radio" name="q2" value="broccoli" class="mr-2"> Broccoli</label>
+        <label><input type="radio" name="q2" value="fish" class="mr-2"> Fish</label>
+        <label><input type="radio" name="q2" value="bread" class="mr-2"> Bread</label>
+        <label><input type="radio" name="q2" value="orange juice" class="mr-2"> Orange juice</label>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button onclick="checkOriginAnswers()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-xl shadow">Check Answers</button>
+      <p id="feedback" class="mt-4"></p>
+      <a href="ingles.html" class="inline-block mt-6 text-blue-800 underline">&larr; Back to Home</a>
+    </div>
+  </main>
+
+  <footer class="bg-gradient-to-r from-green-400 to-blue-400 p-4 text-center text-white">
+    <p>Feito com ❤️ para meus sobrinhos!</p>
+  </footer>
+</body>
+</html>

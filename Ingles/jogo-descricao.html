@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>O que é o que é</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    const correctAnswers = {
+      r1: "Ervilhas.jpg",
+      r2: "Banana.jpg",
+      r3: "Pão.jpg",
+      r4: "Cenoura.jpg"
+    };
+
+    function selectImage(questionId, imgEl) {
+      const all = document.querySelectorAll(`[data-question='${questionId}'] img`);
+      all.forEach(img => img.classList.remove("ring", "ring-4", "ring-green-500"));
+      imgEl.classList.add("ring", "ring-4", "ring-green-500");
+      imgEl.closest(".question-container").dataset.selected = imgEl.alt;
+    }
+
+    function checkRiddleAnswers() {
+      let correct = 0;
+      for (let key in correctAnswers) {
+        const qEl = document.querySelector(`[data-id='${key}']`);
+        const selected = qEl.dataset.selected;
+        if (selected === correctAnswers[key]) {
+          correct++;
+        }
+      }
+      const feedback = document.getElementById("feedback");
+      if (correct === Object.keys(correctAnswers).length) {
+        feedback.textContent = "Amazing! You found all the correct foods! 🥳";
+        feedback.className = "text-green-700 font-bold mt-4";
+      } else {
+        feedback.textContent = `You got ${correct} out of ${Object.keys(correctAnswers).length} right. Keep trying!`;
+        feedback.className = "text-red-700 font-semibold mt-4";
+      }
+    }
+  </script>
+  <style>
+    .food-bubble {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 9999px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s;
+    }
+    .food-bubble:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-r from-green-100 to-blue-100 min-h-screen flex flex-col">
+  <header class="bg-gradient-to-r from-green-400 to-blue-400 p-6 text-white text-center shadow-lg">
+    <h1 class="text-4xl font-bold">O que é o que é?</h1>
+    <p class="text-lg mt-2">Read the fun clues and click the correct image! 🥕🍌🍞</p>
+  </header>
+
+  <main class="flex-1 p-8 max-w-4xl mx-auto space-y-10">
+    <div class="bg-white rounded-xl shadow-lg p-6 question-container" data-id="r1" data-question="r1">
+      <h2 class="text-xl font-semibold mb-4">1. This is a green vegetable. It's small and round. You usually eat many of them together. What is it?</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <img src="Imagens/Oque/Cenoura.jpg" alt="Cenoura.jpg" onclick="selectImage('r1', this)" class="food-bubble cursor-pointer">
+        <img src="Imagens/Oque/Tomate.jpg" alt="Tomate.jpg" onclick="selectImage('r1', this)" class="food-bubble cursor-pointer">
+        <img src="Imagens/Oque/Ervilhas.jpg" alt="Ervilhas.jpg" onclick="selectImage('r1', this)" class="food-bubble cursor-pointer">
+        <img src="Imagens/Oque/Batata.jpg" alt="Batata.jpg" onclick="selectImage('r1', this)" class="food-bubble cursor-pointer">
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6 question-container" data-id="r2" data-question="r2">
+      <h2 class="text-xl font-semibold mb-4">2. It's yellow, sweet, and monkeys love it. You peel it before eating. What is it?</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <img src="Imagens/Oque/Banana.jpg" alt="Banana.jpg" onclick="selectImage('r2', this)" class="food-bubble cursor-pointer">
+        <img src="Imagens/Oque/Maca.jpg" alt="Maca.jpg" onclick="selectImage('r2', this)" class="food-bubble cursor-pointer">
+        <img src="Imagens/Oque/Laranja.jpg" alt="Laranja.jpg" onclick="selectImage('r2', this)" class="food-bubble cursor-pointer">
+        <img src="Imagens/Oque/Uva.jpg" alt="Uva.jpg" onclick="selectImage('r2', this)" class="food-bubble cursor-pointer">
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6 question-container" data-id="r3" data-question="r3">
+      <h2 class="text-xl font-semibold mb-4">3. It's made from flour and baked. You can toast it or use it to make a sandwich. What is it?</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <img src="Imagens/Oque/Pão.jpg" alt="Pão.jpg" onclick="selectImage('r3', this)" class="food-bubble cursor-pointer">
+        <img src="Imagens/Oque/Queijo.jpg" alt="Queijo.jpg" onclick="selectImage('r3', this)" class="food-bubble cursor-pointer">
+        <img src="Imagens/Oque/Carne.jpg" alt="Carne.jpg" onclick="selectImage('r3', this)" class="food-bubble cursor-pointer">
+        <img src="Imagens/Macarrão.jpg" alt="Macarrão.jpg" onclick="selectImage('r3', this)" class="food-bubble cursor-pointer">
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6 question-container" data-id="r4" data-question="r4">
+      <h2 class="text-xl font-semibold mb-4">4. It's orange, long, and crunchy. Rabbits love it! What is it?</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <img src="Imagens/Oque/Cenoura.jpg" alt="Cenoura.jpg" onclick="selectImage('r4', this)" class="food-bubble cursor-pointer">
+        <img src="Imagens/Oque/Tomate.jpg" alt="Tomate.jpg" onclick="selectImage('r4', this)" class="food-bubble cursor-pointer">
+        <img src="Imagens/Oque/Batata.jpg" alt="Batata.jpg" onclick="selectImage('r4', this)" class="food-bubble cursor-pointer">
+        <img src="Imagens/Oque/Cebola.png" alt="Cebola.png" onclick="selectImage('r4', this)" class="food-bubble cursor-pointer">
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button onclick="checkRiddleAnswers()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-xl shadow">Check Answers</button>
+      <p id="feedback" class="mt-4"></p>
+      <a href="ingles.html" class="inline-block mt-6 text-blue-800 underline">&larr; Back to Home</a>
+    </div>
+  </main>
+
+  <footer class="bg-gradient-to-r from-green-400 to-blue-400 p-4 text-center text-white">
+    <p>Feito com ❤️ para meus sobrinhos!</p>
+  </footer>
+</body>
+</html>
