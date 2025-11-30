@@ -1,788 +1,313 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Professions Game — All-in CSS/JS + WebAudio (Updated)</title>
-<style>
-:root{
-  --bg: #071426;
-  --panel-bg: rgba(6,10,18,0.62);
-  --panel-border: rgba(255,255,255,0.06);
-  --accent: #06b6d4;
-  --text: #f8fafc;
-  --muted: #cbd5e1;
-  --success: #22c55e;
-  --danger: #ef4444;
-}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Clean Park — Recycling Game</title>
+  <meta name="description" content="Interactive, kid-friendly recycling game to teach basic English vocabulary about recycling. Responsive and mobile-first." />
+  <style>
+    :root{
+      --bg-dark: #031026;
+      --panel:#071426;
+      --muted: #c6d7e6;
+      --accent: #ffd166; /* warm yellow */
+      --accent-2: #06d6a0; /* mint */
+      --accent-3: #4cc9f0; /* sky */
+      --glass: rgba(255,255,255,0.04);
+      --radius:14px; --shadow: 0 10px 30px rgba(2,8,23,0.6);
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg-dark); color:var(--muted); -webkit-font-smoothing:antialiased; display:flex; align-items:flex-start; justify-content:center; padding:20px; overflow:hidden;
+    }
 
-/* Reset & base */
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
-body{background:linear-gradient(180deg,#031226 0%, #071426 100%); color:var(--text); overflow:hidden}
+    .sky{position:fixed; inset:0; z-index:0; pointer-events:none}
+    .star{position:absolute; width:3px; height:3px; background:rgba(255,255,255,0.9); border-radius:50%; opacity:0.9}
+    .rocket{position:fixed; width:64px; height:64px; z-index:2; pointer-events:none; transform-origin:center;}
 
-/* Game wrapper: CENTER content vertically and horizontally */
-#game{position:relative;width:100%;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:18px}
+    .app{position:relative; z-index:3; width:100%; max-width:1100px}
+    header{display:flex; gap:16px; align-items:center; margin-bottom:18px}
+    .logo{width:68px; height:68px; border-radius:14px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); display:flex; align-items:center; justify-content:center; color:#042a2b; font-weight:800; box-shadow:var(--shadow);}
+    h1{font-size:22px;margin:0; color:var(--accent-3)}
+    p.lead{margin:0;color:var(--muted); font-size:14px}
 
-/* Scene layers:
-   - background (z:0) holds animated content
-   - overlay panel (z:20) holds question + choices and is centered
-*/
-.scene{position:absolute;inset:0;overflow:hidden}
-.scene-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
-.scene-overlay{position:relative;z-index:20;display:flex;align-items:center;justify-content:center;width:100%;max-width:1100px;padding:12px}
+    main{display:grid; grid-template-columns: 1fr 360px; gap:18px}
 
-/* Panel card centered */
-.panel{
-  width:100%;
-  max-width:1100px;
-  padding:22px;
-  border-radius:12px;
-  background:linear-gradient(180deg, rgba(2,6,23,0.66), rgba(2,6,23,0.5));
-  border:1px solid var(--panel-border);
-  box-shadow:0 12px 36px rgba(0,0,0,0.6);
-  backdrop-filter: blur(6px);
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  align-items:center;
-}
+    .board{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:18px; padding:18px; box-shadow:var(--shadow); border:1px solid rgba(255,255,255,0.03)}
+    .section-title{display:flex; justify-content:space-between; align-items:center; gap:8px}
+    .subtitle{color:var(--muted); font-size:13px}
 
-/* Question + choices layout */
-.question{font-size:clamp(18px,3vw,30px);text-align:center;margin:0;color:var(--text);font-weight:700}
-.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:14px;width:100%;align-items:center;justify-items:center;padding-top:6px}
-.choice{
-  width:120px;height:120px;border-radius:999px;background:linear-gradient(180deg,#ffffff08,#00000010);
-  display:flex;align-items:center;justify-content:center;padding:8px;text-align:center;color:var(--text);
-  font-weight:700;cursor:pointer;transition:transform .18s, box-shadow .18s, background .18s;
-  user-select:none;border:2px solid rgba(255,255,255,0.06);box-shadow:0 10px 26px rgba(0,0,0,0.5);
-}
-.choice:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 20px 36px rgba(0,0,0,0.7)}
-.choice.correct{outline:4px solid var(--success)}
-.choice.wrong{outline:4px solid var(--danger)}
+    .workspace{margin-top:12px; min-height:420px; border-radius:12px; padding:14px; position:relative}
 
-/* End screen */
-.end-screen{display:flex;align-items:center;justify-content:center;height:100vh;font-size:32px;font-weight:800;color:var(--text);flex-direction:column;gap:16px}
+    .items{display:flex; flex-wrap:wrap; gap:12px}
+    .item{width:120px; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; font-size:44px; cursor:grab; border:1px solid rgba(255,255,255,0.04); box-shadow: 0 8px 20px rgba(2,8,23,0.45); user-select:none; padding:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));}
+    .item .emoji{font-size:46px}
+    .item .label{display:block; font-size:13px; color:var(--muted); margin-top:8px; text-align:center}
+    .item .playBtn{margin-top:8px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); border:none; color:#072a2a; padding:6px 10px; border-radius:10px; font-weight:700; cursor:pointer}
 
-/* Shared bg overlay (dim) */
-.scene-bg::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.3));pointer-events:none}
+    .bins{display:grid; grid-template-columns: repeat(4,1fr); gap:12px; margin-top:18px}
+    .bin{min-height:120px; border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px; border:2px dashed rgba(255,255,255,0.03); transition:all .18s; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));}
+    .bin.highlight{border-style:solid; box-shadow:0 10px 25px rgba(8,40,50,0.5)}
+    .bin .title{font-weight:800; color:var(--accent-3);}
+    .bin .hint{font-size:12px; color:var(--muted)}
 
-/* ---------- SIREN (more visible) ---------- */
-.siren-strong{position:absolute;top:18px;right:18px;width:110px;height:44px;border-radius:20px;z-index:4;pointer-events:none;
-  background:linear-gradient(90deg, rgba(255,0,0,0.95) 0%, rgba(255,0,0,0.0) 45%, rgba(0,80,255,0.95) 55%, rgba(0,80,255,0.0) 100%);
-  box-shadow:0 8px 40px rgba(255,0,0,0.15), 0 8px 40px rgba(0,80,255,0.12);
-  mix-blend-mode:screen; animation: sirenPulseStrong 1s infinite linear;
-}
-@keyframes sirenPulseStrong{
-  0%{opacity:.06; transform:translateY(0) scale(.98)} 30%{opacity:.9; transform:translateY(-2px) scale(1.02)} 60%{opacity:.6; transform:translateY(0) scale(1)} 100%{opacity:.08; transform:translateY(0) scale(.98)}
-}
+    .panel{background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:18px; padding:18px; box-shadow: var(--shadow); height:100%}
+    .score{font-size:20px; font-weight:800; color:var(--accent)}
+    .btn{background:linear-gradient(90deg,var(--accent-2),var(--accent-3)); border:none; color:#032526; padding:9px 12px; border-radius:10px; cursor:pointer; font-weight:700}
+    .btn.secondary{background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--muted)}
+    footer{margin-top:14px; font-size:12px; color:var(--muted)}
 
-/* ---------- SPECIFIC SCENES (improved visibility & z-handling) ---------- */
-.bg-layer{position:absolute;pointer-events:none;z-index:0}
-
-/* SPACE */
-.bg-astronaut{background: radial-gradient(ellipse at center, #020519 0%, #000 52%, #000 100%)}
-.star{position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(255,255,255,0.98);filter:drop-shadow(0 0 8px rgba(255,255,255,0.35));animation:twink var(--t,2s) infinite alternate}
-@keyframes twink{from{opacity:.25;transform:scale(.9)}to{opacity:1;transform:scale(1.3)}}
-.css-rocket{position:absolute;width:64px;height:140px;left:10%;bottom:8%;transform-origin:center center;filter:drop-shadow(0 12px 28px rgba(0,0,0,.6));transition:left 1.6s ease-in-out, bottom 1.6s ease-in-out, transform 1s linear}
-
-/* rocket flame */
-.r-flame{position:absolute;left:50%;bottom:-30px;transform:translateX(-50%);width:26px;height:44px;border-radius:50%;background:radial-gradient(circle,#ffb347,#ff3d00);animation:flamePulse .26s infinite alternate}
-@keyframes flamePulse{from{transform:translateX(-50%) scaleY(1)}to{transform:translateX(-50%) scaleY(1.36)}}
-
-/* FIRE */
-.bg-fireman{background:linear-gradient(180deg,#2a0606,#5b1b0b)}
-.fire-pole{position:absolute;bottom:0;width:28px;height:90px;border-radius:50% 50% 0 0;background:radial-gradient(#ffd04d,#ff6a00);animation:riseFlame var(--d,2s) infinite linear}
-@keyframes riseFlame{from{transform:translateY(0) scale(1);opacity:1}to{transform:translateY(-140px) scale(.6);opacity:0}}
-
-/* POLICE (city + stronger siren visuals) */
-.bg-policeman{background:linear-gradient(180deg,#071025,#0b1d2d)}
-.city-sil{position:absolute;bottom:0;left:0;right:0;height:44%;background:linear-gradient(180deg,#081018,#071218);clip-path:polygon(0 100%,6% 60%,12% 70%,18% 52%,28% 62%,36% 46%,44% 60%,52% 36%,62% 58%,70% 44%,78% 50%,86% 38%,92% 60%,100% 48%,100% 100%);opacity:.98;filter:blur(.6px)}
-.siren-light{position:absolute;top:10%;left:50%;transform:translateX(-50%);width:320px;height:120px;border-radius:40px;background:radial-gradient(circle at 20% 50%, rgba(255,0,0,0.65), transparent 32%), radial-gradient(circle at 80% 50%, rgba(0,120,255,0.65), transparent 32%);mix-blend-mode:screen;filter:blur(12px);animation:sirenPulse 1s infinite}
-@keyframes sirenPulse{0%{opacity:.08;transform:translateX(-50%) scale(.98)}50%{opacity:.92;transform:translateX(-50%) scale(1.08)}100%{opacity:.08;transform:translateX(-50%) scale(.98)}}
-.city-window{position:absolute;width:4px;height:6px;background:rgba(255,255,200,0.12);box-shadow:0 3px 6px rgba(0,0,0,0.6)}
-
-/* SINGER (brighter notes) */
-.bg-singer{background:linear-gradient(180deg,#0b0810,#1c0f22)}
-.music-note{position:absolute;bottom:8%;font-size:22px;color:rgba(255,240,170,0.98);text-shadow:0 6px 18px rgba(0,0,0,.7);animation:noteFloat linear infinite}
-@keyframes noteFloat{0%{transform:translateY(0) rotate(0);opacity:0}10%{opacity:1}100%{transform:translateY(-420px) rotate(20deg);opacity:0}}
-
-/* KITCHEN (oven + smoke stronger contrast) */
-.bg-kitchen{background:linear-gradient(180deg,#4a2424,#7a2b2b)}
-.oven{position:absolute;right:6%;bottom:10%;width:220px;height:160px;border-radius:8px;background:linear-gradient(180deg,#2d2d2d,#141212);box-shadow:inset 0 -8px 30px rgba(0,0,0,.6)}
-.oven-door{position:absolute;left:30px;bottom:18px;width:160px;height:100px;border-radius:6px;background:#3c3c3c;border:6px solid rgba(0,0,0,.55);overflow:hidden}
-.oven-window{position:absolute;top:10px;left:18px;width:42px;height:30px;background:linear-gradient(180deg,#ffd6a1,#ffb275);border-radius:4px;box-shadow:0 6px 12px rgba(0,0,0,0.55)}
-.smoke{position:absolute;left:60%;bottom:160px;width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,0.95);animation:smokeRise 3.8s infinite}
-@keyframes smokeRise{0%{transform:translateY(0) scale(.6);opacity:1}100%{transform:translateY(-360px) scale(2.1);opacity:0}}
-
-/* MAIL (letters behind text - stronger visuals) */
-.bg-mail{background:linear-gradient(180deg,#0c3c52,#044b63)}
-.letter{position:absolute;width:56px;height:38px;background:#fff;border-radius:6px;border:2px solid #e2e8f0;box-shadow:0 10px 22px rgba(0,0,0,.6);transform-origin:center center;opacity:.98}
-.letter::after{content:"✉";position:absolute;left:10px;top:4px;font-size:18px;color:#122;opacity:.95}
-
-/* TEACHER (improved blackboard) */
-.bg-teacher{background:linear-gradient(180deg,#071826,#0b2a33)}
-.blackboard{position:absolute;left: -260px; top: 30%; width:420px;height:260px;background:#071b10;border-radius:10px;border:10px solid #3b2b14;box-shadow:0 20px 50px rgba(0,0,0,.7);overflow:hidden;display:flex;align-items:center;justify-content:center}
-.blackboard-inner{color:#dfe7d6;font-family: "Courier New", monospace; font-size:64px; letter-spacing:6px; white-space:nowrap; padding:8px}
-@media (max-width:720px){ .blackboard{width:300px;height:180px} .blackboard-inner{font-size:36px} }
-
-/* VET (forest + animals) */
-.bg-vet{background:linear-gradient(180deg,#062217,#0b3a24)}
-.tree{position:absolute;bottom:0;width:140px;height:240px;border-radius:20px 20px 0 0;background:linear-gradient(#0b6b3a,#074a23);box-shadow:inset -20px -8px 60px rgba(0,0,0,0.2)}
-.animal{position:absolute;bottom:8%;width:92px;height:62px;border-radius:10px;background:linear-gradient(180deg,#fff,#e8e8e8);display:flex;align-items:center;justify-content:center;font-weight:800;color:#333;box-shadow:0 10px 22px rgba(0,0,0,.5);animation:animalMove 3s infinite ease-in-out}
-@keyframes animalMove{0%{transform:translateX(0)}50%{transform:translateX(14px)}100%{transform:translateX(0)}}
-
-/* ARCHITECT (pillars) */
-.bg-architect{background:linear-gradient(180deg,#091018,#12161e)}
-.pillar-left,.pillar-right{position:absolute;top:0;bottom:0;width:88px;background:linear-gradient(180deg,#cfcfcf,#7d7d7d);box-shadow:inset -6px 0 8px rgba(0,0,0,.25)}
-.pillar-left{left:0;clip-path:polygon(0 0,100% 0,100% 100%,12% 100%)} .pillar-right{right:0;clip-path:polygon(0 0,100% 0,88% 100%,0 100%)}
-
-/* JUDGE */
-.bg-judge{background:linear-gradient(180deg,#0b0816,#2c1820)}
-.gavel{position:absolute;right:14%;top:18%;width:160px;height:100px;transform:rotate(-16deg);opacity:.95}
-.scale{position:absolute;left:14%;top:14%;width:120px;height:120px;border-radius:6px;background:linear-gradient(180deg,#fdf2d7,#f6e6c0);box-shadow:0 10px 28px rgba(0,0,0,.6);opacity:.95}
-
-/* WRITER (book + hand) */
-.bg-writer{background:linear-gradient(180deg,#071018,#071a24)}
-.book{position:absolute;left:18%;bottom:12%;width:420px;height:220px;border-radius:10px;background:linear-gradient(180deg,#efe7d8,#cdbfa0);box-shadow:0 12px 36px rgba(0,0,0,.6);overflow:hidden}
-.hand{position:absolute;left:60%;bottom:28%;width:120px;height:86px;border-radius:40px 40px 12px 12px;background:linear-gradient(180deg,#d8a88b,#b07b5a);transform-origin:center;animation:handWrite 1.8s infinite ease-in-out}
-@keyframes handWrite{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-6px) rotate(-6deg)}100%{transform:translateY(0) rotate(0)}}
-
-/* SCIENTIST (planets, equations, bubbles) */
-.bg-scientist{background:linear-gradient(180deg,#03112a,#081a36)}
-.planet{position:absolute;border-radius:50%;box-shadow:0 8px 22px rgba(0,0,0,.5);opacity:.95}
-.eq{position:absolute;color:rgba(255,255,255,0.12);font-family:monospace;font-size:28px;transform:rotate(-6deg)}
-.bubble{position:absolute;border-radius:50%;background:rgba(255,255,255,0.12);box-shadow:0 0 10px rgba(255,255,255,0.08);animation:bubbleUp 6s infinite linear}
-@keyframes bubbleUp{0%{transform:translateY(0)}100%{transform:translateY(-420px);opacity:0}}
-
-/* RECEPTION (phone) */
-.bg-reception{background:linear-gradient(180deg,#06202a,#0a3740)}
-.phone{position:absolute;right:12%;bottom:12%;width:100px;height:120px;border-radius:12px;background:linear-gradient(180deg,#1f6e7b,#134c56);box-shadow:0 10px 30px rgba(0,0,0,.6)}
-
-/* FARMER (corn) */
-.bg-farmer{background:linear-gradient(180deg,#073a05,#3ca53d)}
-.corn{position:absolute;left:48%;bottom:10%;width:78px;height:160px;border-radius:40px;background:linear-gradient(180deg,#ffd84d,#f2b42e);display:flex;align-items:center;justify-content:center;font-size:42px;box-shadow:0 12px 30px rgba(0,0,0,.4);transform-origin:bottom center;animation:cornGrow 3s ease-in-out forwards}
-@keyframes cornGrow{0%{transform:scaleY(.3);opacity:0.25}100%{transform:scaleY(1);opacity:1}}
-
-/* WAITER / RESTAURANT */
-.bg-waiter{background:linear-gradient(180deg,#1a1110,#2b1b1a)}
-.chair{position:absolute;bottom:8%;left:12%;width:70px;height:70px;background:linear-gradient(180deg,#6b3b2b,#3b2518);border-radius:6px;box-shadow:0 8px 20px rgba(0,0,0,.6);transform:rotate(-6deg)}
-.tray{position:absolute;bottom:18%;left:54%;width:120px;height:20px;background:silver;border-radius:10px;transform:translateX(-50%);animation:trayMove 2s infinite alternate}
-@keyframes trayMove{to{transform:translateX(-50%) translateY(-20px)}}
-
-/* DENTIST */
-.bg-dentist{background:linear-gradient(180deg,#05202a,#0b3740)}
-.tooth{position:absolute;left:12%;bottom:12%;width:92px;height:110px;background:linear-gradient(180deg,#fff,#eef6fb);border-radius:42px;box-shadow:0 10px 26px rgba(0,0,0,.4)}
-
-/* ENTREPRENEUR */
-.bg-entrepreneur{background:linear-gradient(180deg,#0b1016,#10161c)}
-.briefcase{position:absolute;left:10%;top:12%;width:120px;height:86px;border-radius:8px;background:linear-gradient(180deg,#3b3b3b,#222);box-shadow:0 12px 28px rgba(0,0,0,.6)}
-
-/* Responsive tweaks */
-@media (max-width:720px){
-  .panel{padding:14px}
-  .choices{gap:10px}
-  .choice{width:108px;height:108px;font-size:14px}
-  .blackboard{width:300px;height:180px}
-  .blackboard-inner{font-size:36px}
-}
-</style>
+    @media (max-width:1000px){main{grid-template-columns:1fr;} .panel{order:2}}
+  </style>
 </head>
 <body>
-<div id="game" aria-live="polite">
-  <div class="scene">
-    <div id="scene-bg" class="scene-bg"></div>
-    <div class="scene-overlay">
-      <div class="panel" role="region" aria-label="game panel">
-        <h2 id="question" class="question">Loading...</h2>
-        <div id="choices" class="choices" role="list"></div>
+  <div class="sky" id="sky"></div>
+  <img src="" alt="rocket" class="rocket" id="rocket" style="display:none">
+
+  <div class="app">
+    <header>
+      <div class="logo">CP</div>
+      <div>
+        <h1 id="title">Clean Park — Recycling Game</h1>
+        <p id="lead" class="lead">Fun, colorful and safe way to learn recycling words in English.</p>
       </div>
-    </div>
+    </header>
+
+    <main>
+      <section class="board" aria-label="Game board">
+        <div class="section-title">
+          <div>
+            <strong id="gameTitle">Game 1 — Sort & Learn</strong>
+            <div id="instructions" class="subtitle">Drag each item to the correct recycling bin. Say the new word out loud!</div>
+          </div>
+          <div class="subtitle">Vocabulary: <span id="vocabList">plastic bottle, paper, banana peel, can, glass</span></div>
+        </div>
+
+        <div class="workspace" id="workspace">
+          <div class="items" id="items"></div>
+
+          <div class="bins" id="bins" aria-hidden="false">
+            <div class="bin" data-type="plastics" id="bin-plastics">
+              <div class="title" id="bin-plastics-label">Plastics</div>
+              <div class="hint" id="bin-plastics-hint">bottles, packaging</div>
+            </div>
+            <div class="bin" data-type="paper" id="bin-paper">
+              <div class="title" id="bin-paper-label">Paper</div>
+              <div class="hint" id="bin-paper-hint">cards, paper</div>
+            </div>
+            <div class="bin" data-type="organic" id="bin-organic">
+              <div class="title" id="bin-organic-label">Organic</div>
+              <div class="hint" id="bin-organic-hint">food, peel</div>
+            </div>
+            <div class="bin" data-type="metal" id="bin-metal">
+              <div class="title" id="bin-metal-label">Metal</div>
+              <div class="hint" id="bin-metal-hint">cans, tins</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; margin-top:12px; align-items:center">
+          <button id="resetBtn" class="btn secondary">Reset</button>
+          <button id="voiceBtn" class="btn">Play Word</button>
+          <div style="margin-left:auto" class="subtitle">Translation: <label style="margin-left:8px"><input type="checkbox" id="transToggle"> <span id="transLabel" style="margin-left:8px">Português</span></label></div>
+        </div>
+
+      </section>
+
+      <aside class="panel">
+        <div style="display:flex; align-items:center; justify-content:space-between">
+          <div>
+            <div class="score" id="score">Score: 0</div>
+            <div class="subtitle">Found: <span id="foundCount">0</span> / <span id="totalItems">0</span></div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:12px; color:var(--muted)" id="levelLabel">Level</div>
+            <div style="font-weight:800">Beginner</div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px">
+          <strong id="quizTitle">Mini-Quiz</strong>
+          <p class="subtitle" id="quizSubtitle">Choose the correct word for the image shown.</p>
+          <div id="quizCard" style="margin-top:10px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:12px;">
+            <div id="quizImage" style="font-size:48px; text-align:center">🍌</div>
+            <div style="display:flex; gap:8px; margin-top:10px;">
+              <button class="btn secondary quizBtn">banana</button>
+              <button class="btn secondary quizBtn">paper</button>
+              <button class="btn secondary quizBtn">plastic</button>
+            </div>
+            <div id="quizFeedback" style="margin-top:8px;color:var(--muted); font-size:13px"></div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px">
+          <strong id="tipsTitle">Tips for parents / teachers</strong>
+          <ul style="color:var(--muted); font-size:13px">
+            <li id="tip1">Repeat the words out loud with the child.</li>
+            <li id="tip2">Give a small reward for each correct sort.</li>
+            <li id="tip3">Play the "Play Word" button and ask them to point.</li>
+          </ul>
+        </div>
+
+        <footer>
+          <div class="subtitle">Designed for kids — clean UI, large touch targets.</div>
+        </footer>
+      </aside>
+
+    </main>
   </div>
-</div>
 
-<script>
-/* ================= DATA ================= */
-const professions = [
-  { id:"nurse", label:"Nurse", q:"Quem ajuda os médicos a cuidares dos pacientes? 👩‍⚕️", scene:"reception" },
-  { id:"architect", label:"Architect", q:"Quem desenha as construções? 🏛️", scene:"architect" },
-  { id:"baker", label:"Baker", q:"Quem faz os pães? 🥖", scene:"kitchen" },
-  { id:"astronaut", label:"Astronaut", q:"Quem trabalha no espaço? 🌌", scene:"astronaut" },
-  { id:"judge", label:"Judge", q:"Quem toma as decisões em julgamentos? ⚖️", scene:"judge" },
-  { id:"doctor", label:"Doctor", q:"Quem cuida de pessoas doentes? 🏥", scene:"reception" },
-  { id:"fireman", label:"Fireman", q:"Quem apaga os incendios? 🔥", scene:"fireman" },
-  { id:"dentist", label:"Dentist", q:"Quem cuida dos dentes? 🦷", scene:"dentist" },
-  { id:"teacher", label:"Teacher", q:"Quem ensina os alunos? 📚", scene:"teacher" },
-  { id:"veterinarian", label:"Veterinarian", q:"Who cares for sick animals? 🐶", scene:"vet" },
-  { id:"farmer", label:"Farmer", q:"Quem cuida das fazendas? 🌾", scene:"farmer" },
-  { id:"chef", label:"Chef", q:"Quem cozinha nos restaurantes? 🍲", scene:"kitchen" },
-  { id:"singer", label:"Singer", q:"Quem canta como profissão? 🎤", scene:"singer" },
-  { id:"policeman", label:"Policeman", q:"Quem mantém a ordem nas cidades? 🚓", scene:"policeman" },
-  { id:"scientist", label:"Scientist", q:"Quem estuda os fenomenos naturais? 🔬", scene:"scientist" },
-  { id:"receptionist", label:"Receptionist", q:"Quem atende as pessoas em locais onde precisa marcar algo? ☎️", scene:"reception" },
-  { id:"writer", label:"Writer", q:"Quem cria histórias? ✍️", scene:"writer" },
-  { id:"entrepreneur", label:"Entrepreneur", q:"Quem começa novos empreendimentos? 💼", scene:"entrepreneur" },
-  { id:"waiter", label:"Waiter", q:"Quem serve as comidas em restaurantes? 🍽️", scene:"waiter" },
-  { id:"mail", label:"Mail Carrier", q:"Quem entrega as encomendas e cartas? 📬", scene:"mail" }
-];
-
-/* ========= Helpers ========= */
-function shuffle(array){ return array.sort(()=>Math.random()-0.5); }
-const sceneBg = document.getElementById('scene-bg');
-const qEl = document.getElementById('question');
-const choicesEl = document.getElementById('choices');
-let order = [];
-let idx = 0;
-
-/* ========= WebAudio (synth) ========= */
-const AudioCtx = window.AudioContext || window.webkitAudioContext;
-const audioCtx = new AudioCtx();
-
-function playDing(f=880, duration=0.18, gain=0.18){
-  const g = audioCtx.createGain(); g.gain.value = gain; g.connect(audioCtx.destination);
-  const o = audioCtx.createOscillator(); o.type='sine'; o.frequency.value=f; o.connect(g);
-  o.start(); o.stop(audioCtx.currentTime+duration);
-}
-function playBuzz(freq=120, duration=0.35, gain=0.12){
-  const g = audioCtx.createGain(); g.gain.value=gain; g.connect(audioCtx.destination);
-  const o = audioCtx.createOscillator(); o.type='square'; o.frequency.value=freq;
-  const f = audioCtx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=900;
-  o.connect(f); f.connect(g);
-  o.start(); o.stop(audioCtx.currentTime+duration);
-}
-function playSiren(duration=2.2, gain=0.12){
-  const g = audioCtx.createGain(); g.gain.value=gain; g.connect(audioCtx.destination);
-  const o = audioCtx.createOscillator(); o.type='sawtooth';
-  o.frequency.value=440;
-  const lfo = audioCtx.createOscillator(); lfo.frequency.value=2.6;
-  const lfoGain = audioCtx.createGain(); lfoGain.gain.value=220;
-  lfo.connect(lfoGain); lfoGain.connect(o.frequency);
-  o.connect(g);
-  o.start(); lfo.start();
-  setTimeout(()=>{ o.stop(); lfo.stop(); }, duration*1000);
-}
-function playNotesMelody(count=4, base=440){
-  let t = 0;
-  for(let i=0;i<count;i++){
-    setTimeout(()=> playDing(base * (1 + i*0.12), 0.14, 0.12), t*1000);
-    t += 0.14;
-  }
-}
-function playHeartbeat(duration=1.2, gain=0.16){
-  const g = audioCtx.createGain(); g.gain.value=gain; g.connect(audioCtx.destination);
-  const o = audioCtx.createOscillator(); o.type='sine'; o.frequency.value=60;
-  const env = audioCtx.createGain(); env.gain.value=0;
-  o.connect(env); env.connect(g);
-  const now = audioCtx.currentTime;
-  env.gain.setValueAtTime(0, now);
-  env.gain.linearRampToValueAtTime(1, now + 0.02);
-  env.gain.linearRampToValueAtTime(0, now + 0.14);
-  env.gain.setValueAtTime(0, now + 0.25);
-  env.gain.linearRampToValueAtTime(1, now + 0.27);
-  env.gain.linearRampToValueAtTime(0, now + 0.42);
-  o.start(); o.stop(now + duration);
-}
-function playHammer(gain=0.16){
-  const g = audioCtx.createGain(); g.gain.value=gain; g.connect(audioCtx.destination);
-  const o = audioCtx.createOscillator(); o.type='triangle'; o.frequency.value=120;
-  const f = audioCtx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=1000;
-  o.connect(f); f.connect(g);
-  o.start(); setTimeout(()=> o.stop(), 220);
-}
-function playRocketBoost(){
-  const g = audioCtx.createGain(); g.gain.value=0.12; g.connect(audioCtx.destination);
-  const o = audioCtx.createOscillator(); o.type='sawtooth'; o.frequency.value=80;
-  const f = audioCtx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=900;
-  o.connect(f); f.connect(g);
-  const now = audioCtx.currentTime;
-  o.start();
-  f.frequency.setValueAtTime(300, now);
-  f.frequency.linearRampToValueAtTime(1200, now + 1.1);
-  g.gain.setValueAtTime(0.06, now);
-  g.gain.linearRampToValueAtTime(0.22, now+0.9);
-  setTimeout(()=> o.stop(), 1200);
-}
-
-/* ========= GAME LOGIC ========= */
-function startGame(){
-  order = shuffle([...Array(professions.length).keys()]);
-  idx = 0;
-  loadQuestion();
-}
-
-function loadQuestion(){
-  const current = professions[order[idx]];
-  qEl.textContent = current.q;
-
-  // build options: pick 3 random wrong + correct
-  let allLabels = professions.map(p=>p.label);
-  let pool = allLabels.filter(l=>l !== current.label);
-  pool = shuffle(pool).slice(0,3);
-  pool.push(current.label);
-  pool = shuffle(pool);
-
-  choicesEl.innerHTML = '';
-  pool.forEach(opt=>{
-    const btn = document.createElement('div');
-    btn.className = 'choice';
-    btn.textContent = opt;
-    btn.setAttribute('role','button');
-    btn.onclick = ()=> handleChoice(btn,opt,current);
-    choicesEl.appendChild(btn);
-  });
-
-  // render scene bg fresh
-  renderScene(current);
-}
-
-function handleChoice(btn, selected, prof){
-  const all = choicesEl.querySelectorAll('.choice');
-  all.forEach(c => c.style.pointerEvents = 'none');
-
-  if (selected === prof.label){
-    btn.classList.add('correct');
-    playDing(880,0.18,0.18);
-    triggerSuccess(prof);
-    setTimeout(()=> nextQuestion(), 1100);
-  } else {
-    btn.classList.add('wrong');
-    playBuzz(120,0.42,0.12);
-    btn.animate([{transform:'translateX(0)'},{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'translateX(0)'}],{duration:420});
-    setTimeout(()=> all.forEach(c => c.style.pointerEvents = 'auto'),600);
-    setTimeout(()=> btn.classList.remove('wrong'),900);
-  }
-}
-
-function nextQuestion(){
-  idx++;
-  if (idx >= professions.length){
-    showEndScreen();
-    return;
-  }
-  loadQuestion();
-}
-
-/* ========= END SCREEN ========= */
-function showEndScreen(){
-  document.getElementById('game').innerHTML = `
-    <div class="end-screen">
-      <div>🎉 Congratulations — you completed all professions! 🎉</div>
-      <button id="playAgain" style="margin-top:14px;padding:12px 20px;border-radius:10px;border:none;background:var(--success);color:#031226;font-weight:700;cursor:pointer">Play Again</button>
-    </div>
-  `;
-  document.getElementById('playAgain').onclick = ()=> {
-    location.reload();
-  };
-}
-
-/* ========= SCENE RENDERING (improved) ========= */
-function clearScene(){ sceneBg.innerHTML = ''; sceneBg.className = 'scene-bg'; }
-
-function addLayer(el){ sceneBg.appendChild(el); return el; }
-
-function renderScene(prof){
-  clearScene();
-  // always add a stronger siren overlay (hidden unless police scene) so layout consistent
-  const siren = document.createElement('div'); siren.className = 'siren-strong bg-layer'; siren.style.display='none'; addLayer(siren);
-
-  switch(prof.scene){
-    case 'astronaut': renderAstronaut(); break;
-    case 'fireman': renderFireman(); break;
-    case 'policeman': renderPoliceman(); break;
-    case 'singer': renderSinger(); break;
-    case 'kitchen': renderKitchen(); break;
-    case 'mail': renderMail(); break;
-    case 'teacher': renderTeacher(); break;
-    case 'vet': renderVet(); break;
-    case 'architect': renderArchitect(); break;
-    case 'judge': renderJudge(); break;
-    case 'writer': renderWriter(); break;
-    case 'scientist': renderScientist(); break;
-    case 'reception': renderReception(); break;
-    case 'farmer': renderFarmer(); break;
-    case 'waiter': renderWaiter(); break;
-    case 'dentist': renderDentist(); break;
-    case 'entrepreneur': renderEntrepreneur(); break;
-    default: renderGeneric(prof.scene); break;
-  }
-}
-
-/* ---------- ASTRONAUT ---------- */
-function renderAstronaut(){
-  sceneBg.className = 'scene-bg bg-astronaut';
-  // stars
-  for(let i=0;i<80;i++){
-    const s = document.createElement('div'); s.className='star bg-layer';
-    s.style.left = (Math.random()*100)+'%';
-    s.style.top = (Math.random()*90)+'%';
-    const size = (Math.random()*2+1);
-    s.style.width = size + 'px'; s.style.height = size + 'px';
-    s.style.setProperty('--t', (0.9 + Math.random()*2.4)+'s');
-    s.style.opacity = (0.2 + Math.random()*0.95).toString();
-    addLayer(s);
-  }
-  // rocket
-  const rocket = document.createElement('div'); rocket.className = 'css-rocket bg-layer'; rocket.id='rocketEl';
-  rocket.innerHTML = `
-    <div style="position:relative;width:100%;height:100%;">
-      <svg viewBox="0 0 64 128" width="64" height="140" xmlns="http://www.w3.org/2000/svg">
-        <g>
-          <ellipse cx="32" cy="96" rx="20" ry="26" fill="#b33"/>
-          <rect x="14" y="18" rx="18" ry="18" width="36" height="74" fill="#e6e9ee"/>
-          <circle cx="32" cy="38" r="12" fill="#6fd7ff" stroke="#00000020" stroke-width="1"/>
-        </g>
-      </svg>
-    </div>
-    <div class="r-flame"></div>
-  `;
-  addLayer(rocket);
-  roamRandom(rocket, {minX:6, maxX:86, minY:6, maxY:70, interval:1800});
-  playRocketBoost();
-}
-
-/* ---------- FIREMAN ---------- */
-function renderFireman(){
-  sceneBg.className = 'scene-bg bg-fireman';
-  for (let i=0;i<7;i++){
-    const f = document.createElement('div'); f.className='fire-pole bg-layer';
-    f.style.left = (6 + i*12) + '%';
-    f.style.setProperty('--d', (1.2 + Math.random()*1.6) + 's');
-    addLayer(f);
-  }
-}
-
-/* ---------- POLICEMAN ---------- */
-function renderPoliceman(){
-  sceneBg.className = 'scene-bg bg-policeman';
-  const city = document.createElement('div'); city.className='city-sil bg-layer'; addLayer(city);
-  for(let i=0;i<30;i++){
-    const w = document.createElement('div'); w.className='city-window bg-layer';
-    w.style.left = (Math.random()*100)+'%';
-    w.style.bottom = (Math.random()*38)+'%';
-    addLayer(w);
-  }
-  const siren = document.createElement('div'); siren.className='siren-light bg-layer'; addLayer(siren);
-  // show top-right strong siren overlay
-  const overlay = document.querySelector('.siren-strong');
-  if (overlay) overlay.style.display = 'block';
-  playSiren(2.4, 0.12);
-}
-
-/* ---------- SINGER ---------- */
-function renderSinger(){
-  sceneBg.className = 'scene-bg bg-singer';
-  for(let i=0;i<14;i++){
-    const n = document.createElement('div'); n.className='music-note bg-layer';
-    n.style.left = (6 + Math.random()*88) + '%';
-    n.style.bottom = (6 + Math.random()*10) + '%';
-    const dur = (3 + Math.random()*3);
-    n.style.animationDuration = dur + 's';
-    n.style.animationDelay = (Math.random()*2) + 's';
-    n.style.fontSize = (18 + Math.random()*18) + 'px';
-    n.textContent = '♪';
-    addLayer(n);
-  }
-}
-
-/* ---------- KITCHEN ---------- */
-function renderKitchen(){
-  sceneBg.className = 'scene-bg bg-kitchen';
-  const oven = document.createElement('div'); oven.className='oven bg-layer';
-  oven.innerHTML = `<div class="oven-door"><div class="oven-window"></div></div>`;
-  addLayer(oven);
-  for(let i=0;i<5;i++){
-    const s = document.createElement('div'); s.className='smoke bg-layer';
-    s.style.left = (65 + Math.random()*18) + '%';
-    s.style.animationDelay = (Math.random()*2) + 's';
-    addLayer(s);
-  }
-}
-
-/* ---------- MAIL ---------- */
-function renderMail(){
-  sceneBg.className = 'scene-bg bg-mail';
-  for(let i=0;i<6;i++){
-    const l = document.createElement('div'); l.className='letter bg-layer';
-    l.style.left = (Math.random()*90) + '%';
-    l.style.top = (-15 - Math.random()*20) + '%';
-    l.style.transform = `rotate(${(-12 + Math.random()*24)}deg)`;
-    addLayer(l);
-    animateLetter(l);
-  }
-}
-
-/* ---------- TEACHER ---------- */
-function renderTeacher(){
-  sceneBg.className = 'scene-bg bg-teacher';
-  const board = document.createElement('div'); board.className='blackboard bg-layer'; board.id='blackboard';
-  const inner = document.createElement('div'); inner.className='blackboard-inner'; inner.id='chalkText'; inner.textContent = '';
-  board.appendChild(inner); addLayer(board);
-  wanderElement(board, {minLeft:6, maxLeft:62, minTop:16, maxTop:46, interval:4200});
-  typeLoop(inner, 'SCHOOL', 1600);
-}
-
-/* ---------- VET ---------- */
-function renderVet(){
-  sceneBg.className = 'scene-bg bg-vet';
-  for(let i=0;i<4;i++){
-    const t = document.createElement('div'); t.className='tree bg-layer';
-    t.style.left = (4 + i*22) + '%';
-    t.style.height = (140 + Math.random()*120) + 'px';
-    addLayer(t);
-  }
-  const names = ['DOG','CAT','BUN'];
-  for(let i=0;i<3;i++){
-    const a = document.createElement('div'); a.className='animal bg-layer';
-    a.textContent = names[i];
-    a.style.left = (18 + i*22) + '%';
-    a.style.bottom = (8 + Math.random()*6) + '%';
-    a.style.animationDelay = (i*0.2) + 's';
-    addLayer(a);
-  }
-}
-
-/* ---------- ARCHITECT ---------- */
-function renderArchitect(){
-  sceneBg.className = 'scene-bg bg-architect';
-  const left = document.createElement('div'); left.className='pillar-left bg-layer'; addLayer(left);
-  const right = document.createElement('div'); right.className='pillar-right bg-layer'; addLayer(right);
-}
-
-/* ---------- JUDGE ---------- */
-function renderJudge(){
-  sceneBg.className = 'scene-bg bg-judge';
-  const g = document.createElement('div'); g.className='gavel bg-layer'; g.innerHTML = `<svg viewBox="0 0 64 36" width="160" height="100"><rect x="2" y="18" width="46" height="8" rx="2" fill="#b07b5a"/><rect x="40" y="6" width="6" height="20" rx="2" fill="#7d5b3b"/></svg>`;
-  addLayer(g);
-  const sc = document.createElement('div'); sc.className='scale bg-layer'; addLayer(sc);
-}
-
-/* ---------- WRITER ---------- */
-function renderWriter(){
-  sceneBg.className = 'scene-bg bg-writer';
-  const b = document.createElement('div'); b.className='book bg-layer'; addLayer(b);
-  const h = document.createElement('div'); h.className='hand bg-layer'; addLayer(h);
-}
-
-/* ---------- SCIENTIST ---------- */
-function renderScientist(){
-  sceneBg.className = 'scene-bg bg-scientist';
-  const colors = ['#ff9f1c','#2ec4b6','#ff6b6b','#9d4edd','#6c757d'];
-  for(let i=0;i<5;i++){
-    const p = document.createElement('div'); p.className='planet bg-layer';
-    const size = 26 + Math.random()*86;
-    p.style.width = p.style.height = size + 'px';
-    p.style.left = (6 + Math.random()*82) + '%';
-    p.style.top = (6 + Math.random()*72) + '%';
-    p.style.background = `radial-gradient(circle at 30% 30%, ${colors[i%colors.length]}, #111)`;
-    p.style.opacity = 0.95;
-    addLayer(p);
-  }
-  const eqs = ['E=mc²','∑F=ma','H₂O','π≈3.14','a²+b²=c²'];
-  for(let i=0;i<6;i++){
-    const e = document.createElement('div'); e.className='eq bg-layer'; e.textContent = eqs[Math.floor(Math.random()*eqs.length)];
-    e.style.left = (10 + Math.random()*80) + '%';
-    e.style.top = (8 + Math.random()*72) + '%';
-    e.style.opacity = 0.12 + Math.random()*0.2;
-    addLayer(e);
-  }
-  for(let i=0;i<8;i++){
-    const b = document.createElement('div'); b.className='bubble bg-layer';
-    b.style.left = (10 + Math.random()*80) + '%';
-    b.style.bottom = (4 + Math.random()*18) + '%';
-    b.style.animationDelay = (Math.random()*3) + 's';
-    b.style.width = b.style.height = (8 + Math.random()*18) + 'px';
-    addLayer(b);
-  }
-}
-
-/* ---------- RECEPTION ---------- */
-function renderReception(){
-  sceneBg.className = 'scene-bg bg-reception';
-  const ph = document.createElement('div'); ph.className='phone bg-layer'; addLayer(ph);
-}
-
-/* ---------- FARMER ---------- */
-function renderFarmer(){
-  sceneBg.className = 'scene-bg bg-farmer';
-  const c = document.createElement('div'); c.className='corn bg-layer'; addLayer(c);
-}
-
-/* ---------- WAITER ---------- */
-function renderWaiter(){
-  sceneBg.className = 'scene-bg bg-waiter';
-  for(let i=0;i<3;i++){
-    const ch = document.createElement('div'); ch.className='chair bg-layer';
-    ch.style.left = (12 + i*14) + '%'; ch.style.bottom = (8 + Math.random()*6) + '%';
-    addLayer(ch);
-  }
-  const tr = document.createElement('div'); tr.className='tray bg-layer'; addLayer(tr);
-}
-
-/* ---------- DENTIST ---------- */
-function renderDentist(){
-  sceneBg.className = 'scene-bg bg-dentist';
-  const t = document.createElement('div'); t.className='tooth bg-layer'; addLayer(t);
-}
-
-/* ---------- ENTREPRENEUR ---------- */
-function renderEntrepreneur(){
-  sceneBg.className = 'scene-bg bg-entrepreneur';
-  const b = document.createElement('div'); b.className='briefcase bg-layer'; addLayer(b);
-}
-
-/* ---------- Generic fallback ---------- */
-function renderGeneric(){ sceneBg.className = 'scene-bg'; }
-
-/* ====== Anim helpers ====== */
-function roamRandom(el, opts){
-  const minX = opts.minX || 5, maxX = opts.maxX || 90, minY = opts.minY || 5, maxY = opts.maxY || 70;
-  function moveOnce(){
-    const left = minX + Math.random()*(maxX-minX);
-    const bottom = minY + Math.random()*(maxY-minY);
-    const scale = 0.9 + Math.random()*0.4;
-    el.style.transition = 'left 1.6s ease-in-out, bottom 1.6s ease-in-out, transform 1s linear';
-    el.style.left = left + '%';
-    el.style.bottom = bottom + '%';
-    el.style.transform = `translateX(-50%) scale(${scale})`;
-    setTimeout(moveOnce, 1400 + Math.random()*2200);
-  }
-  setTimeout(moveOnce, 300);
-}
-function animateLetter(letter){
-  function animateOnce(){
-    const startX = Math.random()*100;
-    const startY = -10 - Math.random()*15;
-    const endX = Math.random()*100;
-    const endY = 110 + Math.random()*10;
-    letter.style.left = startX + '%';
-    letter.style.top = startY + '%';
-    letter.style.opacity = 1;
-    const dur = 3600 + Math.random()*3000;
-    letter.style.transition = `left ${dur}ms linear, top ${dur}ms linear, transform ${dur}ms linear, opacity ${dur}ms linear`;
-    requestAnimationFrame(()=> { setTimeout(()=> { letter.style.left = endX + '%'; letter.style.top = endY + '%'; letter.style.opacity = 0; }, 40); });
-    setTimeout(animateOnce, dur + 900 + Math.random()*1800);
-  }
-  setTimeout(animateOnce, Math.random()*1000);
-}
-function wanderElement(el, opts){
-  const minL = opts.minLeft || 5, maxL = opts.maxLeft || 75, minT = opts.minTop || 6, maxT = opts.maxTop || 68;
-  function step(){
-    const left = (minL + Math.random()*(maxL-minL));
-    const top = (minT + Math.random()*(maxT-minT));
-    el.style.transition = 'left 2.6s ease-in-out, top 2.6s ease-in-out';
-    el.style.left = left + '%';
-    el.style.top = top + '%';
-    setTimeout(step, opts.interval || (3000 + Math.random()*2700));
-  }
-  el.style.left = ((minL + maxL)/2) + '%';
-  el.style.top = ((minT + maxT)/2) + '%';
-  setTimeout(step, 600);
-}
-function typeLoop(el, text, totalMs){
-  el.textContent = '';
-  const perChar = Math.max(80, Math.floor(totalMs / (text.length + 1)));
-  let i=0;
-  function forward(){
-    if (i <= text.length){
-      el.textContent = text.slice(0,i);
-      i++;
-      setTimeout(forward, perChar*0.8);
-    } else {
-      setTimeout(()=>{ i=0; el.textContent=''; setTimeout(forward, 500) }, 900);
+  <script>
+    // starfield
+    const sky = document.getElementById('sky');
+    const STAR_COUNT = 60;
+    for(let i=0;i<STAR_COUNT;i++){
+      const s = document.createElement('div'); s.className='star';
+      const size = Math.random()*3 + 1; s.style.width = size+'px'; s.style.height = size+'px';
+      s.style.left = Math.random()*100 + '%'; s.style.top = Math.random()*100 + '%';
+      s.style.opacity = 0.15 + Math.random()*0.85;
+      sky.appendChild(s);
+      const dur = 8 + Math.random()*12;
+      s.animate([{transform:'translateY(0px)'},{transform:'translateY(40px)'}], {duration: dur*1000, iterations: Infinity, direction:'alternate', easing:'linear'});
     }
-  }
-  forward();
-}
 
-/* ========= Success effects ========= */
-function triggerSuccess(prof){
-  switch(prof.id){
-    case 'singer':
-      for(let i=0;i<10;i++){
-        const n = document.createElement('div'); n.className='music-note';
-        n.style.left = (40 + Math.random()*20) + '%';
-        n.style.bottom = (10 + Math.random()*20) + '%';
-        n.style.fontSize = (14 + Math.random()*28) + 'px';
-        n.style.animationDuration = (0.9 + Math.random()*0.9) + 's';
-        sceneBg.appendChild(n);
-        setTimeout(()=> n.remove(), 1600);
-      }
-      playNotesMelody(5, 620);
-      break;
-    case 'astronaut':
-      const rocket = document.getElementById('rocketEl');
-      if (rocket) rocket.animate([{transform:'translateX(-50%) scale(1)'},{transform:'translate(-150%, -160vh) scale(.9)'}], {duration:1200, easing:'ease-in'});
-      playRocketBoost();
-      break;
-    case 'policeman':
-      const s = document.querySelector('.siren-light');
-      if (s) s.animate([{opacity:.08},{opacity:.96},{opacity:.08}],{duration:900});
-      playSiren(1.6,0.12);
-      playDing(880,0.12,0.12);
-      break;
-    case 'judge':
-      playHammer(0.16);
-      playDing(660,0.12,0.12);
-      break;
-    case 'mail':
-      for(let i=0;i<4;i++){
-        const newL = document.createElement('div'); newL.className='letter';
-        newL.style.left = (50 + Math.random()*20) + '%'; newL.style.top = '8%';
-        sceneBg.appendChild(newL);
-        animateLetter(newL);
-        setTimeout(()=> newL.remove(), 4200);
-      }
-      playDing(920,0.1,0.12);
-      break;
-    case 'teacher':
-      playDing(760,0.12,0.14);
-      break;
-    case 'chef':
-    case 'baker':
-      const sp = document.createElement('div'); sp.className='smoke';
-      sp.style.left = '78%';
-      sceneBg.appendChild(sp);
-      setTimeout(()=> sp.remove(), 2400);
-      playDing(720,0.12,0.12);
-      break;
-    case 'doctor':
-    case 'nurse':
-      playHeartbeat(1.0,0.16);
-      playDing(660,0.12,0.12);
-      break;
-    case 'scientist':
-      const b = document.createElement('div'); b.className='bubble';
-      b.style.left = (40 + Math.random()*20) + '%'; b.style.bottom='10%'; b.style.width=b.style.height='14px';
-      sceneBg.appendChild(b);
-      setTimeout(()=> b.remove(), 2800);
-      playNotesMelody(3,520);
-      break;
-    case 'farmer':
-      playDing(520,0.12,0.12);
-      break;
-    default:
-      playDing(720,0.12,0.12);
-  }
-}
+    // simple rocket svg and flight
+    const rocket = document.getElementById('rocket');
+    rocket.src = 'data:image/svg+xml;utf8,' + encodeURIComponent('\n<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">\n  <g>\n    <ellipse cx="32" cy="50" rx="12" ry="4" fill="#ffba08" opacity="0.25"/>\n    <path d="M32 4c6 0 12 6 12 12 0 6-12 18-12 18s-12-12-12-18c0-6 6-12 12-12z" fill="#ef476f"/>\n    <rect x="28" y="18" width="8" height="12" rx="2" fill="#ffd166"/>\n    <circle cx="32" cy="24" r="2" fill="#118ab2"/>\n  </g>\n</svg>');
+    rocket.style.display='block';
+    function moveRocket(){
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const x = Math.random()*(vw-120) + 40;
+      const y = Math.random()*(vh-260) + 40;
+      rocket.animate([{transform:`translate(${x}px,${y}px) rotate(${Math.random()*360}deg)`}], {duration:3000 + Math.random()*4000, fill:'forwards'});
+    }
+    setInterval(moveRocket, 3600);
+    moveRocket();
 
-/* ========= INIT ========= */
-function ensureAudioContext(){
-  if (audioCtx.state === 'suspended'){ audioCtx.resume(); }
-}
-document.addEventListener('click', ensureAudioContext, {once:true});
-document.addEventListener('keydown', ensureAudioContext, {once:true});
-startGame();
+    // CORE: fixed items array (no shuffling) ensures emoji <-> label mapping never breaks
+    const itemsData = [
+      {id:'plastic', emoji:'🧴', en:'plastic bottle', pt:'garrafa plástica', type:'plastics'},
+      {id:'banana', emoji:'🍌', en:'banana peel', pt:'casca de banana', type:'organic'},
+      {id:'paper', emoji:'📰', en:'paper', pt:'papel', type:'paper'},
+      {id:'can', emoji:'🥫', en:'can', pt:'lata', type:'metal'},
+      {id:'glass', emoji:'🥃', en:'glass', pt:'vidro', type:'glass'}
+    ];
 
-/* Accessibility keyboard nav */
-document.addEventListener('keydown', (e)=>{
-  const focusable = Array.from(choicesEl.querySelectorAll('.choice'));
-  if (!focusable.length) return;
-  const active = document.activeElement;
-  let pos = focusable.indexOf(active);
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown'){ pos = (pos+1) % focusable.length; focusable[pos].focus(); }
-  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp'){ pos = (pos-1 + focusable.length) % focusable.length; focusable[pos].focus(); }
-  if (e.key === 'Enter' && document.activeElement.classList.contains('choice')) document.activeElement.click();
-});
-</script>
+    const translations = {
+      en:{ title:'Clean Park — Recycling Game', lead:'Fun, colorful and safe way to learn recycling words in English.', gameTitle:'Game 1 — Sort & Learn', instructions:'Drag each item to the correct recycling bin. Say the new word out loud!', vocab:'plastic bottle, paper, banana peel, can, glass', reset:'Reset', play:'Play Word', translation:'Português', score:'Score:', found:'Found:', level:'Level', quizTitle:'Mini-Quiz', quizSubtitle:'Choose the correct word for the image shown.', tips:['Repeat the words out loud with the child.','Give a small reward for each correct sort.','Play the "Play Word" button and ask them to point.'] },
+      pt:{ title:'Parque Limpo — Jogo de Reciclagem', lead:'Divertido, colorido e seguro para aprender palavras de reciclagem em inglês.', gameTitle:'Jogo 1 — Separe e Aprenda', instructions:'Arraste cada item para a lixeira correta. Diga a palavra em voz alta!', vocab:'garrafa plástica, papel, casca de banana, lata, vidro', reset:'Redefinir', play:'Ouvir', translation:'Português', score:'Pontuação:', found:'Encontrados:', level:'Nível', quizTitle:'Mini-Quiz', quizSubtitle:'Escolha a palavra correta para a imagem mostrada.', tips:['Repita as palavras em voz alta com a criança.','Dê uma pequena recompensa para cada separação correta.','Toque o botão "Ouvir" e peça para apontar.'] }
+    };
+
+    // DOM refs
+    const itemsEl = document.getElementById('items');
+    const bins = document.querySelectorAll('.bin');
+    const scoreEl = document.getElementById('score');
+    const foundCountEl = document.getElementById('foundCount');
+    const totalItemsEl = document.getElementById('totalItems');
+
+    let score = 0, found = 0;
+    let currentLang = 'en';
+
+    function renderItems(){
+      itemsEl.innerHTML = '';
+      itemsData.forEach(it => {
+        const node = document.createElement('div');
+        node.className = 'item';
+        node.id = it.id;
+        node.dataset.type = it.type;
+        node.dataset.en = it.en;
+        node.dataset.pt = it.pt;
+
+        node.innerHTML = `
+          <div class="emoji">${it.emoji}</div>
+          <div class="label">${it.en}</div>
+          <button class="playBtn" aria-label="play ${it.en}">${translations.en.play}</button>
+        `;
+
+        itemsEl.appendChild(node);
+        node.setAttribute('draggable','true');
+        node.addEventListener('dragstart', dragStart);
+        node.querySelector('.playBtn').addEventListener('click', ()=> speak(it.en));
+        node.addEventListener('touchstart', touchStart, {passive:false});
+      });
+      totalItemsEl.textContent = itemsData.length;
+    }
+
+    // drag & drop (desktop)
+    let draggedId = null;
+    function dragStart(e){ draggedId = this.id; e.dataTransfer.setData('text/plain', this.id); }
+    bins.forEach(bin => {
+      bin.addEventListener('dragover', e=>{ e.preventDefault(); bin.classList.add('highlight'); });
+      bin.addEventListener('dragleave', e=>{ bin.classList.remove('highlight'); });
+      bin.addEventListener('drop', e=>{ e.preventDefault(); bin.classList.remove('highlight'); const id = e.dataTransfer.getData('text/plain'); const node = document.getElementById(id); handleDrop(node, bin); });
+    });
+
+    // touch support (clone)
+    let clone = null;
+    function touchStart(e){ e.preventDefault(); const touch = e.touches[0]; const self = this; clone = this.cloneNode(true); clone.style.position='fixed'; clone.style.left=(touch.clientX-50)+'px'; clone.style.top=(touch.clientY-50)+'px'; clone.style.zIndex=9999; clone.style.pointerEvents='none'; document.body.appendChild(clone);
+      const move=(ev)=>{ const t = ev.touches?ev.touches[0]:ev; clone.style.left=(t.clientX-50)+'px'; clone.style.top=(t.clientY-50)+'px'; };
+      const end=(ev)=>{ document.removeEventListener('touchmove', move); document.removeEventListener('touchend', end); const dropBin = Array.from(bins).find(b=> intersects(clone.getBoundingClientRect(), b.getBoundingClientRect())); if(dropBin) handleDrop(self, dropBin); clone.remove(); clone=null; };
+      document.addEventListener('touchmove', move, {passive:false}); document.addEventListener('touchend', end);
+    }
+
+    function intersects(a,b){ return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom); }
+
+    function handleDrop(node, bin){ if(!node || !bin) return; const expected = bin.dataset.type; const actual = node.dataset.type; if(expected === actual){ node.style.opacity = 0.15; node.style.transform = 'scale(.9)'; node.setAttribute('draggable','false'); setTimeout(()=> node.remove(), 260); score += 10; found += 1; } else { score = Math.max(0, score-2); node.animate([{transform:'translateX(0)'},{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'translateX(0)'}], {duration:360}); }
+      updateUI(); speak(node.dataset.en);
+    }
+
+    function updateUI(){ const txt = translations[currentLang].score; scoreEl.innerText = `${txt} ${score}`; foundCountEl.textContent = found; }
+
+    document.getElementById('resetBtn').addEventListener('click', ()=>{ score=0; found=0; renderItems(); updateUI(); });
+    document.getElementById('voiceBtn').addEventListener('click', ()=>{ const pick = itemsData[Math.floor(Math.random()*itemsData.length)]; speak(pick.en); });
+
+    function speak(text){ if(!window.speechSynthesis) return; const t = new SpeechSynthesisUtterance(text); t.lang = 'en-US'; speechSynthesis.cancel(); speechSynthesis.speak(t); }
+
+    // quiz (simple)
+    const quizImage = document.getElementById('quizImage');
+    const quizBtns = document.querySelectorAll('.quizBtn');
+    const quizFeedback = document.getElementById('quizFeedback');
+    let currentQuiz = {emoji:'🍌',answer:'banana'};
+    function newQuiz(){ const pick = itemsData[Math.floor(Math.random()*itemsData.length)]; currentQuiz.emoji = pick.emoji; currentQuiz.answer = pick.en.split(' ')[0]; quizImage.textContent = pick.emoji; const options = [currentQuiz.answer,'paper','plastic'].sort(()=>Math.random()-0.5); quizBtns.forEach((b,i)=>{ b.textContent = options[i]; b.disabled=false; b.style.opacity=1; b.style.background=''; }); quizFeedback.textContent=''; }
+    quizBtns.forEach(b=> b.addEventListener('click', ()=>{ const pick = b.textContent.trim(); if(pick === currentQuiz.answer){ quizFeedback.textContent = 'Great! ✅'; b.style.backgroundColor = 'var(--accent-2)'; score += 5; found += 1; updateUI(); } else { quizFeedback.textContent = 'Try again! ❌'; b.style.backgroundColor = 'rgba(255,80,80,0.9)'; score = Math.max(0, score-1); updateUI(); } setTimeout(()=>{ quizBtns.forEach(x=> x.style.backgroundColor=''); newQuiz(); },900); }));
+
+    // translation toggle
+    const transToggle = document.getElementById('transToggle');
+    transToggle.addEventListener('change', ()=>{
+      currentLang = transToggle.checked ? 'pt' : 'en';
+      applyTranslation();
+    });
+
+    function applyTranslation(){ const lang = translations[currentLang]; document.getElementById('title').innerText = lang.title; document.getElementById('lead').innerText = lang.lead; document.getElementById('gameTitle').innerText = lang.gameTitle; document.getElementById('instructions').innerText = lang.instructions; document.getElementById('vocabList').innerText = lang.vocab; document.getElementById('resetBtn').innerText = lang.reset; document.getElementById('voiceBtn').innerText = lang.play; document.getElementById('transLabel').innerText = lang.translation; document.getElementById('score').innerText = `${lang.score} ${score}`; document.getElementById('levelLabel').innerText = lang.level; document.getElementById('quizTitle').innerText = lang.quizTitle; document.getElementById('quizSubtitle').innerText = lang.quizSubtitle; document.getElementById('tip1').innerText = lang.tips[0]; document.getElementById('tip2').innerText = lang.tips[1]; document.getElementById('tip3').innerText = lang.tips[2];
+      // bins
+      document.getElementById('bin-plastics-label').innerText = currentLang==='pt' ? 'Plásticos' : 'Plastics';
+      document.getElementById('bin-plastics-hint').innerText = currentLang==='pt' ? 'garrafas, embalagens' : 'bottles, packaging';
+      document.getElementById('bin-paper-label').innerText = currentLang==='pt' ? 'Papel' : 'Paper';
+      document.getElementById('bin-paper-hint').innerText = currentLang==='pt' ? 'cartões, papel' : 'cards, paper';
+      document.getElementById('bin-organic-label').innerText = currentLang==='pt' ? 'Orgânico' : 'Organic';
+      document.getElementById('bin-organic-hint').innerText = currentLang==='pt' ? 'comida, casca' : 'food, peel';
+      document.getElementById('bin-metal-label').innerText = currentLang==='pt' ? 'Metal' : 'Metal';
+      document.getElementById('bin-metal-hint').innerText = currentLang==='pt' ? 'latas' : 'cans, tins';
+
+      // items labels and play buttons
+      document.querySelectorAll('.item').forEach(el=>{
+        const id = el.id; const data = itemsData.find(x=> x.id === id);
+        if(!data) return;
+        el.querySelector('.label').innerText = currentLang==='pt' ? data.pt : data.en;
+        el.querySelector('.playBtn').innerText = lang.play;
+        // update play action
+        el.querySelector('.playBtn').onclick = ()=> speak(data.en);
+      });
+
+      // vocab list
+      document.getElementById('vocabList').innerText = lang.vocab;
+    }
+
+    // init
+    renderItems(); applyTranslation(); updateUI(); newQuiz();
+
+  </script>
 </body>
 </html>
