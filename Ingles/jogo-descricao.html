@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Matching Game — Recycling</title>
+
 <style>
     body {
         margin: 0;
@@ -41,36 +42,46 @@
         width: 95%;
         margin: auto;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         gap: 20px;
         flex-wrap: wrap;
     }
 
     .column {
-        width: 48%;
+        width: 45%;
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        gap: 12px;
+    }
+
+    .item img {
+        width: 110px;
+        height: auto;
+        border-radius: 10px;
     }
 
     .box {
         background: white;
         border-radius: 12px;
-        padding: 5px;
-        height: 140px;
+        padding: 10px;
+        min-height: 110px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         border: 2px dashed #669bbc;
         box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        cursor: grab;
         text-align: center;
+        cursor: pointer;
+        transition: 0.2s;
     }
 
-    img {
-        max-width: 90%;
-        max-height: 70%;
+    .correct { border: 2px solid #2ecc71 !important; }
+    .wrong   { border: 2px solid #d62828 !important; }
+
+    .selected {
+        border-color: #ffbf00 !important;
+        box-shadow: 0 0 10px #ffbf00;
     }
 
     .audio-btn {
@@ -84,53 +95,19 @@
         cursor: pointer;
     }
 
-    .correct { border: 2px solid #2ecc71 !important; }
-    .wrong { border: 2px solid #d62828 !important; }
-
-    /* SUN */
-    .sun {
-        position: fixed;
-        top: 40px;
-        right: 40px;
-        width: 120px;
-        height: 120px;
-        background: radial-gradient(circle, #ffea00 40%, #f1c40f 60%);
-        border-radius: 50%;
-        box-shadow: 0 0 40px #ffeb3b;
-        z-index: -1;
+    /* Mobile ajustado */
+    @media (max-width: 600px) {
+        .column { width: 48%; }
+        .box { min-height: 100px; }
+        .item img { width: 90px; }
     }
 
-    /* CLOUDS */
-    .cloud {
-        position: fixed;
-        background: white;
-        border-radius: 50px;
-        box-shadow: 20px 20px 0 10px white;
-        opacity: 0.9;
-        animation: moveClouds 40s linear infinite;
-        z-index: -1;
-    }
-
-    .cloud.small { width: 80px; height: 40px; top: 120px; left: -200px; animation-duration: 55s; }
-    .cloud.medium { width: 130px; height: 60px; top: 220px; left: -250px; animation-duration: 65s; }
-    .cloud.large { width: 200px; height: 90px; top: 60px; left: -300px; animation-duration: 75s; }
-
-    @keyframes moveClouds {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(140vw); }
-    }
-
-    @media (max-width: 768px) {
+    @media (max-width: 430px) {
         .column { width: 100%; }
     }
 </style>
 </head>
 <body>
-
-<div class="sun"></div>
-<div class="cloud small"></div>
-<div class="cloud medium"></div>
-<div class="cloud large"></div>
 
 <h1 id="title">Recycling — Matching Game</h1>
 
@@ -140,117 +117,152 @@
 </div>
 
 <div class="container">
+
+    <!-- COLUNA DAS IMAGENS -->
     <div class="column" id="imagesColumn">
-        <div class="box item" draggable="true" data-match="walk">
+        <div class="box item" data-match="walk">
             <img src="./Imagens/Reciclagem/walk or cycle.jpg" />
             <button class="audio-btn" data-text="Walk or cycle">Play Word</button>
         </div>
-        <div class="box item" draggable="true" data-match="upcycle">
+
+        <div class="box item" data-match="upcycle">
             <img src="./Imagens/Reciclagem/vasos_reclados.png" />
             <button class="audio-btn" data-text="Upcycle">Play Word</button>
         </div>
-        <div class="box item" draggable="true" data-match="plant">
+
+        <div class="box item" data-match="plant">
             <img src="./Imagens/Reciclagem/pant_things.png" />
             <button class="audio-btn" data-text="Plant things">Play Word</button>
         </div>
-        <div class="box item" draggable="true" data-match="recycle">
+
+        <div class="box item" data-match="recycle">
             <img src="./Imagens/Reciclagem/recycle.png" />
             <button class="audio-btn" data-text="Recycle">Play Word</button>
         </div>
-        <div class="box item" draggable="true" data-match="water">
+
+        <div class="box item" data-match="water">
             <img src="./Imagens/Reciclagem/save_water.png" />
             <button class="audio-btn" data-text="Save water">Play Word</button>
         </div>
     </div>
 
+    <!-- COLUNA DOS TEXTOS -->
     <div class="column" id="textColumn">
+
         <div class="box slot" data-match="walk" data-en="Walk or cycle" data-pt="Caminhar ou pedalar">Walk or cycle</div>
         <div class="box slot" data-match="upcycle" data-en="Upcycle" data-pt="Reutilizar criativamente">Upcycle</div>
         <div class="box slot" data-match="plant" data-en="Plant things" data-pt="Plantar coisas">Plant things</div>
         <div class="box slot" data-match="recycle" data-en="Recycle" data-pt="Reciclar">Recycle</div>
         <div class="box slot" data-match="water" data-en="Save water" data-pt="Economizar água">Save water</div>
+
     </div>
-        <div class="text-center">
-      <button onclick="checkRecipeAnswer()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-xl shadow">Check Answer</button>
-      <p id="feedback" class="mt-4"></p>
-      <a href="ingles.html" class="inline-block mt-6 text-blue-800 underline">&larr; Back to Home</a>
-    </div>
+
 </div>
 
+<br>
+<div style="text-align:center;">
+    <a href="ingles.html" class="inline-block mt-6 text-blue-800 underline">&larr; Back to Home</a>
+</div>
+
+
 <script>
-    function shuffle(container) {
-        const elements = Array.from(container.children);
-        for (let i = elements.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            container.appendChild(elements[j]);
-            elements.splice(j, 1);
+/* ─────────────────────────────
+   EMBARALHAR COLUNAS
+───────────────────────────────*/
+function shuffle(container) {
+    const elements = [...container.children];
+    for (let i = elements.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        container.appendChild(elements[j]);
+        elements.splice(j, 1);
+    }
+}
+
+window.addEventListener("load", () => {
+    shuffle(document.getElementById("imagesColumn"));
+    shuffle(document.getElementById("textColumn"));
+});
+
+
+/* ─────────────────────────────
+   SISTEMA DE TOQUE — SELECIONAR E SOLTAR
+───────────────────────────────*/
+let selectedItem = null;
+
+// clicar nas imagens
+document.querySelectorAll(".item").forEach(item => {
+    item.addEventListener("click", () => {
+        if (selectedItem === item) {
+            item.classList.remove("selected");
+            selectedItem = null;
+            return;
         }
-    }
 
-    window.addEventListener('load', () => {
-        shuffle(document.getElementById('imagesColumn'));
-        shuffle(document.getElementById('textColumn'));
+        document.querySelectorAll(".item").forEach(i => i.classList.remove("selected"));
+        item.classList.add("selected");
+        selectedItem = item;
+    });
+});
+
+// clicar nos slots
+document.querySelectorAll(".slot").forEach(slot => {
+    slot.addEventListener("click", () => {
+        if (!selectedItem) return;
+
+        const correct = selectedItem.dataset.match === slot.dataset.match;
+
+        if (correct) {
+            slot.classList.add("correct");
+            slot.innerHTML = "";
+            slot.appendChild(selectedItem);
+        } else {
+            slot.classList.add("wrong");
+            setTimeout(() => slot.classList.remove("wrong"), 600);
+        }
+
+        selectedItem.classList.remove("selected");
+        selectedItem = null;
+    });
+});
+
+
+/* ─────────────────────────────
+   ÁUDIO
+───────────────────────────────*/
+document.querySelectorAll(".audio-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const utter = new SpeechSynthesisUtterance(btn.dataset.text);
+        utter.lang = "en-US";
+        speechSynthesis.speak(utter);
+    });
+});
+
+
+/* ─────────────────────────────
+   TRADUÇÃO
+───────────────────────────────*/
+let currentLang = "en";
+const title = document.getElementById("title");
+
+document.getElementById("englishBtn").onclick = () => setLanguage("en");
+document.getElementById("portugueseBtn").onclick = () => setLanguage("pt");
+
+function setLanguage(lang) {
+    currentLang = lang;
+
+    title.innerText = lang === "en"
+        ? "Recycling — Matching Game"
+        : "Reciclagem — Jogo de Associação";
+
+    document.querySelectorAll(".slot").forEach(slot => {
+        slot.innerText = slot.dataset[lang];
     });
 
-    // DRAG & DROP
-    const items = document.querySelectorAll('.item');
-    const slots = document.querySelectorAll('.slot');
-    let draggedItem = null;
-
-    items.forEach(item => {
-        item.addEventListener('dragstart', () => draggedItem = item);
-        item.addEventListener('dragend', () => draggedItem = null);
+    document.querySelectorAll(".audio-btn").forEach(btn => {
+        btn.innerText = lang === "en" ? "Play Word" : "Ouvir Palavra";
     });
-
-    slots.forEach(slot => {
-        slot.addEventListener('dragover', e => e.preventDefault());
-        slot.addEventListener('drop', () => {
-            if (!draggedItem) return;
-            const correct = draggedItem.dataset.match === slot.dataset.match;
-            if (correct) {
-                slot.classList.add('correct');
-                slot.innerHTML = (currentLang === 'en' ? 'Correct!' : 'Correto!');
-                slot.appendChild(draggedItem);
-            } else {
-                slot.classList.add('wrong');
-                setTimeout(() => slot.classList.remove('wrong'), 800);
-            }
-        });
-    });
-
-    // AUDIO BUTTONS
-    const audioButtons = document.querySelectorAll('.audio-btn');
-    audioButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const utter = new SpeechSynthesisUtterance(btn.dataset.text);
-            utter.lang = 'en-US';
-            speechSynthesis.speak(utter);
-        });
-    });
-
-    // TRANSLATION SYSTEM
-    let currentLang = 'en';
-    const title = document.getElementById('title');
-
-    document.getElementById('englishBtn').onclick = () => setLanguage('en');
-    document.getElementById('portugueseBtn').onclick = () => setLanguage('pt');
-
-    function setLanguage(lang) {
-        currentLang = lang;
-
-        title.innerText = lang === 'en' ? "Recycling — Matching Game" : "Reciclagem — Jogo de Associação";
-
-        slots.forEach(slot => {
-            slot.innerText = slot.dataset[lang];
-        });
-
-        audioButtons.forEach(btn => {
-            btn.innerText = lang === 'en' ? "Play Word" : "Ouvir Palavra";
-        });
-    }
+}
 </script>
 
 </body>
 </html>
-
-
