@@ -8,7 +8,7 @@
     body {
         margin: 0;
         font-family: Arial, sans-serif;
-        background: linear-gradient(#87ceeb, #f0f8ff); /* Sunny sky */
+        background: linear-gradient(#87ceeb, #f0f8ff);
         color: #003049;
     }
 
@@ -17,6 +17,24 @@
         padding: 20px;
         font-size: 26px;
         font-weight: bold;
+    }
+
+    .top-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        padding: 10px 18px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        background: #669bbc;
+        color: white;
+        font-size: 16px;
     }
 
     .container {
@@ -38,35 +56,38 @@
     .box {
         background: white;
         border-radius: 12px;
-        padding: 10px;
+        padding: 5px;
         height: 140px;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         border: 2px dashed #669bbc;
         box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         cursor: grab;
+        text-align: center;
     }
 
     img {
-        max-width: 100%;
-        max-height: 100%;
+        max-width: 90%;
+        max-height: 70%;
     }
 
-    .correct {
-        border: 2px solid #2ecc71 !important;
+    .audio-btn {
+        margin-top: 5px;
+        padding: 5px 12px;
+        font-size: 14px;
+        border-radius: 6px;
+        border: none;
+        background: #003049;
+        color: white;
+        cursor: pointer;
     }
 
-    .wrong {
-        border: 2px solid #d62828 !important;
-    }
+    .correct { border: 2px solid #2ecc71 !important; }
+    .wrong { border: 2px solid #d62828 !important; }
 
-    @media (max-width: 768px) {
-        .column {
-            width: 100%;
-        }
-    }
-    /* Sun */
+    /* SUN */
     .sun {
         position: fixed;
         top: 40px;
@@ -79,7 +100,7 @@
         z-index: -1;
     }
 
-    /* Clouds */
+    /* CLOUDS */
     .cloud {
         position: fixed;
         background: white;
@@ -98,46 +119,60 @@
         0% { transform: translateX(0); }
         100% { transform: translateX(140vw); }
     }
+
+    @media (max-width: 768px) {
+        .column { width: 100%; }
+    }
 </style>
 </head>
 <body>
+
 <div class="sun"></div>
 <div class="cloud small"></div>
 <div class="cloud medium"></div>
 <div class="cloud large"></div>
 
-<h1>Recycling — Matching Game</h1>
+<h1 id="title">Recycling — Matching Game</h1>
+
+<div class="top-buttons">
+    <button class="btn" id="englishBtn">English</button>
+    <button class="btn" id="portugueseBtn">Português</button>
+</div>
 
 <div class="container">
     <div class="column" id="imagesColumn">
         <div class="box item" draggable="true" data-match="walk">
-            <img src="./Imagens/Reciclagem/walk or cycle.jpg" />
+            <img src="./Imagens/Reciclagem/walk_or_cycle.jpg" />
+            <button class="audio-btn" data-text="Walk or cycle">Play Word</button>
         </div>
         <div class="box item" draggable="true" data-match="upcycle">
             <img src="./Imagens/Reciclagem/vasos_reclados.png" />
+            <button class="audio-btn" data-text="Upcycle">Play Word</button>
         </div>
         <div class="box item" draggable="true" data-match="plant">
             <img src="./Imagens/Reciclagem/pant_things.png" />
+            <button class="audio-btn" data-text="Plant things">Play Word</button>
         </div>
         <div class="box item" draggable="true" data-match="recycle">
             <img src="./Imagens/Reciclagem/recycle.png" />
+            <button class="audio-btn" data-text="Recycle">Play Word</button>
         </div>
         <div class="box item" draggable="true" data-match="water">
             <img src="./Imagens/Reciclagem/save_water.png" />
+            <button class="audio-btn" data-text="Save water">Play Word</button>
         </div>
     </div>
 
     <div class="column" id="textColumn">
-        <div class="box slot" data-match="walk">Walk or cycle</div>
-        <div class="box slot" data-match="upcycle">Upcycle</div>
-        <div class="box slot" data-match="plant">Plant things</div>
-        <div class="box slot" data-match="recycle">Recycle</div>
-        <div class="box slot" data-match="water">Save water</div>
+        <div class="box slot" data-match="walk" data-en="Walk or cycle" data-pt="Caminhar ou pedalar">Walk or cycle</div>
+        <div class="box slot" data-match="upcycle" data-en="Upcycle" data-pt="Reutilizar criativamente">Upcycle</div>
+        <div class="box slot" data-match="plant" data-en="Plant things" data-pt="Plantar coisas">Plant things</div>
+        <div class="box slot" data-match="recycle" data-en="Recycle" data-pt="Reciclar">Recycle</div>
+        <div class="box slot" data-match="water" data-en="Save water" data-pt="Economizar água">Save water</div>
     </div>
 </div>
 
 <script>
-    // 🔀 Shuffle function
     function shuffle(container) {
         const elements = Array.from(container.children);
         for (let i = elements.length - 1; i > 0; i--) {
@@ -147,38 +182,29 @@
         }
     }
 
-    // Run shuffle on load
     window.addEventListener('load', () => {
         shuffle(document.getElementById('imagesColumn'));
         shuffle(document.getElementById('textColumn'));
     });
 
+    // DRAG & DROP
     const items = document.querySelectorAll('.item');
     const slots = document.querySelectorAll('.slot');
-
     let draggedItem = null;
 
     items.forEach(item => {
-        item.addEventListener('dragstart', () => {
-            draggedItem = item;
-        });
-
-        item.addEventListener('dragend', () => {
-            draggedItem = null;
-        });
+        item.addEventListener('dragstart', () => draggedItem = item);
+        item.addEventListener('dragend', () => draggedItem = null);
     });
 
     slots.forEach(slot => {
         slot.addEventListener('dragover', e => e.preventDefault());
-
         slot.addEventListener('drop', () => {
             if (!draggedItem) return;
-
             const correct = draggedItem.dataset.match === slot.dataset.match;
-
             if (correct) {
                 slot.classList.add('correct');
-                slot.innerHTML = "Correct!";
+                slot.innerHTML = (currentLang === 'en' ? 'Correct!' : 'Correto!');
                 slot.appendChild(draggedItem);
             } else {
                 slot.classList.add('wrong');
@@ -186,6 +212,37 @@
             }
         });
     });
+
+    // AUDIO BUTTONS
+    const audioButtons = document.querySelectorAll('.audio-btn');
+    audioButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const utter = new SpeechSynthesisUtterance(btn.dataset.text);
+            utter.lang = 'en-US';
+            speechSynthesis.speak(utter);
+        });
+    });
+
+    // TRANSLATION SYSTEM
+    let currentLang = 'en';
+    const title = document.getElementById('title');
+
+    document.getElementById('englishBtn').onclick = () => setLanguage('en');
+    document.getElementById('portugueseBtn').onclick = () => setLanguage('pt');
+
+    function setLanguage(lang) {
+        currentLang = lang;
+
+        title.innerText = lang === 'en' ? "Recycling — Matching Game" : "Reciclagem — Jogo de Associação";
+
+        slots.forEach(slot => {
+            slot.innerText = slot.dataset[lang];
+        });
+
+        audioButtons.forEach(btn => {
+            btn.innerText = lang === 'en' ? "Play Word" : "Ouvir Palavra";
+        });
+    }
 </script>
 
 </body>
