@@ -1,114 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>O que é o que é</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    const correctAnswers = {
-      r1: "Ervilhas.jpg",
-      r2: "Banana.jpg",
-      r3: "Pão.jpg",
-      r4: "Cenoura.jpg"
-    };
-
-    function selectImage(questionId, imgEl) {
-      const all = document.querySelectorAll(`[data-question='${questionId}'] img`);
-      all.forEach(img => img.classList.remove("ring", "ring-4", "ring-green-500"));
-      imgEl.classList.add("ring", "ring-4", "ring-green-500");
-      imgEl.closest(".question-container").dataset.selected = imgEl.alt;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Matching Game — Recycling</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(#87ceeb, #f0f8ff); /* Sunny sky */
+        color: #003049;
     }
 
-    function checkRiddleAnswers() {
-      let correct = 0;
-      for (let key in correctAnswers) {
-        const qEl = document.querySelector(`[data-id='${key}']`);
-        const selected = qEl.dataset.selected;
-        if (selected === correctAnswers[key]) {
-          correct++;
+    h1 {
+        text-align: center;
+        padding: 20px;
+        font-size: 26px;
+        font-weight: bold;
+    }
+
+    .container {
+        width: 95%;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .column {
+        width: 48%;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .box {
+        background: white;
+        border-radius: 12px;
+        padding: 10px;
+        height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed #669bbc;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        cursor: grab;
+    }
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .correct {
+        border: 2px solid #2ecc71 !important;
+    }
+
+    .wrong {
+        border: 2px solid #d62828 !important;
+    }
+
+    @media (max-width: 768px) {
+        .column {
+            width: 100%;
         }
-      }
-      const feedback = document.getElementById("feedback");
-      if (correct === Object.keys(correctAnswers).length) {
-        feedback.textContent = "Amazing! You found all the correct foods! 🥳";
-        feedback.className = "text-green-700 font-bold mt-4";
-      } else {
-        feedback.textContent = `You got ${correct} out of ${Object.keys(correctAnswers).length} right. Keep trying!`;
-        feedback.className = "text-red-700 font-semibold mt-4";
-      }
     }
-  </script>
-  <style>
-    .food-bubble {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 9999px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s;
+    /* Sun */
+    .sun {
+        position: fixed;
+        top: 40px;
+        right: 40px;
+        width: 120px;
+        height: 120px;
+        background: radial-gradient(circle, #ffea00 40%, #f1c40f 60%);
+        border-radius: 50%;
+        box-shadow: 0 0 40px #ffeb3b;
+        z-index: -1;
     }
-    .food-bubble:hover {
-      transform: scale(1.05);
+
+    /* Clouds */
+    .cloud {
+        position: fixed;
+        background: white;
+        border-radius: 50px;
+        box-shadow: 20px 20px 0 10px white;
+        opacity: 0.9;
+        animation: moveClouds 40s linear infinite;
+        z-index: -1;
     }
-  </style>
+
+    .cloud.small { width: 80px; height: 40px; top: 120px; left: -200px; animation-duration: 55s; }
+    .cloud.medium { width: 130px; height: 60px; top: 220px; left: -250px; animation-duration: 65s; }
+    .cloud.large { width: 200px; height: 90px; top: 60px; left: -300px; animation-duration: 75s; }
+
+    @keyframes moveClouds {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(140vw); }
+    }
+</style>
 </head>
-<body class="bg-gradient-to-r from-green-100 to-blue-100 min-h-screen flex flex-col">
-  <header class="bg-gradient-to-r from-green-400 to-blue-400 p-6 text-white text-center shadow-lg">
-    <h1 class="text-4xl font-bold">O que é o que é?</h1>
-    <p class="text-lg mt-2">Read the fun clues and click the correct image! 🥕🍌🍞</p>
-  </header>
+<body>
+<div class="sun"></div>
+<div class="cloud small"></div>
+<div class="cloud medium"></div>
+<div class="cloud large"></div>
 
-  <main class="flex-1 p-8 max-w-4xl mx-auto space-y-10">
-    <div class="bg-white rounded-xl shadow-lg p-6 question-container" data-id="r1" data-question="r1">
-      <h2 class="text-xl font-semibold mb-4">1. This is a green vegetable. It's small and round. You usually eat many of them together. What is it?</h2>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <img src="Imagens/Oque/Cenoura.jpg" alt="Cenoura.jpg" onclick="selectImage('r1', this)" class="food-bubble cursor-pointer">
-        <img src="Imagens/Oque/Tomate.jpg" alt="Tomate.jpg" onclick="selectImage('r1', this)" class="food-bubble cursor-pointer">
-        <img src="Imagens/Oque/Ervilhas.jpg" alt="Ervilhas.jpg" onclick="selectImage('r1', this)" class="food-bubble cursor-pointer">
-        <img src="Imagens/Oque/Batata.jpg" alt="Batata.jpg" onclick="selectImage('r1', this)" class="food-bubble cursor-pointer">
-      </div>
+<h1>Recycling — Matching Game</h1>
+
+<div class="container">
+    <div class="column" id="imagesColumn">
+        <div class="box item" draggable="true" data-match="walk">
+            <img src="./Imagens/Reciclagem/walk or cycle.jpg" />
+        </div>
+        <div class="box item" draggable="true" data-match="upcycle">
+            <img src="./Imagens/Reciclagem/vasos_reclados.png" />
+        </div>
+        <div class="box item" draggable="true" data-match="plant">
+            <img src="./Imagens/Reciclagem/pant_things.png" />
+        </div>
+        <div class="box item" draggable="true" data-match="recycle">
+            <img src="./Imagens/Reciclagem/recycle.png" />
+        </div>
+        <div class="box item" draggable="true" data-match="water">
+            <img src="./Imagens/Reciclagem/save_water.png" />
+        </div>
     </div>
 
-    <div class="bg-white rounded-xl shadow-lg p-6 question-container" data-id="r2" data-question="r2">
-      <h2 class="text-xl font-semibold mb-4">2. It's yellow, sweet, and monkeys love it. You peel it before eating. What is it?</h2>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <img src="Imagens/Oque/Banana.jpg" alt="Banana.jpg" onclick="selectImage('r2', this)" class="food-bubble cursor-pointer">
-        <img src="Imagens/Oque/Maca.jpg" alt="Maca.jpg" onclick="selectImage('r2', this)" class="food-bubble cursor-pointer">
-        <img src="Imagens/Oque/Laranja.jpg" alt="Laranja.jpg" onclick="selectImage('r2', this)" class="food-bubble cursor-pointer">
-        <img src="Imagens/Oque/Uva.jpg" alt="Uva.jpg" onclick="selectImage('r2', this)" class="food-bubble cursor-pointer">
-      </div>
+    <div class="column" id="textColumn">
+        <div class="box slot" data-match="walk">Walk or cycle</div>
+        <div class="box slot" data-match="upcycle">Upcycle</div>
+        <div class="box slot" data-match="plant">Plant things</div>
+        <div class="box slot" data-match="recycle">Recycle</div>
+        <div class="box slot" data-match="water">Save water</div>
     </div>
+</div>
 
-    <div class="bg-white rounded-xl shadow-lg p-6 question-container" data-id="r3" data-question="r3">
-      <h2 class="text-xl font-semibold mb-4">3. It's made from flour and baked. You can toast it or use it to make a sandwich. What is it?</h2>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <img src="Imagens/Oque/Pão.jpg" alt="Pão.jpg" onclick="selectImage('r3', this)" class="food-bubble cursor-pointer">
-        <img src="Imagens/Oque/Queijo.jpg" alt="Queijo.jpg" onclick="selectImage('r3', this)" class="food-bubble cursor-pointer">
-        <img src="Imagens/Oque/Carne.jpg" alt="Carne.jpg" onclick="selectImage('r3', this)" class="food-bubble cursor-pointer">
-        <img src="Imagens/Macarrão.jpg" alt="Macarrão.jpg" onclick="selectImage('r3', this)" class="food-bubble cursor-pointer">
-      </div>
-    </div>
+<script>
+    // 🔀 Shuffle function
+    function shuffle(container) {
+        const elements = Array.from(container.children);
+        for (let i = elements.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            container.appendChild(elements[j]);
+            elements.splice(j, 1);
+        }
+    }
 
-    <div class="bg-white rounded-xl shadow-lg p-6 question-container" data-id="r4" data-question="r4">
-      <h2 class="text-xl font-semibold mb-4">4. It's orange, long, and crunchy. Rabbits love it! What is it?</h2>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <img src="Imagens/Oque/Cenoura.jpg" alt="Cenoura.jpg" onclick="selectImage('r4', this)" class="food-bubble cursor-pointer">
-        <img src="Imagens/Oque/Tomate.jpg" alt="Tomate.jpg" onclick="selectImage('r4', this)" class="food-bubble cursor-pointer">
-        <img src="Imagens/Oque/Batata.jpg" alt="Batata.jpg" onclick="selectImage('r4', this)" class="food-bubble cursor-pointer">
-        <img src="Imagens/Oque/Cebola.png" alt="Cebola.png" onclick="selectImage('r4', this)" class="food-bubble cursor-pointer">
-      </div>
-    </div>
+    // Run shuffle on load
+    window.addEventListener('load', () => {
+        shuffle(document.getElementById('imagesColumn'));
+        shuffle(document.getElementById('textColumn'));
+    });
 
-    <div class="text-center">
-      <button onclick="checkRiddleAnswers()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-xl shadow">Check Answers</button>
-      <p id="feedback" class="mt-4"></p>
-      <a href="ingles.html" class="inline-block mt-6 text-blue-800 underline">&larr; Back to Home</a>
-    </div>
-  </main>
+    const items = document.querySelectorAll('.item');
+    const slots = document.querySelectorAll('.slot');
 
-  <footer class="bg-gradient-to-r from-green-400 to-blue-400 p-4 text-center text-white">
-    <p>Feito com ❤️ para meus sobrinhos!</p>
-  </footer>
+    let draggedItem = null;
+
+    items.forEach(item => {
+        item.addEventListener('dragstart', () => {
+            draggedItem = item;
+        });
+
+        item.addEventListener('dragend', () => {
+            draggedItem = null;
+        });
+    });
+
+    slots.forEach(slot => {
+        slot.addEventListener('dragover', e => e.preventDefault());
+
+        slot.addEventListener('drop', () => {
+            if (!draggedItem) return;
+
+            const correct = draggedItem.dataset.match === slot.dataset.match;
+
+            if (correct) {
+                slot.classList.add('correct');
+                slot.innerHTML = "Correct!";
+                slot.appendChild(draggedItem);
+            } else {
+                slot.classList.add('wrong');
+                setTimeout(() => slot.classList.remove('wrong'), 800);
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
