@@ -10,9 +10,9 @@
       --bg-dark: #031026;
       --panel:#071426;
       --muted: #c6d7e6;
-      --accent: #ffd166; /* warm yellow */
-      --accent-2: #06d6a0; /* mint */
-      --accent-3: #4cc9f0; /* sky */
+      --accent: #ffd166;
+      --accent-2: #06d6a0;
+      --accent-3: #4cc9f0;
       --glass: rgba(255,255,255,0.04);
       --radius:14px; --shadow: 0 10px 30px rgba(2,8,23,0.6);
       font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
@@ -20,7 +20,17 @@
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; background:var(--bg-dark); color:var(--muted); -webkit-font-smoothing:antialiased; display:flex; align-items:flex-start; justify-content:center; padding:20px; overflow:hidden;
+      margin:0;
+      background:var(--bg-dark);
+      color:var(--muted);
+      -webkit-font-smoothing:antialiased;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:20px;
+      overflow-x:hidden;
+      overflow-y:auto; /* allow vertical scroll on mobile */
+      -webkit-overflow-scrolling: touch;
     }
 
     .sky{position:fixed; inset:0; z-index:0; pointer-events:none}
@@ -42,7 +52,7 @@
     .workspace{margin-top:12px; min-height:420px; border-radius:12px; padding:14px; position:relative}
 
     .items{display:flex; flex-wrap:wrap; gap:12px}
-    .item{width:120px; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; font-size:44px; cursor:grab; border:1px solid rgba(255,255,255,0.04); box-shadow: 0 8px 20px rgba(2,8,23,0.45); user-select:none; padding:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));}
+    .item{width:120px; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; font-size:44px; touch-action:none; border:1px solid rgba(255,255,255,0.04); box-shadow: 0 8px 20px rgba(2,8,23,0.45); user-select:none; padding:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));}
     .item .emoji{font-size:46px}
     .item .label{display:block; font-size:13px; color:var(--muted); margin-top:8px; text-align:center}
     .item .playBtn{margin-top:8px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); border:none; color:#072a2a; padding:6px 10px; border-radius:10px; font-weight:700; cursor:pointer}
@@ -105,6 +115,10 @@
               <div class="title" id="bin-metal-label">Metal</div>
               <div class="hint" id="bin-metal-hint">cans, tins</div>
             </div>
+            <div class="bin" data-type="glass" id="bin-glass">
+    <div class="title" id="bin-glass-label">Glass</div>
+    <div class="hint" id="bin-glass-hint">bottles, jars</div>
+  </div>
           </div>
         </div>
 
@@ -164,9 +178,9 @@
   </div>
 
   <script>
-    // starfield
+    // STARFIELD - reduced for performance
     const sky = document.getElementById('sky');
-    const STAR_COUNT = 60;
+    const STAR_COUNT = 20; // reduced from 60
     for(let i=0;i<STAR_COUNT;i++){
       const s = document.createElement('div'); s.className='star';
       const size = Math.random()*3 + 1; s.style.width = size+'px'; s.style.height = size+'px';
@@ -177,20 +191,28 @@
       s.animate([{transform:'translateY(0px)'},{transform:'translateY(40px)'}], {duration: dur*1000, iterations: Infinity, direction:'alternate', easing:'linear'});
     }
 
-    // simple rocket svg and flight
+    // rocket svg and flight - fixed template string
     const rocket = document.getElementById('rocket');
-    rocket.src = 'data:image/svg+xml;utf8,' + encodeURIComponent('\n<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">\n  <g>\n    <ellipse cx="32" cy="50" rx="12" ry="4" fill="#ffba08" opacity="0.25"/>\n    <path d="M32 4c6 0 12 6 12 12 0 6-12 18-12 18s-12-12-12-18c0-6 6-12 12-12z" fill="#ef476f"/>\n    <rect x="28" y="18" width="8" height="12" rx="2" fill="#ffd166"/>\n    <circle cx="32" cy="24" r="2" fill="#118ab2"/>\n  </g>\n</svg>');
+    rocket.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(`
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <ellipse cx="32" cy="50" rx="12" ry="4" fill="#ffba08" opacity="0.25"/>
+    <path d="M32 4c6 0 12 6 12 12 0 6-12 18-12 18s-12-12-12-18c0-6 6-12 12-12z" fill="#ef476f"/>
+    <rect x="28" y="18" width="8" height="12" rx="2" fill="#ffd166"/>
+    <circle cx="32" cy="24" r="2" fill="#118ab2"/>
+  </g>
+</svg>`);
     rocket.style.display='block';
     function moveRocket(){
       const vw = window.innerWidth, vh = window.innerHeight;
       const x = Math.random()*(vw-120) + 40;
       const y = Math.random()*(vh-260) + 40;
-      rocket.animate([{transform:`translate(${x}px,${y}px) rotate(${Math.random()*360}deg)`}], {duration:3000 + Math.random()*4000, fill:'forwards'});
+      rocket.animate([{ transform: `translate(${x}px, ${y}px) rotate(${Math.random()*360}deg)` }], {duration:3000 + Math.random()*4000, fill:'forwards'});
     }
     setInterval(moveRocket, 3600);
     moveRocket();
 
-    // CORE: fixed items array (no shuffling) ensures emoji <-> label mapping never breaks
+    // CORE: fixed items array
     const itemsData = [
       {id:'plastic', emoji:'🧴', en:'plastic bottle', pt:'garrafa plástica', type:'plastics'},
       {id:'banana', emoji:'🍌', en:'banana peel', pt:'casca de banana', type:'organic'},
@@ -206,7 +228,7 @@
 
     // DOM refs
     const itemsEl = document.getElementById('items');
-    const bins = document.querySelectorAll('.bin');
+    const bins = Array.from(document.querySelectorAll('.bin'));
     const scoreEl = document.getElementById('score');
     const foundCountEl = document.getElementById('foundCount');
     const totalItemsEl = document.getElementById('totalItems');
@@ -214,6 +236,7 @@
     let score = 0, found = 0;
     let currentLang = 'en';
 
+    // render items (no native draggable — we use pointer events)
     function renderItems(){
       itemsEl.innerHTML = '';
       itemsData.forEach(it => {
@@ -231,35 +254,102 @@
         `;
 
         itemsEl.appendChild(node);
-        node.setAttribute('draggable','true');
-        node.addEventListener('dragstart', dragStart);
+
+        // Pointer events for drag (works on touch and mouse)
+        node.addEventListener('pointerdown', pointerStart);
         node.querySelector('.playBtn').addEventListener('click', ()=> speak(it.en));
-        node.addEventListener('touchstart', touchStart, {passive:false});
       });
       totalItemsEl.textContent = itemsData.length;
     }
 
-    // drag & drop (desktop)
-    let draggedId = null;
-    function dragStart(e){ draggedId = this.id; e.dataTransfer.setData('text/plain', this.id); }
-    bins.forEach(bin => {
-      bin.addEventListener('dragover', e=>{ e.preventDefault(); bin.classList.add('highlight'); });
-      bin.addEventListener('dragleave', e=>{ bin.classList.remove('highlight'); });
-      bin.addEventListener('drop', e=>{ e.preventDefault(); bin.classList.remove('highlight'); const id = e.dataTransfer.getData('text/plain'); const node = document.getElementById(id); handleDrop(node, bin); });
-    });
+    // pointer-based drag implementation
+    let dragging = null; // {el, clone, pointerId, offsetX, offsetY}
+    function pointerStart(e){
+      // only left button or touch
+      if(e.button !== undefined && e.button !== 0) return;
+      const el = e.currentTarget;
+      el.setPointerCapture(e.pointerId);
+      const rect = el.getBoundingClientRect();
+      const offsetX = e.clientX - rect.left;
+      const offsetY = e.clientY - rect.top;
 
-    // touch support (clone)
-    let clone = null;
-    function touchStart(e){ e.preventDefault(); const touch = e.touches[0]; const self = this; clone = this.cloneNode(true); clone.style.position='fixed'; clone.style.left=(touch.clientX-50)+'px'; clone.style.top=(touch.clientY-50)+'px'; clone.style.zIndex=9999; clone.style.pointerEvents='none'; document.body.appendChild(clone);
-      const move=(ev)=>{ const t = ev.touches?ev.touches[0]:ev; clone.style.left=(t.clientX-50)+'px'; clone.style.top=(t.clientY-50)+'px'; };
-      const end=(ev)=>{ document.removeEventListener('touchmove', move); document.removeEventListener('touchend', end); const dropBin = Array.from(bins).find(b=> intersects(clone.getBoundingClientRect(), b.getBoundingClientRect())); if(dropBin) handleDrop(self, dropBin); clone.remove(); clone=null; };
-      document.addEventListener('touchmove', move, {passive:false}); document.addEventListener('touchend', end);
+      const clone = el.cloneNode(true);
+      clone.style.position = 'fixed';
+      clone.style.left = (e.clientX - offsetX) + 'px';
+      clone.style.top = (e.clientY - offsetY) + 'px';
+      clone.style.zIndex = 9999;
+      clone.style.pointerEvents = 'none';
+      clone.style.width = rect.width + 'px';
+      clone.style.height = rect.height + 'px';
+      clone.style.opacity = '0.95';
+      document.body.appendChild(clone);
+
+      dragging = { el, clone, pointerId: e.pointerId, offsetX, offsetY };
+
+      function moveHandler(ev){
+        if(!dragging || ev.pointerId !== dragging.pointerId) return;
+        dragging.clone.style.left = (ev.clientX - dragging.offsetX) + 'px';
+        dragging.clone.style.top = (ev.clientY - dragging.offsetY) + 'px';
+
+        // highlight bins when hovering
+        bins.forEach(b => {
+          const bRect = b.getBoundingClientRect();
+          const cRect = dragging.clone.getBoundingClientRect();
+          if(!(cRect.right < bRect.left || cRect.left > bRect.right || cRect.bottom < bRect.top || cRect.top > bRect.bottom)){
+            b.classList.add('highlight');
+          } else {
+            b.classList.remove('highlight');
+          }
+        });
+      }
+
+      function upHandler(ev){
+        if(!dragging || ev.pointerId !== dragging.pointerId) return;
+        // find intersected bin
+        const cRect = dragging.clone.getBoundingClientRect();
+        const drop = bins.find(b => {
+          const bRect = b.getBoundingClientRect();
+          return !(cRect.right < bRect.left || cRect.left > bRect.right || cRect.bottom < bRect.top || cRect.top > bRect.bottom);
+        });
+
+        if(drop){
+          handleDrop(dragging.el, drop);
+        }
+
+        // cleanup
+        bins.forEach(b => b.classList.remove('highlight'));
+        try{ dragging.el.releasePointerCapture(dragging.pointerId); } catch(e){}
+        document.removeEventListener('pointermove', moveHandler);
+        document.removeEventListener('pointerup', upHandler);
+        if(dragging.clone && dragging.clone.parentElement) dragging.clone.remove();
+        dragging = null;
+      }
+
+      document.addEventListener('pointermove', moveHandler);
+      document.addEventListener('pointerup', upHandler);
     }
 
-    function intersects(a,b){ return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom); }
-
-    function handleDrop(node, bin){ if(!node || !bin) return; const expected = bin.dataset.type; const actual = node.dataset.type; if(expected === actual){ node.style.opacity = 0.15; node.style.transform = 'scale(.9)'; node.setAttribute('draggable','false'); setTimeout(()=> node.remove(), 260); score += 10; found += 1; } else { score = Math.max(0, score-2); node.animate([{transform:'translateX(0)'},{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'translateX(0)'}], {duration:360}); }
-      updateUI(); speak(node.dataset.en);
+    function handleDrop(node, bin){
+      if(!node || !bin) return;
+      const expected = bin.dataset.type;
+      const actual = node.dataset.type;
+      if(expected === actual){
+        // success animation + remove
+        node.style.transition = 'transform .25s ease, opacity .25s ease';
+        node.style.opacity = 0.15;
+        node.style.transform = 'scale(.9)';
+        // remove node from DOM after small delay
+        setTimeout(()=> {
+          if(node.parentElement) node.remove();
+        }, 260);
+        score += 10; found += 1;
+      } else {
+        // shake
+        node.animate([{transform:'translateX(0)'},{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'translateX(0)'}], {duration:360});
+        score = Math.max(0, score-2);
+      }
+      updateUI();
+      speak(node.dataset.en);
     }
 
     function updateUI(){ const txt = translations[currentLang].score; scoreEl.innerText = `${txt} ${score}`; foundCountEl.textContent = found; }
@@ -309,10 +399,33 @@
       document.getElementById('vocabList').innerText = lang.vocab;
     }
 
+    // CONFETTI implementation (canvas) - kept as in other file
+    (function initConfetti(){
+      const confettiCanvas = document.createElement('canvas');
+      confettiCanvas.id = 'confettiCanvas';
+      confettiCanvas.style.position = 'fixed';
+      confettiCanvas.style.left = 0;
+      confettiCanvas.style.top = 0;
+      confettiCanvas.style.width = '100%';
+      confettiCanvas.style.height = '100%';
+      confettiCanvas.style.pointerEvents = 'none';
+      document.body.appendChild(confettiCanvas);
+      const ctx = confettiCanvas.getContext('2d');
+      let W = confettiCanvas.width = window.innerWidth, H = confettiCanvas.height = window.innerHeight;
+      window.addEventListener('resize', ()=>{ W = confettiCanvas.width = window.innerWidth; H = confettiCanvas.height = window.innerHeight; });
+
+      window.bigCelebrate = function(){
+        const pieces = [];
+        for(let i=0;i<80;i++){ pieces.push({ x: W/2, y: H/3, vx:(Math.random()-0.5)*8, vy:(Math.random()-1.5)*8, r: Math.random()*6+2, c: ['#ff595e','#ffca3a','#8ac926','#1982c4','#6a4c93'][Math.floor(Math.random()*5)] }); }
+        let t=0;
+        function run(){ ctx.clearRect(0,0,W,H); t+=1; pieces.forEach(p=>{ p.x += p.vx; p.y += p.vy; p.vy += 0.25; p.vx *= 0.99; ctx.fillStyle=p.c; ctx.beginPath(); ctx.ellipse(p.x,p.y,p.r, p.r*0.6, 0,0,Math.PI*2); ctx.fill(); }); if(t<180) requestAnimationFrame(run); else ctx.clearRect(0,0,W,H); }
+        run();
+      };
+    })();
+
     // init
     renderItems(); applyTranslation(); updateUI(); newQuiz();
 
   </script>
 </body>
 </html>
-
