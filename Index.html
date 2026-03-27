@@ -16,10 +16,123 @@ button{background:#00c6ff;color:#000;font-weight:bold}
 table{width:100%;border-collapse:collapse;font-size:11px}
 th,td{border:1px solid #444;padding:5px;text-align:center}
 th{background:#222}
+
+#faixasContainer{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:15px;
+ margin-top:15px;
+}
+
+.faixa-card{
+ background:#222;
+ padding:15px;
+ border-radius:12px;
+ transition:0.3s;
+ cursor:pointer;
+ border:1px solid #333;
+ position:relative;
+}
+
+.faixa-card:hover{
+ transform:scale(1.05);
+ border-color:#00c6ff;
+}
+
+.faixa-ativa{
+ border:2px solid #00c6ff;
+ background:#1a2a33;
+ box-shadow:0 0 12px #00c6ff55;
+}
+
+.infoBox{
+ position:absolute;
+ bottom:110%; /* fica acima do card */
+ left:50%;
+ transform:translateX(-50%) translateY(10px);
+ width:260px;
+ background:#111;
+ border:1px solid #00c6ff;
+ padding:12px;
+ border-radius:10px;
+ opacity:0;
+ pointer-events:none;
+ transition:0.25s ease;
+ z-index:10;
+}
+
+/* seta (triângulo) */
+.infoBox::after{
+ content:"";
+ position:absolute;
+ top:100%;
+ left:50%;
+ transform:translateX(-50%);
+ border-width:8px;
+ border-style:solid;
+ border-color:#00c6ff transparent transparent transparent;
+}
+
+/* efeito hover */
+.faixa-card:hover .infoBox{
+ opacity:1;
+ transform:translateX(-50%) translateY(0);
+}
+
+#bancosContainer{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:15px;
+ margin-top:15px;
+}
+
 </style>
 </head>
 <body>
 <div class="container">
+
+<div class="card">
+<h2>🏡 Financiamento pelo Governo</h2>
+<p>O financiamento do governo facilita o acesso à casa própria com juros menores e possibilidade de subsídio.</p>
+
+<h3>📊 Faixas de renda</h3>
+
+<div id="faixasContainer">
+
+<div class="faixa-card" data-max="2640" onclick="abrirInfo(event)">
+<h4>Faixa 1</h4>
+<p>Até R$ 2.640</p>
+<p><b>Juros:</b> 1% a 2% a.a</p>
+<p><b>Subsídio:</b> até R$ 50.000</p>
+<div class="infoBox">Menor renda → maior benefício. Juros baixos e maior subsídio.</div>
+</div>
+
+<div class="faixa-card" data-max="4400" onclick="abrirInfo(event)">
+<h4>Faixa 2</h4>
+<p>Até R$ 4.400</p>
+<p><b>Juros:</b> 2% a 5% a.a</p>
+<p><b>Subsídio:</b> até R$ 30.000</p>
+<div class="infoBox">Benefícios intermediários com juros moderados.</div>
+</div>
+
+<div class="faixa-card" data-max="8000" onclick="abrirInfo(event)">
+<h4>Faixa 3</h4>
+<p>Até R$ 8.000</p>
+<p><b>Juros:</b> 6% a 8% a.a</p>
+<p><b>Subsídio:</b> não disponível</p>
+<div class="infoBox">Sem subsídio, apenas juros reduzidos.</div>
+</div>
+
+<div class="faixa-card" data-max="14000" onclick="abrirInfo(event)">
+<h4>Faixa 4</h4>
+<p>Até R$ 14.000</p>
+<p><b>Juros:</b> 8% a 10% a.a</p>
+<p><b>Subsídio:</b> não disponível</p>
+<div class="infoBox">Mais próximo dos bancos tradicionais.</div>
+</div>
+
+</div>
+</div>
 
 <div class="card">
 <h2>Simulação Governo</h2>
@@ -33,14 +146,53 @@ th{background:#222}
 
 <div class="card">
 <h2>Simulação Bancos</h2>
-<select id="banco">
-<option value="0.09">Caixa - 9%</option>
-<option value="0.11">Itaú - 11%</option>
-<option value="0.105">Bradesco - 10.5%</option>
-</select>
-<input id="valorB" type="number" placeholder="Valor imóvel">
-<input id="entradaB" type="number" placeholder="Entrada">
-<input id="prazoB" type="number" placeholder="Prazo (anos)">
+<h3>🏦 Escolha o Banco</h3>
+
+<div id="bancosContainer">
+
+<div class="faixa-card banco-card" data-taxa="0.09">
+<h4>Caixa</h4>
+<p>9% ao ano</p>
+
+<div class="infoBox">
+<b>Como funciona:</b><br>
+Financiamento tradicional com análise de crédito.<br><br>
+
+<b>Regra importante:</b><br>
+A parcela não pode ultrapassar <b>30% da sua renda mensal</b>.<br><br>
+
+<b>Exemplo:</b><br>
+R$ 3.000 de renda → parcela máxima ≈ R$ 900
+</div>
+</div>
+
+<div class="faixa-card banco-card" data-taxa="0.11">
+<h4>Itaú</h4>
+<p>11% ao ano</p>
+
+<div class="infoBox">
+<b>Como funciona:</b><br>
+Taxas mais altas, porém maior flexibilidade de crédito.<br><br>
+
+<b>Regra:</b><br>
+Comprometimento de renda de até 30%.
+</div>
+</div>
+
+<div class="faixa-card banco-card" data-taxa="0.105">
+<h4>Bradesco</h4>
+<p>10.5% ao ano</p>
+
+<div class="infoBox">
+<b>Como funciona:</b><br>
+Condições intermediárias de mercado.<br><br>
+
+<b>Regra:</b><br>
+Até 30% da renda comprometida.
+</div>
+</div>
+
+</div>
 <button onclick="simularBanco()">Simular Banco</button>
 <div id="resultadoBanco"></div>
 </div>
@@ -48,7 +200,31 @@ th{background:#222}
 </div>
 
 <script>
+function abrirInfo(e){
+ e.stopPropagation();
+ document.querySelectorAll('.infoBox').forEach(b=>b.style.display='none');
+ let box = e.currentTarget.querySelector('.infoBox');
+ box.style.display='block';
+}
+
+window.addEventListener('click', ()=>{
+ document.querySelectorAll('.infoBox').forEach(b=>b.style.display='none');
+});
+
 function formatar(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+
+function destacarFaixa(renda){
+ let cards = document.querySelectorAll('.faixa-card');
+ let ativado=false;
+ cards.forEach(card=>{
+  card.classList.remove('faixa-ativa');
+  let max=parseFloat(card.getAttribute('data-max'));
+  if(!ativado && renda<=max){
+   card.classList.add('faixa-ativa');
+   ativado=true;
+  }
+ });
+}
 
 const faixas=[
 {nome:'Faixa 1',juros:0.0425,subsidio:55000,max:2640},
@@ -59,13 +235,27 @@ const faixas=[
 
 function identificarFaixa(r){return faixas.find(f=>r<=f.max)||faixas[3]}
 
+let bancoSelecionado = 0.09;
+
+document.querySelectorAll('.banco-card').forEach(card=>{
+ card.addEventListener('click', ()=>{
+
+   document.querySelectorAll('.banco-card')
+   .forEach(c=>c.classList.remove('faixa-ativa'));
+
+   card.classList.add('faixa-ativa');
+
+   bancoSelecionado = parseFloat(card.dataset.taxa);
+ });
+});
+
 function gerarTabela(valor, taxa, meses){
 let taxaMes = taxa/12;
 let base = valor/meses;
 let tabela = [];
 let hoje = new Date();
 
-for(let i=1;i<=5;i++){ // FIXADO EM 5 PARCELAS
+for(let i=1;i<=5;i++){
  let jurosMes = valor * taxaMes;
  let jurosAno = valor * taxa;
  let parcelaFinal = base + jurosMes;
@@ -118,23 +308,31 @@ let financiado=valor-entrada-faixa.subsidio;
 
 let tabela=gerarTabela(financiado,faixa.juros,prazo);
 
-// adiciona faixa em cada linha
 tabela = tabela.map(t => ({...t, faixa: faixa.nome}));
+
+destacarFaixa(renda);
 
 resultadoGov.innerHTML=montarTabela(tabela);
 }
 
 function simularBanco(){
-let taxa=parseFloat(document.getElementById('banco').value);
+let renda=parseFloat(document.getElementById('rendaB')?.value || 0);
 let valor=parseFloat(document.getElementById('valorB').value);
 let entrada=parseFloat(document.getElementById('entradaB').value);
 let prazo=parseInt(document.getElementById('prazoB').value)*12;
 
 let financiado=valor-entrada;
+let tabela=gerarTabela(financiado,bancoSelecionado,prazo);
 
-let tabela=gerarTabela(financiado,taxa,prazo);
+// REGRA DOS 30%
+let parcela = tabela[0].parcelaFinal;
+let limite = renda * 0.3;
 
-resultadoBanco.innerHTML=montarTabela(tabela);
+let aviso = parcela > limite
+? `<p style="color:#ff4d4d"><b>⚠️ Parcela acima de 30% da renda</b></p>`
+: `<p style="color:#4dff88"><b>✔ Dentro do limite permitido</b></p>`;
+
+resultadoBanco.innerHTML = montarTabela(tabela) + aviso;
 }
 
 </script>
